@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QDesktopWidget>
 #include <QStyle>
+#include <window_geometry.h>
 #include "info.h"
 
 namespace Ui {
@@ -18,7 +19,6 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void centerChild(QWidget *parent, QWidget *child);
 
 private slots:
     void on_pushButtonInfo_clicked();
@@ -26,9 +26,9 @@ private slots:
     void on_actionO_programie_triggered();
 
 
-
 private:
     Ui::MainWindow *ui;
+    void showAppInfo();
 };
 
 #endif // MAINWINDOW_H

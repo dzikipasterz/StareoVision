@@ -25,11 +25,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    info.cpp
+    info.cpp \
+    window_geometry.cpp
 
 HEADERS += \
         mainwindow.h \
-    info.h
+    info.h \
+    window_geometry.h
 
 FORMS += \
         mainwindow.ui \

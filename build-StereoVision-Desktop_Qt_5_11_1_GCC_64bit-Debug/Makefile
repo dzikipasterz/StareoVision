@@ -52,11 +52,13 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../StereoVision/main.cpp \
 		../StereoVision/mainwindow.cpp \
-		../StereoVision/info.cpp moc_mainwindow.cpp \
+		../StereoVision/info.cpp \
+		../StereoVision/window_geometry.cpp moc_mainwindow.cpp \
 		moc_info.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		info.o \
+		window_geometry.o \
 		moc_mainwindow.o \
 		moc_info.o
 DIST          = ../../Qt/5.11.1/gcc_64/mkspecs/features/spec_pre.prf \
@@ -230,9 +232,11 @@ DIST          = ../../Qt/5.11.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.11.1/gcc_64/mkspecs/features/yacc.prf \
 		../../Qt/5.11.1/gcc_64/mkspecs/features/lex.prf \
 		../StereoVision/StereoVision.pro ../StereoVision/mainwindow.h \
-		../StereoVision/info.h ../StereoVision/main.cpp \
+		../StereoVision/info.h \
+		../StereoVision/window_geometry.h ../StereoVision/main.cpp \
 		../StereoVision/mainwindow.cpp \
-		../StereoVision/info.cpp
+		../StereoVision/info.cpp \
+		../StereoVision/window_geometry.cpp
 QMAKE_TARGET  = StereoVision
 DESTDIR       = 
 TARGET        = StereoVision
@@ -608,8 +612,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../Qt/5.11.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../StereoVision/mainwindow.h ../StereoVision/info.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../StereoVision/main.cpp ../StereoVision/mainwindow.cpp ../StereoVision/info.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../StereoVision/mainwindow.h ../StereoVision/info.h ../StereoVision/window_geometry.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../StereoVision/main.cpp ../StereoVision/mainwindow.cpp ../StereoVision/info.cpp ../StereoVision/window_geometry.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../StereoVision/mainwindow.ui ../StereoVision/info.ui $(DISTDIR)/
 
 
@@ -755,6 +759,7 @@ moc_mainwindow.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QMainWindow \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QStyle \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qstyle.h \
+		../StereoVision/window_geometry.h \
 		../StereoVision/info.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QDialog \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdialog.h \
@@ -1008,6 +1013,7 @@ main.o: ../StereoVision/main.cpp ../StereoVision/mainwindow.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QStyle \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qstyle.h \
+		../StereoVision/window_geometry.h \
 		../StereoVision/info.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QDialog \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdialog.h \
@@ -1130,6 +1136,7 @@ mainwindow.o: ../StereoVision/mainwindow.cpp ../StereoVision/mainwindow.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QStyle \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qstyle.h \
+		../StereoVision/window_geometry.h \
 		../StereoVision/info.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QDialog \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdialog.h \
@@ -1271,13 +1278,121 @@ info.o: ../StereoVision/info.cpp ../StereoVision/info.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qeventloop.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QPushButton \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qicon.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget
+		../../Qt/5.11.1/gcc_64/include/QtGui/qinputmethod.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o info.o ../StereoVision/info.cpp
+
+window_geometry.o: ../StereoVision/window_geometry.cpp ../StereoVision/window_geometry.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/QMainWindow \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qmainwindow.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtguiglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtgui-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qwidget.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qwindowdefs.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringview.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmargins.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpaintdevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qrect.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsize.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpalette.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qcolor.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qrgb.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qrgba64.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qbrush.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qmatrix.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpolygon.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qregion.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatastream.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qline.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtransform.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpainterpath.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qimage.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpixelformat.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpixmap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qfont.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qfontmetrics.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qfontinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qcursor.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qkeysequence.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qevent.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qurl.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qurlquery.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qfile.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qfiledevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qvector2d.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtouchdevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qicon.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/QDesktopWidget \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/QStyle \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qstyle.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window_geometry.o ../StereoVision/window_geometry.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

@@ -14,27 +14,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::centerChild(QWidget *parent, QWidget *child)
+void MainWindow::showAppInfo()
 {
-    QRect rectParent = parent->geometry();
-    QPoint centerParent = rectParent.center();
-    QRect rectChild = child -> geometry();
-    rectChild.moveCenter(centerParent);
-    child -> setGeometry(rectChild);
+    info Info;
+    Info.setModal(true);
+    centerChild(this, &Info);
+    Info.exec();
 }
 
 void MainWindow::on_pushButtonInfo_clicked()
 {
-    info Info;
-    Info.setModal(true);
-    centerChild(this, &Info);
-    Info.exec();
+   showAppInfo();
 }
 
 void MainWindow::on_actionO_programie_triggered()
 {
-    info Info;
-    Info.setModal(true);
-    centerChild(this, &Info);
-    Info.exec();
+   showAppInfo();
 }
