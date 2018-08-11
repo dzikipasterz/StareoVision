@@ -15,6 +15,9 @@ public:
     explicit info(QWidget *parent = nullptr);
     ~info();
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::info *ui;
 };

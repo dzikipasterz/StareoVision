@@ -12,3 +12,8 @@ info::~info()
 {
     delete ui;
 }
+
+void info::on_pushButton_clicked()
+{
+    this->close();
+}

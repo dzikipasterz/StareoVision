@@ -26,16 +26,19 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     info.cpp \
-    window_geometry.cpp
+    window_geometry.cpp \
+    closeconfirm.cpp
 
 HEADERS += \
         mainwindow.h \
     info.h \
-    window_geometry.h
+    window_geometry.h \
+    closeconfirm.h
 
 FORMS += \
         mainwindow.ui \
-    info.ui
+    info.ui \
+    closeconfirm.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
