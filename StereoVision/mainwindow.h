@@ -5,11 +5,20 @@
 #include <QDesktopWidget>
 #include <QStyle>
 #include <QScreen>
+#include <QStackedWidget>
+#include <QLayout>
 #include <window_geometry.h>
 #include "info.h"
 #include "closeconfirm.h"
+#include "widgetmeasurement.h"
+#include "widgetsettings.h"
+#include "widgetcalibration.h"
 
 namespace Ui {
+
+
+static QWidget * widgetPanel;
+
 class MainWindow;
 }
 
@@ -21,6 +30,10 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void showMeasurementWidget();
+    void showSettingsWidget();
+    void showCalibrationWidget();
+
 public slots:
     void closeApplication();
 
@@ -30,12 +43,15 @@ private slots:
     void on_actionO_programie_triggered();
     void on_pushButtonWyjscie_clicked();
     void on_actionZako_cz_triggered();
-
+    void on_pushButtonPomiar_clicked();
+    void on_pushButtonUstawienia_clicked();
+    void on_pushButtonKalibracja_clicked();
 
 private:
     Ui::MainWindow *ui;
     void showAppInfo();
     void showCloseConfirmation();
+
 };
 
 #endif // MAINWINDOW_H

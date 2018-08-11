@@ -6,7 +6,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //connect(on_pushButtonInfo_clicked(),on_actionO_programie_triggered());
 }
 
 MainWindow::~MainWindow()
@@ -36,6 +35,33 @@ void MainWindow::showCloseConfirmation()
     closeConfirmation.exec();
 }
 
+void MainWindow::showMeasurementWidget()
+{
+    layout()->removeWidget(Ui::widgetPanel);
+    Ui::widgetPanel->deleteLater();
+    Ui::widgetPanel = new widgetMeasurement(this);
+    layout()->addWidget(Ui::widgetPanel);
+    Ui::widgetPanel->setGeometry(150,10,861,681);
+}
+
+void MainWindow::showSettingsWidget()
+{
+    layout()->removeWidget(Ui::widgetPanel);
+    Ui::widgetPanel->deleteLater();
+    Ui::widgetPanel = new widgetSettings(this);
+    layout()->addWidget(Ui::widgetPanel);
+    Ui::widgetPanel->setGeometry(150,10,861,681);
+}
+
+void MainWindow::showCalibrationWidget()
+{
+    layout()->removeWidget(Ui::widgetPanel);
+    Ui::widgetPanel->deleteLater();
+    Ui::widgetPanel = new widgetCalibration(this);
+    layout()->addWidget(Ui::widgetPanel);
+    Ui::widgetPanel->setGeometry(150,10,861,681);
+}
+
 void MainWindow::on_pushButtonInfo_clicked()
 {
    showAppInfo();
@@ -43,7 +69,7 @@ void MainWindow::on_pushButtonInfo_clicked()
 
 void MainWindow::on_actionO_programie_triggered()
 {
-   showAppInfo();
+    showAppInfo();
 }
 
 void MainWindow::on_pushButtonWyjscie_clicked()
@@ -54,4 +80,19 @@ void MainWindow::on_pushButtonWyjscie_clicked()
 void MainWindow::on_actionZako_cz_triggered()
 {
     showCloseConfirmation();
+}
+
+void MainWindow::on_pushButtonPomiar_clicked()
+{
+    showMeasurementWidget();
+}
+
+void MainWindow::on_pushButtonUstawienia_clicked()
+{
+    showSettingsWidget();
+}
+
+void MainWindow::on_pushButtonKalibracja_clicked()
+{
+    showCalibrationWidget();
 }

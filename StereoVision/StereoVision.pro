@@ -27,18 +27,27 @@ SOURCES += \
         mainwindow.cpp \
     info.cpp \
     window_geometry.cpp \
-    closeconfirm.cpp
+    closeconfirm.cpp \
+    widgetmeasurement.cpp \
+    widgetsettings.cpp \
+    widgetcalibration.cpp
 
 HEADERS += \
         mainwindow.h \
     info.h \
     window_geometry.h \
-    closeconfirm.h
+    closeconfirm.h \
+    widgetmeasurement.h \
+    widgetsettings.h \
+    widgetcalibration.h
 
 FORMS += \
         mainwindow.ui \
     info.ui \
-    closeconfirm.ui
+    closeconfirm.ui \
+    widgetmeasurement.ui \
+    widgetsettings.ui \
+    widgetcalibration.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -13,6 +13,10 @@ int main(int argc, char *argv[])
             QGuiApplication::primaryScreen()->availableGeometry()
             )
     );
+
+
+
+    w.showMeasurementWidget();
     w.show();
 
     return a.exec();
