@@ -2,7 +2,7 @@
 
 Timer::Timer(QObject *parent) :
     QTimer(parent),
-    msecInterval(40)
+    msecInterval(20)
 {
     setInterval(msecInterval);
 }

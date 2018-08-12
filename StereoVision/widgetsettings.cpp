@@ -43,17 +43,24 @@ void widgetSettings::startup()
     frameGrabber * leftGrabber = new frameGrabber();
     frameGrabber * rightGrabber = new frameGrabber();
 
-    QTimer * timer = new QTimer();
-    timer->setInterval(42);
+    Timer * timer = new Timer();
 
     connect(this, SIGNAL(sendLeftCameraSetup(const int)), leftGrabber, SLOT(receiveSetup(const int)));
     connect(this, SIGNAL(sendRightCameraSetup(const int)), rightGrabber, SLOT(receiveSetup(const int)));
+
     connect(timer, SIGNAL(timeout()), leftGrabber, SLOT(receiveGrabFrame()));
     connect(timer, SIGNAL(timeout()), rightGrabber, SLOT(receiveGrabFrame()));
+
     connect(leftGrabber, SIGNAL(sendStatus(bool)), this, SLOT(receiveLeftCameraStatus(bool)));
     connect(leftGrabber, SIGNAL(sendFrame(cv::Mat)), this, SLOT(receiveFrameLeft(cv::Mat)));
+    connect(leftGrabber, SIGNAL(sendThrottling), timer, SLOT(receiveSlowDown));
+    connect(leftGrabber, SIGNAL(sendStarving), timer, SLOT(receiveSpeedUp));
+
     connect(rightGrabber, SIGNAL(sendStatus(bool)), this, SLOT(receiveRightCameraStatus(bool)));
     connect(rightGrabber, SIGNAL(sendFrame(cv::Mat)), this, SLOT(receiveFrameRight(cv::Mat)));
+    connect(rightGrabber, SIGNAL(sendThrottling), timer, SLOT(receiveSlowDown()));
+    connect(rightGrabber, SIGNAL(sendStarving), timer, SLOT(receiveSpeedUp));
+
     connect(threadLeftCameraFrameGrabber, SIGNAL(finished()), leftGrabber, SLOT(deleteLater()));
     connect(threadRightCameraFrameGrabber, SIGNAL(finished()), rightGrabber, SLOT(deleteLater()));
     connect(threadGrabberTimer, SIGNAL(finished()), timer, SLOT(deleteLater()));

@@ -24,8 +24,6 @@ private:
 signals:
     void sendStatus(bool status);
     void sendFrame(cv::Mat frame);
-    void sendThrottling();
-    void sendStarving();
 
 public slots:
     void receiveGrabFrame();
