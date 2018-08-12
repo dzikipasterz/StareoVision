@@ -41,7 +41,6 @@ void MainWindow::showMeasurementWidget()
     Ui::widgetPanel->deleteLater();
     Ui::widgetPanel = new widgetMeasurement(this);
     QMainWindow::layout()->addWidget(Ui::widgetPanel);
-    //layout()->addWidget(Ui::widgetPanel);
     Ui::widgetPanel->setGeometry(150,50,861,681);
 }
 
@@ -51,7 +50,6 @@ void MainWindow::showSettingsWidget()
     Ui::widgetPanel->deleteLater();
     Ui::widgetPanel = new widgetSettings(this);
     QMainWindow::layout()->addWidget(Ui::widgetPanel);
-    //layout()->addWidget(Ui::widgetPanel);
     Ui::widgetPanel->setGeometry(150,50,861,681);
 }
 
@@ -61,7 +59,6 @@ void MainWindow::showCalibrationWidget()
     Ui::widgetPanel->deleteLater();
     Ui::widgetPanel = new widgetCalibration(this);
     QMainWindow::layout()->addWidget(Ui::widgetPanel);
-    //layout()->addWidget(Ui::widgetPanel);
     Ui::widgetPanel->setGeometry(150,50,861,681);
 }
 

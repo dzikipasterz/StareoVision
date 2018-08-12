@@ -2,6 +2,9 @@
 #define FRAMEGRABBER_H
 
 #include <QObject>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
 class frameGrabber : public QObject
 {
@@ -10,6 +13,9 @@ public:
     explicit frameGrabber(QObject *parent = nullptr);
 
 private:
+    cv::Mat _frameOriginal;
+    cv::Mat _frameProcessed;
+    cv::VideoCapture *cap;
     bool status;
 
 signals:

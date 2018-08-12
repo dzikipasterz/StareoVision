@@ -51,6 +51,8 @@ FORMS += \
     widgetsettings.ui \
     widgetcalibration.ui
 
+LIBS += -lopencv_highgui -lopencv_core -lopencv_imgproc -lopencv_videoio
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
