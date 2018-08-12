@@ -31,10 +31,13 @@
      <x>10</x>
      <y>10</y>
      <width>831</width>
-     <height>221</height>
+     <height>271</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="1">
+     <widget class="QSpinBox" name="rightCameraId"/>
+    </item>
     <item row="0" column="0">
      <widget class="QLabel" name="rightCamera">
       <property name="frameShape">
@@ -62,8 +65,49 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QSpinBox" name="rightCameraId"/>
+    <item row="2" column="0">
+     <widget class="QLabel" name="labelLeftCameraStatus">
+      <property name="minimumSize">
+       <size>
+        <width>411</width>
+        <height>21</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>411</width>
+        <height>21</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLabel" name="labelRightCameraStatus">
+      <property name="minimumSize">
+       <size>
+        <width>411</width>
+        <height>21</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>411</width>
+        <height>21</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

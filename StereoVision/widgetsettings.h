@@ -26,6 +26,8 @@ signals:
 public slots:
     void receiveFrameLeft(cv::Mat frame);
     void receiveFrameRight(cv::Mat frame);
+    void receiveLeftCameraStatus(const int status);
+    void receiveRightCameraStatus(const int status);
 
 private slots:
     void on_leftCameraId_valueChanged(int arg1);

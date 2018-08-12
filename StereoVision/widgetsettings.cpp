@@ -17,6 +17,7 @@ widgetSettings::widgetSettings(QWidget *parent) :
 
 widgetSettings::~widgetSettings()
 {
+
     threadLeftCameraFrameGrabber->quit();
     threadRightCameraFrameGrabber->quit();
     threadGrabberTimer->quit();
@@ -43,10 +44,12 @@ void widgetSettings::startup()
     QTimer * timer = new QTimer();
     timer->setInterval(30);
 
-    connect(this, SIGNAL(sendLeftCameraSetup(int)), leftGrabber, SLOT(receiveSetup(int)));
-    connect(this, SIGNAL(sendRightCameraSetup(int)), rightGrabber, SLOT(receiveSetup(int)));
+    connect(this, SIGNAL(sendLeftCameraSetup(const int)), leftGrabber, SLOT(receiveSetup(const int)));
+    connect(this, SIGNAL(sendRightCameraSetup(const int)), rightGrabber, SLOT(receiveSetup(const int)));
     connect(timer, SIGNAL(timeout()), leftGrabber, SLOT(receiveGrabFrame()));
     connect(timer, SIGNAL(timeout()), rightGrabber, SLOT(receiveGrabFrame()));
+    connect(leftGrabber, SIGNAL(sendStatus(const int)), this, SLOT(receiveLeftCameraStatus(const int)));
+    connect(rightGrabber, SIGNAL(sendStatus(const int)), this, SLOT(receiveLeftCameraStatus(const int)));
     connect(threadLeftCameraFrameGrabber, SIGNAL(finished()), leftGrabber, SLOT(deleteLater()));
     connect(threadRightCameraFrameGrabber, SIGNAL(finished()), rightGrabber, SLOT(deleteLater()));
     connect(threadGrabberTimer, SIGNAL(finished()), timer, SLOT(deleteLater()));
@@ -81,6 +84,19 @@ void widgetSettings::receiveFrameLeft(cv::Mat frame)
 void widgetSettings::receiveFrameRight(cv::Mat frame)
 {
     displayFrame(frame, ui->rightCamera);
+}
+
+void widgetSettings::receiveLeftCameraStatus(const int status)
+{
+    if(!status)
+    {
+
+    }
+}
+
+void widgetSettings::receiveRightCameraStatus(const int status)
+{
+
 }
 
 void widgetSettings::on_leftCameraId_valueChanged(int arg1)

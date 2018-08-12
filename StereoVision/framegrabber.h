@@ -11,6 +11,7 @@ class frameGrabber : public QObject
     Q_OBJECT
 public:
     explicit frameGrabber(QObject *parent = nullptr);
+    ~frameGrabber();
 
 private:
     cv::Mat _frameOriginal;
@@ -18,12 +19,15 @@ private:
     cv::VideoCapture *cap;
     bool status;
 
+    void openDevice(const int device);
+    void closeDevice();
+
 signals:
-    void sendStatus();
+    void sendStatus(const int status);
 
 public slots:
     void receiveGrabFrame();
-    void receiveSetup();
+    void receiveSetup(const int device);
 };
 
 #endif // FRAMEGRABBER_H
