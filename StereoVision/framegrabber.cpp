@@ -4,7 +4,7 @@ frameGrabber::frameGrabber(QObject *parent) :
     QObject(parent),
     status(false)
 {
-
+    cap = new cv::VideoCapture();
 }
 
 frameGrabber::~frameGrabber()
@@ -25,15 +25,21 @@ void frameGrabber::closeDevice()
 
 void frameGrabber::receiveGrabFrame()
 {
+    (*cap) >> frame;
+    if(frame.empty()) return;
 
+    emit sendFrame(frame);
 }
 
 void frameGrabber::receiveSetup(const int device)
 {
     openDevice(device);
     if(!cap->isOpened()) {
-        status = false;
-        return;
+        emit sendStatus(true);
+    }
+    else
+    {
+        emit sendStatus(false);
     }
 
     status = true;

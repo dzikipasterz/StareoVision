@@ -5,7 +5,9 @@
 #include <QLabel>
 #include <QThread>
 #include <QTimer>
+#include <QPicture>
 #include "framegrabber.h"
+#include "timer.h"
 
 namespace Ui {
 class widgetSettings;
@@ -26,8 +28,8 @@ signals:
 public slots:
     void receiveFrameLeft(cv::Mat frame);
     void receiveFrameRight(cv::Mat frame);
-    void receiveLeftCameraStatus(const int status);
-    void receiveRightCameraStatus(const int status);
+    void receiveLeftCameraStatus(bool status);
+    void receiveRightCameraStatus(bool status);
 
 private slots:
     void on_leftCameraId_valueChanged(int arg1);
@@ -40,6 +42,7 @@ private:
     QThread * threadRightCameraFrameGrabber;
     QThread * threadGrabberTimer;
     void displayFrame(cv::Mat frame, QLabel * display);
+    void displayCameraStatus(bool status, QLabel * labelStatus);
     void startup();
 };
 

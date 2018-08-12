@@ -14,8 +14,7 @@ public:
     ~frameGrabber();
 
 private:
-    cv::Mat _frameOriginal;
-    cv::Mat _frameProcessed;
+    cv::Mat frame;
     cv::VideoCapture *cap;
     bool status;
 
@@ -23,7 +22,10 @@ private:
     void closeDevice();
 
 signals:
-    void sendStatus(const int status);
+    void sendStatus(bool status);
+    void sendFrame(cv::Mat frame);
+    void sendThrottling();
+    void sendStarving();
 
 public slots:
     void receiveGrabFrame();

@@ -14,6 +14,7 @@
 #include "widgetsettings.h"
 #include "widgetcalibration.h"
 
+
 namespace Ui {
 
 static QWidget * widgetPanel;
