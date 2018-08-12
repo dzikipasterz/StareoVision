@@ -40,8 +40,9 @@ void MainWindow::showMeasurementWidget()
     layout()->removeWidget(Ui::widgetPanel);
     Ui::widgetPanel->deleteLater();
     Ui::widgetPanel = new widgetMeasurement(this);
-    layout()->addWidget(Ui::widgetPanel);
-    Ui::widgetPanel->setGeometry(150,10,861,681);
+    QMainWindow::layout()->addWidget(Ui::widgetPanel);
+    //layout()->addWidget(Ui::widgetPanel);
+    Ui::widgetPanel->setGeometry(150,50,861,681);
 }
 
 void MainWindow::showSettingsWidget()
@@ -49,8 +50,9 @@ void MainWindow::showSettingsWidget()
     layout()->removeWidget(Ui::widgetPanel);
     Ui::widgetPanel->deleteLater();
     Ui::widgetPanel = new widgetSettings(this);
-    layout()->addWidget(Ui::widgetPanel);
-    Ui::widgetPanel->setGeometry(150,10,861,681);
+    QMainWindow::layout()->addWidget(Ui::widgetPanel);
+    //layout()->addWidget(Ui::widgetPanel);
+    Ui::widgetPanel->setGeometry(150,50,861,681);
 }
 
 void MainWindow::showCalibrationWidget()
@@ -58,8 +60,9 @@ void MainWindow::showCalibrationWidget()
     layout()->removeWidget(Ui::widgetPanel);
     Ui::widgetPanel->deleteLater();
     Ui::widgetPanel = new widgetCalibration(this);
-    layout()->addWidget(Ui::widgetPanel);
-    Ui::widgetPanel->setGeometry(150,10,861,681);
+    QMainWindow::layout()->addWidget(Ui::widgetPanel);
+    //layout()->addWidget(Ui::widgetPanel);
+    Ui::widgetPanel->setGeometry(150,50,861,681);
 }
 
 void MainWindow::on_pushButtonInfo_clicked()

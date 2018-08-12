@@ -16,7 +16,6 @@
 
 namespace Ui {
 
-
 static QWidget * widgetPanel;
 
 class MainWindow;

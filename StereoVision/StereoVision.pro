@@ -30,7 +30,8 @@ SOURCES += \
     closeconfirm.cpp \
     widgetmeasurement.cpp \
     widgetsettings.cpp \
-    widgetcalibration.cpp
+    widgetcalibration.cpp \
+    framegrabber.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,7 +40,8 @@ HEADERS += \
     closeconfirm.h \
     widgetmeasurement.h \
     widgetsettings.h \
-    widgetcalibration.h
+    widgetcalibration.h \
+    framegrabber.h
 
 FORMS += \
         mainwindow.ui \
