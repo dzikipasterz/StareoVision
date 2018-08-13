@@ -29,6 +29,7 @@ void frameGrabber::receiveGrabFrame()
     if(frame.empty()) return;
 
     emit sendFrame(frame);
+    emit sendJobDone();
 }
 
 void frameGrabber::receiveSetup(const int device)

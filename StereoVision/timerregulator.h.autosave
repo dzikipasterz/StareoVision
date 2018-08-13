@@ -23,6 +23,8 @@ private:
     int msecInterval;
     int triggerCounter;
     bool flag;
+    int upperThreshold;
+    int lowerThreshold;
 };
 
 #endif // TIMERREGULATOR_H

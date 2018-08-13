@@ -24,6 +24,7 @@ private:
 signals:
     void sendStatus(bool status);
     void sendFrame(cv::Mat frame);
+    void sendJobDone();
 
 public slots:
     void receiveGrabFrame();

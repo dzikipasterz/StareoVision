@@ -8,6 +8,7 @@
 #include <QPicture>
 #include "framegrabber.h"
 #include "timer.h"
+#include "timerregulator.h"
 
 namespace Ui {
 class widgetSettings;
@@ -30,6 +31,7 @@ public slots:
     void receiveFrameRight(cv::Mat frame);
     void receiveLeftCameraStatus(bool status);
     void receiveRightCameraStatus(bool status);
+    void receiveTimerInterval(int interval);
 
 private slots:
     void on_leftCameraId_valueChanged(int arg1);

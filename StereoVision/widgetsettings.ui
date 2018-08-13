@@ -111,6 +111,22 @@
     </item>
    </layout>
   </widget>
+  <widget class="QSpinBox" name="spinBoxinterval">
+   <property name="geometry">
+    <rect>
+     <x>307</x>
+     <y>530</y>
+     <width>91</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="maximum">
+    <number>1000</number>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
