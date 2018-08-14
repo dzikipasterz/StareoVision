@@ -20,6 +20,8 @@ public slots:
     void receiveTimeout();
 
 private:
+    int upperThreshold;
+    int lowerThreshold;
     int msecInterval;
     int triggerCounter;
     bool flag;

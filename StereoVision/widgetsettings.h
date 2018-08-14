@@ -6,8 +6,8 @@
 #include <QThread>
 #include <QTimer>
 #include <QPicture>
-#include "framegrabber.h"
-#include "timer.h"
+#include "camera.h"
+#include "stereocamera.h"
 #include "timerregulator.h"
 
 namespace Ui {
@@ -23,26 +23,23 @@ public:
     ~widgetSettings();
 
 signals:
-    void sendLeftCameraSetup(const int device);
-    void sendRightCameraSetup(const int device);
+    void sendStereoCameraSetup(const int leftCameraId, const int rightCameraId);
 
 public slots:
-    void receiveFrameLeft(cv::Mat frame);
-    void receiveFrameRight(cv::Mat frame);
-    void receiveLeftCameraStatus(bool status);
-    void receiveRightCameraStatus(bool status);
+    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+    void receiveCameraStatus(bool leftCameraStatus, bool rightCameraStatus);
     void receiveTimerInterval(int interval);
 
 private slots:
     void on_leftCameraId_valueChanged(int arg1);
-
     void on_rightCameraId_valueChanged(int arg1);
 
 private:
     Ui::widgetSettings *ui;
-    QThread * threadLeftCameraFrameGrabber;
-    QThread * threadRightCameraFrameGrabber;
-    QThread * threadGrabberTimer;
+    int leftCamera;
+    int rightCamera;
+    QThread * threadStereoCamera;
+    QThread * threadTimer;
     void displayFrame(cv::Mat frame, QLabel * display);
     void displayCameraStatus(bool status, QLabel * labelStatus);
     void startup();

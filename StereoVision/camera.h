@@ -6,12 +6,15 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-class frameGrabber : public QObject
+class camera : public QObject
 {
     Q_OBJECT
 public:
-    explicit frameGrabber(QObject *parent = nullptr);
-    ~frameGrabber();
+    explicit camera(QObject *parent = nullptr);
+    ~camera();
+
+    bool setDevice(const int device);
+    cv::Mat grabFrame();
 
 private:
     cv::Mat frame;
@@ -21,14 +24,6 @@ private:
     void openDevice(const int device);
     void closeDevice();
 
-signals:
-    void sendStatus(bool status);
-    void sendFrame(cv::Mat frame);
-    void sendJobDone();
-
-public slots:
-    void receiveGrabFrame();
-    void receiveSetup(const int device);
 };
 
 #endif // FRAMEGRABBER_H

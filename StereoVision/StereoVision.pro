@@ -31,9 +31,9 @@ SOURCES += \
     widgetmeasurement.cpp \
     widgetsettings.cpp \
     widgetcalibration.cpp \
-    framegrabber.cpp \
-    timer.cpp \
-    timerregulator.cpp
+    timerregulator.cpp \
+    stereocamera.cpp \
+    camera.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,9 +43,9 @@ HEADERS += \
     widgetmeasurement.h \
     widgetsettings.h \
     widgetcalibration.h \
-    framegrabber.h \
-    timer.h \
-    timerregulator.h
+    timerregulator.h \
+    stereocamera.h \
+    camera.h
 
 FORMS += \
         mainwindow.ui \

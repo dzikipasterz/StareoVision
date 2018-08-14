@@ -3,7 +3,9 @@
 
 widgetSettings::widgetSettings(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::widgetSettings)
+    ui(new Ui::widgetSettings),
+    leftCamera(1),
+    rightCamera(2)
 {
     ui->setupUi(this);
     ui->leftCamera->setScaledContents(true);
@@ -12,22 +14,17 @@ widgetSettings::widgetSettings(QWidget *parent) :
     ui->rightCameraId->setValue(2);
 
     startup();
-
 }
 
 widgetSettings::~widgetSettings()
 {
+    threadStereoCamera->quit();
+    threadTimer->quit();
+    while(!threadStereoCamera->isFinished());
+    while(!threadTimer->isFinished());
 
-    threadLeftCameraFrameGrabber->quit();
-    threadRightCameraFrameGrabber->quit();
-    threadGrabberTimer->quit();
-    while(!threadLeftCameraFrameGrabber->isFinished());
-    while(!threadRightCameraFrameGrabber->isFinished());
-    while(!threadGrabberTimer->isFinished());
-
-    delete threadLeftCameraFrameGrabber;
-    delete threadRightCameraFrameGrabber;
-    delete threadGrabberTimer;
+    delete threadStereoCamera;
+    delete threadTimer;
 
     delete ui;
 }
@@ -37,58 +34,40 @@ void widgetSettings::startup()
     qRegisterMetaType<cv::Mat>("cv::Mat");
 
     int timerInterval = 42;
+    threadStereoCamera = new QThread();
+    threadTimer = new QThread();
 
-    threadLeftCameraFrameGrabber = new QThread();
-    threadRightCameraFrameGrabber = new QThread();
-    threadGrabberTimer = new QThread();
-
-    frameGrabber * leftGrabber = new frameGrabber();
-    frameGrabber * rightGrabber = new frameGrabber();
-
+    stereoCamera * camera = new stereoCamera();
     timerRegulator * intervalRegulator = new timerRegulator(this, timerInterval);
     QTimer * timer = new QTimer();
     timer->setInterval(timerInterval);
 
-    connect(this, SIGNAL(sendLeftCameraSetup(const int)), leftGrabber, SLOT(receiveSetup(const int)));
-    connect(this, SIGNAL(sendRightCameraSetup(const int)), rightGrabber, SLOT(receiveSetup(const int)));
-
-    connect(timer, SIGNAL(timeout()), leftGrabber, SLOT(receiveGrabFrame()));
-    connect(timer, SIGNAL(timeout()), rightGrabber, SLOT(receiveGrabFrame()));
+    connect(this, SIGNAL(sendStereoCameraSetup(const int, const int)), camera, SLOT(receiveSetup(const int, const int)));
+    connect(timer, SIGNAL(timeout()), camera, SLOT(receiveGrabFrame()));
     connect(timer, SIGNAL(timeout()), intervalRegulator, SLOT(receiveTimeout()));
 
     connect(intervalRegulator, SIGNAL(sendInterval(int)), timer, SLOT(start(int)));
     connect(intervalRegulator, SIGNAL(sendInterval(int)), this, SLOT(receiveTimerInterval(int)));
 
-    connect(leftGrabber, SIGNAL(sendStatus(bool)), this, SLOT(receiveLeftCameraStatus(bool)));
-    connect(leftGrabber, SIGNAL(sendFrame(cv::Mat)), this, SLOT(receiveFrameLeft(cv::Mat)));
-    connect(leftGrabber, SIGNAL(sendThrottling), timer, SLOT(receiveSlowDown));
-    connect(leftGrabber, SIGNAL(sendStarving), timer, SLOT(receiveSpeedUp));
-    connect(leftGrabber, SIGNAL(sendJobDone()), intervalRegulator, SLOT(receiveJobDone()));
+    connect(camera, SIGNAL(sendStatus(bool, bool)), this, SLOT(receiveCameraStatus(bool, bool)));
+    connect(camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), this, SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    connect(camera, SIGNAL(sendJobDone()), intervalRegulator, SLOT(receiveJobDone()));
 
-    connect(rightGrabber, SIGNAL(sendStatus(bool)), this, SLOT(receiveRightCameraStatus(bool)));
-    connect(rightGrabber, SIGNAL(sendFrame(cv::Mat)), this, SLOT(receiveFrameRight(cv::Mat)));
-    connect(rightGrabber, SIGNAL(sendThrottling), timer, SLOT(receiveSlowDown()));
-    connect(rightGrabber, SIGNAL(sendStarving), timer, SLOT(receiveSpeedUp));
+    connect(threadStereoCamera, SIGNAL(finished()), camera, SLOT(deleteLater()));
+    connect(threadTimer, SIGNAL(finished()), timer, SLOT(deleteLater()));
+    connect(threadTimer, SIGNAL(finished()), intervalRegulator, SLOT(deleteLater()));
+    connect(threadTimer, SIGNAL(started()), timer, SLOT(start()));
 
-    connect(threadLeftCameraFrameGrabber, SIGNAL(finished()), leftGrabber, SLOT(deleteLater()));
-    connect(threadRightCameraFrameGrabber, SIGNAL(finished()), rightGrabber, SLOT(deleteLater()));
-    connect(threadGrabberTimer, SIGNAL(finished()), timer, SLOT(deleteLater()));
-    connect(threadGrabberTimer, SIGNAL(finished()), intervalRegulator, SLOT(deleteLater()));
-    connect(threadGrabberTimer, SIGNAL(started()), timer, SLOT(start()));
+    camera->moveToThread(threadStereoCamera);
 
-    leftGrabber->moveToThread(threadLeftCameraFrameGrabber);
-    rightGrabber->moveToThread(threadRightCameraFrameGrabber);
+    timer->moveToThread(threadTimer);
+    intervalRegulator->moveToThread(threadTimer);
 
-    timer->moveToThread(threadGrabberTimer);
-    intervalRegulator->moveToThread(threadGrabberTimer);
+    threadStereoCamera->start();
+    threadTimer->start();
 
-    threadLeftCameraFrameGrabber->start();
-    threadRightCameraFrameGrabber->start();
-
-    emit sendLeftCameraSetup(ui->leftCameraId->value());
-    emit sendRightCameraSetup(ui->rightCameraId->value());
-
-    threadGrabberTimer->start();
+    emit sendStereoCameraSetup(ui->leftCameraId->value(), ui->rightCameraId->value());
+    threadTimer->start();
 }
 
 void widgetSettings::displayFrame(cv::Mat frame, QLabel * display)
@@ -111,24 +90,16 @@ void widgetSettings::displayCameraStatus(bool status, QLabel * labelStatus)
     }
 }
 
-void widgetSettings::receiveFrameLeft(cv::Mat frame)
+void widgetSettings::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
-    displayFrame(frame, ui->leftCamera);
+    displayFrame(leftFrame, ui->leftCamera);
+    displayFrame(rightFrame, ui->rightCamera);
 }
 
-void widgetSettings::receiveFrameRight(cv::Mat frame)
+void widgetSettings::receiveCameraStatus(bool leftCameraStatus, bool rightCameraStatus)
 {
-    displayFrame(frame, ui->rightCamera);
-}
-
-void widgetSettings::receiveLeftCameraStatus(bool status)
-{
-    displayCameraStatus(status, ui->labelLeftCameraStatus);
-}
-
-void widgetSettings::receiveRightCameraStatus(bool status)
-{
-    displayCameraStatus(status, ui->labelRightCameraStatus);
+    displayCameraStatus(leftCameraStatus, ui->labelLeftCameraStatus);
+    displayCameraStatus(rightCameraStatus, ui->labelLeftCameraStatus);
 }
 
 void widgetSettings::receiveTimerInterval(int interval)
@@ -136,13 +107,15 @@ void widgetSettings::receiveTimerInterval(int interval)
     ui->spinBoxinterval->setValue(interval);
 }
 
-void widgetSettings::on_leftCameraId_valueChanged(int arg1)
+void widgetSettings::on_leftCameraId_valueChanged(int leftCameraId)
 {
-    emit sendLeftCameraSetup(arg1);
+    leftCamera = leftCameraId;
+    emit sendStereoCameraSetup(leftCamera, rightCamera);
 }
 
 
-void widgetSettings::on_rightCameraId_valueChanged(int arg1)
+void widgetSettings::on_rightCameraId_valueChanged(int rightCameraId)
 {
-    emit sendRightCameraSetup(arg1);
+    rightCamera = rightCameraId;
+    emit sendStereoCameraSetup(leftCamera, rightCamera);
 }

@@ -2,9 +2,9 @@
 
 timerRegulator::timerRegulator(QObject *parent, int timerInterval) :
     QObject(parent),
-    triggerCounter(0),
-    upperThreshold(48),
-    lowerThreshold(24)
+    upperThreshold(20),
+    lowerThreshold(5),
+    triggerCounter(0)
 {
     msecInterval = timerInterval;
 }
