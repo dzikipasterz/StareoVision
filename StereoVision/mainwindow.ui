@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -18,79 +21,128 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1024</width>
-    <height>768</height>
+    <width>1920</width>
+    <height>1080</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButtonPomiar">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Pomiar</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonKalibracja">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Kalibracja</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonUstawienia">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>50</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Ustawienia</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonWyjscie">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>660</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Wyjście</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonInfo">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>620</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>O programie</string>
-    </property>
-   </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="pushButtonPomiar">
+        <property name="minimumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Pomiar</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButtonUstawienia">
+        <property name="minimumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Ustawienia</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButtonKalibracja">
+        <property name="minimumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Kalibracja</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButtonInfo">
+        <property name="minimumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>O programie</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButtonWyjscie">
+        <property name="minimumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Wyjście</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

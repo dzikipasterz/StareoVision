@@ -4,8 +4,8 @@
 widgetSettings::widgetSettings(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::widgetSettings),
-    leftCamera(1),
-    rightCamera(2)
+    leftCamera(0),
+    rightCamera(1)
 {
     ui->setupUi(this);
     ui->leftCamera->setScaledContents(true);
@@ -38,9 +38,10 @@ void widgetSettings::startup()
     threadTimer = new QThread();
 
     stereoCamera * camera = new stereoCamera();
-    timerRegulator * intervalRegulator = new timerRegulator(this, timerInterval);
+    timerRegulator * intervalRegulator = new timerRegulator();
     QTimer * timer = new QTimer();
     timer->setInterval(timerInterval);
+    intervalRegulator->setInterval(timerInterval);
 
     connect(this, SIGNAL(sendStereoCameraSetup(const int, const int)), camera, SLOT(receiveSetup(const int, const int)));
     connect(timer, SIGNAL(timeout()), camera, SLOT(receiveGrabFrame()));
@@ -49,7 +50,7 @@ void widgetSettings::startup()
     connect(intervalRegulator, SIGNAL(sendInterval(int)), timer, SLOT(start(int)));
     connect(intervalRegulator, SIGNAL(sendInterval(int)), this, SLOT(receiveTimerInterval(int)));
 
-    connect(camera, SIGNAL(sendStatus(bool, bool)), this, SLOT(receiveCameraStatus(bool, bool)));
+    connect(camera, SIGNAL(sendCameraStatus(bool, bool)), this, SLOT(receiveCameraStatus(bool, bool)));
     connect(camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), this, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(camera, SIGNAL(sendJobDone()), intervalRegulator, SLOT(receiveJobDone()));
 
@@ -99,7 +100,7 @@ void widgetSettings::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 void widgetSettings::receiveCameraStatus(bool leftCameraStatus, bool rightCameraStatus)
 {
     displayCameraStatus(leftCameraStatus, ui->labelLeftCameraStatus);
-    displayCameraStatus(rightCameraStatus, ui->labelLeftCameraStatus);
+    displayCameraStatus(rightCameraStatus, ui->labelRightCameraStatus);
 }
 
 void widgetSettings::receiveTimerInterval(int interval)

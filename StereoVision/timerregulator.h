@@ -7,8 +7,10 @@ class timerRegulator : public QObject
 {
     Q_OBJECT
 public:
-    explicit timerRegulator(QObject *parent = nullptr, int timeInterval = 30);
+    explicit timerRegulator(QObject *parent = nullptr);
     ~timerRegulator();
+
+    void setInterval(const int interval);
 
 
 signals:

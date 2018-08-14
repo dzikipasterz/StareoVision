@@ -30,8 +30,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>831</width>
-     <height>471</height>
+     <width>832</width>
+     <height>371</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -91,6 +91,18 @@
     </item>
     <item row="0" column="1">
      <widget class="QLabel" name="rightCamera">
+      <property name="minimumSize">
+       <size>
+        <width>412</width>
+        <height>303</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>412</width>
+        <height>303</height>
+       </size>
+      </property>
       <property name="frameShape">
        <enum>QFrame::Box</enum>
       </property>
@@ -101,6 +113,18 @@
     </item>
     <item row="0" column="0">
      <widget class="QLabel" name="leftCamera">
+      <property name="minimumSize">
+       <size>
+        <width>412</width>
+        <height>303</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>412</width>
+        <height>303</height>
+       </size>
+      </property>
       <property name="frameShape">
        <enum>QFrame::Box</enum>
       </property>

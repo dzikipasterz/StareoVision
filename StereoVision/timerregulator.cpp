@@ -1,17 +1,21 @@
 #include "timerregulator.h"
 
-timerRegulator::timerRegulator(QObject *parent, int timerInterval) :
+timerRegulator::timerRegulator(QObject *parent) :
     QObject(parent),
     upperThreshold(20),
     lowerThreshold(5),
     triggerCounter(0)
 {
-    msecInterval = timerInterval;
 }
 
 timerRegulator::~timerRegulator()
 {
 
+}
+
+void timerRegulator::setInterval(const int interval)
+{
+    msecInterval = interval;
 }
 
 void timerRegulator::receiveTimeout()
