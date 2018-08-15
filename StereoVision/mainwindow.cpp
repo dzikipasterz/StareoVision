@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    baseSize=this->size();
 }
 
 MainWindow::~MainWindow()
@@ -40,7 +41,6 @@ void MainWindow::initPanelWidget()
     if(Ui::widgetPanel != nullptr)
         ui->centralWidget->layout()->removeWidget(Ui::widgetPanel);
     Ui::widgetPanel->deleteLater();
-    Ui::widgetPanel = new widgetSettings();
 }
 
 
@@ -65,11 +65,6 @@ void MainWindow::showCalibrationWidget()
     ui->centralWidget->layout()->addWidget(Ui::widgetPanel);
 }
 
-void resizeEvent(QResizeEvent * event)
-{
-
-}
-
 void MainWindow::on_pushButtonInfo_clicked()
 {
    showAppInfo();
@@ -90,7 +85,7 @@ void MainWindow::on_actionZako_cz_triggered()
     showCloseConfirmation();
 }
 
-void MainWindow::on_pushButtonPomiar_clicked()
+void MainWindow::on_pushButtonPomiarOnline_clicked()
 {
     showMeasurementWidget();
 }

@@ -8,6 +8,7 @@
 #include <camera.h>
 
 
+
 class stereoCamera : public QObject
 {
     Q_OBJECT
@@ -27,5 +28,7 @@ public slots:
 private:
     camera * leftCamera;
     camera * rightCamera;
+    bool retryFlag;
+
 };
 #endif // STEREOCAMERA_H

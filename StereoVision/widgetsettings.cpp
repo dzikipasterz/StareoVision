@@ -101,11 +101,16 @@ void widgetSettings::receiveCameraStatus(bool leftCameraStatus, bool rightCamera
 {
     displayCameraStatus(leftCameraStatus, ui->labelLeftCameraStatus);
     displayCameraStatus(rightCameraStatus, ui->labelRightCameraStatus);
+
+    if(leftCameraStatus || rightCameraStatus)
+    {
+        emit sendStereoCameraSetup(ui->leftCameraId->value(), ui->rightCameraId->value());
+    }
 }
 
 void widgetSettings::receiveTimerInterval(int interval)
 {
-    ui->spinBoxinterval->setValue(interval);
+
 }
 
 void widgetSettings::on_leftCameraId_valueChanged(int leftCameraId)

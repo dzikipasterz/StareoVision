@@ -40,6 +40,7 @@ private:
     int rightCamera;
     QThread * threadStereoCamera;
     QThread * threadTimer;
+    QSize baseSize;
     void displayFrame(cv::Mat frame, QLabel * display);
     void displayCameraStatus(bool status, QLabel * labelStatus);
     void startup();

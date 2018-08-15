@@ -7,6 +7,7 @@
 #include <QScreen>
 #include <QStackedWidget>
 #include <QLayout>
+#include <QResizeEvent>
 #include <window_geometry.h>
 #include "info.h"
 #include "closeconfirm.h"
@@ -37,21 +38,19 @@ public:
 public slots:
     void closeApplication();
 
-protected:
-    void resizeEvent(QResizeEvent * event);
-
 
 private slots:
     void on_pushButtonInfo_clicked();
     void on_actionO_programie_triggered();
     void on_pushButtonWyjscie_clicked();
     void on_actionZako_cz_triggered();
-    void on_pushButtonPomiar_clicked();
+    void on_pushButtonPomiarOnline_clicked();
     void on_pushButtonUstawienia_clicked();
     void on_pushButtonKalibracja_clicked();
 
 private:
     Ui::MainWindow *ui;
+    QSize baseSize;
     void showAppInfo();
     void showCloseConfirmation();
     void initPanelWidget();
