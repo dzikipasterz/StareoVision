@@ -9,6 +9,8 @@ stereoCamera::stereoCamera(QObject *parent) :
 
 stereoCamera::~stereoCamera()
 {
+    leftCamera->~camera();
+    rightCamera->~camera();
     delete leftCamera;
     delete rightCamera;
 }

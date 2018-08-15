@@ -35,37 +35,39 @@ void MainWindow::showCloseConfirmation()
     closeConfirmation.exec();
 }
 
+void MainWindow::initPanelWidget()
+{
+    if(Ui::widgetPanel != nullptr)
+        ui->centralWidget->layout()->removeWidget(Ui::widgetPanel);
+    Ui::widgetPanel->deleteLater();
+    Ui::widgetPanel = new widgetSettings();
+}
+
+
 void MainWindow::showMeasurementWidget()
 {
-    //layout()->removeWidget(Ui::widgetPanel);
-    //ui->centralWidget->layout()->addWidget(Ui::widgetPanel);
-    Ui::widgetPanel->deleteLater();
+    initPanelWidget();
     Ui::widgetPanel = new widgetMeasurement();
-    //QMainWindow::layout()->addWidget(Ui::widgetPanel);
     ui->centralWidget->layout()->addWidget(Ui::widgetPanel);
-    //Ui::widgetPanel->setGeometry(150,50,861,681);
 }
 
 void MainWindow::showSettingsWidget()
 {
-    //layout()->removeWidget(Ui::widgetPanel);
-    //ui->centralWidget->layout()->addWidget(Ui::widgetPanel);
-    Ui::widgetPanel->deleteLater();
+    initPanelWidget();
     Ui::widgetPanel = new widgetSettings();
-    //QMainWindow::layout()->addWidget(Ui::widgetPanel);
     ui->centralWidget->layout()->addWidget(Ui::widgetPanel);
-    //Ui::widgetPanel->setGeometry(150,50,861,681);
 }
 
 void MainWindow::showCalibrationWidget()
 {
-    //layout()->removeWidget(Ui::widgetPanel);
-    //ui->centralWidget->layout()->addWidget(Ui::widgetPanel);
-    Ui::widgetPanel->deleteLater();
+    initPanelWidget();
     Ui::widgetPanel = new widgetCalibration();
-    //QMainWindow::layout()->addWidget(Ui::widgetPanel);
     ui->centralWidget->layout()->addWidget(Ui::widgetPanel);
-    //Ui::widgetPanel->setGeometry(150,50,861,681);
+}
+
+void resizeEvent(QResizeEvent * event)
+{
+
 }
 
 void MainWindow::on_pushButtonInfo_clicked()

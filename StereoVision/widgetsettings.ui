@@ -25,132 +25,133 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="gridLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>832</width>
-     <height>371</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="1">
-     <widget class="QSpinBox" name="rightCameraId"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QSpinBox" name="leftCameraId">
-      <property name="maximum">
-       <number>5</number>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="labelLeftCameraStatus">
-      <property name="minimumSize">
-       <size>
-        <width>411</width>
-        <height>21</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>411</width>
-        <height>21</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLabel" name="labelRightCameraStatus">
-      <property name="minimumSize">
-       <size>
-        <width>411</width>
-        <height>21</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>411</width>
-        <height>21</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="rightCamera">
-      <property name="minimumSize">
-       <size>
-        <width>412</width>
-        <height>303</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>412</width>
-        <height>303</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="leftCamera">
-      <property name="minimumSize">
-       <size>
-        <width>412</width>
-        <height>303</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>412</width>
-        <height>303</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QSpinBox" name="spinBoxinterval">
-   <property name="geometry">
-    <rect>
-     <x>307</x>
-     <y>530</y>
-     <width>91</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-   <property name="maximum">
-    <number>1000</number>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="rightCameraId"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QSpinBox" name="leftCameraId">
+       <property name="maximum">
+        <number>5</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelLeftCameraStatus">
+       <property name="minimumSize">
+        <size>
+         <width>411</width>
+         <height>21</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>411</width>
+         <height>21</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="labelRightCameraStatus">
+       <property name="minimumSize">
+        <size>
+         <width>411</width>
+         <height>21</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>411</width>
+         <height>21</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="rightCamera">
+       <property name="minimumSize">
+        <size>
+         <width>412</width>
+         <height>303</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>412</width>
+         <height>303</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="leftCamera">
+       <property name="minimumSize">
+        <size>
+         <width>412</width>
+         <height>303</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>412</width>
+         <height>303</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QSpinBox" name="spinBoxinterval">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="maximum">
+      <number>1000</number>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

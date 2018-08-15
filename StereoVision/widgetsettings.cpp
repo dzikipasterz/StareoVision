@@ -10,8 +10,8 @@ widgetSettings::widgetSettings(QWidget *parent) :
     ui->setupUi(this);
     ui->leftCamera->setScaledContents(true);
     ui->rightCamera->setScaledContents(true);
-    ui->leftCameraId->setValue(1);
-    ui->rightCameraId->setValue(2);
+    ui->leftCameraId->setValue(leftCamera);
+    ui->rightCameraId->setValue(rightCamera);
 
     startup();
 }

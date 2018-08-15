@@ -17,7 +17,7 @@
 
 namespace Ui {
 
-static QWidget * widgetPanel;
+static QWidget *widgetPanel;
 
 class MainWindow;
 }
@@ -37,6 +37,9 @@ public:
 public slots:
     void closeApplication();
 
+protected:
+    void resizeEvent(QResizeEvent * event);
+
 
 private slots:
     void on_pushButtonInfo_clicked();
@@ -51,6 +54,7 @@ private:
     Ui::MainWindow *ui;
     void showAppInfo();
     void showCloseConfirmation();
+    void initPanelWidget();
 
 };
 
