@@ -10,6 +10,7 @@
 #include <QResizeEvent>
 #include <window_geometry.h>
 #include <appsettings.h>
+#include <appwidget.h>
 #include "info.h"
 #include "closeconfirm.h"
 #include "widgetmeasurement.h"
@@ -19,11 +20,10 @@
 
 
 namespace Ui {
-
-static QWidget *widgetPanel;
-
 class MainWindow;
 }
+
+static AppWidget *widgetPanel;
 
 class MainWindow : public QMainWindow
 {

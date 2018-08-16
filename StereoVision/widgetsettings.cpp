@@ -1,17 +1,18 @@
 #include "widgetsettings.h"
 #include "ui_widgetsettings.h"
 
-widgetSettings::widgetSettings(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::widgetSettings),
-    leftCamera(0),
-    rightCamera(1)
+widgetSettings::widgetSettings(AppSettings sett) :
+    ui(new Ui::widgetSettings)
 {
+    //AppWidget
+    settings = sett;
+
+    //widgetSettings
     ui->setupUi(this);
     ui->leftCamera->setScaledContents(true);
     ui->rightCamera->setScaledContents(true);
-    ui->leftCameraId->setValue(leftCamera);
-    ui->rightCameraId->setValue(rightCamera);
+    ui->leftCameraId->setValue(settings.readLeftCameraId());
+    ui->rightCameraId->setValue(settings.readRightCameraId());
 
     startup();
 }
@@ -48,7 +49,6 @@ void widgetSettings::startup()
     connect(timer, SIGNAL(timeout()), intervalRegulator, SLOT(receiveTimeout()));
 
     connect(intervalRegulator, SIGNAL(sendInterval(int)), timer, SLOT(start(int)));
-    connect(intervalRegulator, SIGNAL(sendInterval(int)), this, SLOT(receiveTimerInterval(int)));
 
     connect(camera, SIGNAL(sendCameraStatus(bool, bool)), this, SLOT(receiveCameraStatus(bool, bool)));
     connect(camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), this, SLOT(receiveFrames(cv::Mat, cv::Mat)));
@@ -108,20 +108,18 @@ void widgetSettings::receiveCameraStatus(bool leftCameraStatus, bool rightCamera
     }
 }
 
-void widgetSettings::receiveTimerInterval(int interval)
-{
-
-}
 
 void widgetSettings::on_leftCameraId_valueChanged(int leftCameraId)
 {
-    leftCamera = leftCameraId;
-    emit sendStereoCameraSetup(leftCamera, rightCamera);
+    settings.setLeftCameraId(leftCameraId);
+    emit sendSettingsChanged(settings);
+    emit sendStereoCameraSetup(settings.readLeftCameraId(), settings.readRightCameraId());
 }
 
 
 void widgetSettings::on_rightCameraId_valueChanged(int rightCameraId)
 {
-    rightCamera = rightCameraId;
-    emit sendStereoCameraSetup(leftCamera, rightCamera);
+    settings.setRightCameraId(rightCameraId);
+    emit sendSettingsChanged(settings);
+    emit sendStereoCameraSetup(settings.readLeftCameraId(), settings.readRightCameraId());
 }

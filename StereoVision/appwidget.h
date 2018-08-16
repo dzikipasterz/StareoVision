@@ -13,10 +13,8 @@ public:
     AppWidget(QWidget *parent = nullptr);
     ~AppWidget();
 
-    void setSettings(AppSettings settings);
-
 protected:
-    AppSettings sett;
+    AppSettings settings;
 
 private:
 };

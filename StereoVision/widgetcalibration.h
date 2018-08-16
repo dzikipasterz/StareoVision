@@ -13,7 +13,7 @@ class widgetCalibration : public AppWidget
     Q_OBJECT
 
 public:
-    explicit widgetCalibration(QWidget *parent = nullptr);
+    explicit widgetCalibration(AppSettings sett);
     ~widgetCalibration();
 
 private:

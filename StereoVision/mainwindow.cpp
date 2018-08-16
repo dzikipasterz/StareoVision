@@ -18,6 +18,8 @@ MainWindow::~MainWindow()
 AppSettings MainWindow::readSettingsFile()
 {
     AppSettings sett;
+    sett.setLeftCameraId(0);
+    sett.setRightCameraId(1);
     return sett;
 }
 
@@ -50,31 +52,32 @@ void MainWindow::showCloseConfirmation()
 
 void MainWindow::initPanelWidget()
 {
-    if(Ui::widgetPanel != nullptr)
-        ui->centralWidget->layout()->removeWidget(Ui::widgetPanel);
-    Ui::widgetPanel->deleteLater();
+    if(widgetPanel != nullptr)
+        ui->centralWidget->layout()->removeWidget(widgetPanel);
+    widgetPanel->deleteLater();
 }
 
 
 void MainWindow::showMeasurementWidget()
 {
     initPanelWidget();
-    Ui::widgetPanel = new widgetMeasurement();
-    ui->centralWidget->layout()->addWidget(Ui::widgetPanel);
+    widgetPanel = new widgetMeasurement(settings);
+    ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 
 void MainWindow::showSettingsWidget()
 {
     initPanelWidget();
-    Ui::widgetPanel = new widgetSettings();
-    ui->centralWidget->layout()->addWidget(Ui::widgetPanel);
+    widgetPanel = new widgetSettings(settings);
+    connect(widgetPanel, SIGNAL(sendSettingsChanged(AppSettings)), this, SLOT(receiveAppSettings(AppSettings)));
+    ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 
 void MainWindow::showCalibrationWidget()
 {
     initPanelWidget();
-    Ui::widgetPanel = new widgetCalibration();
-    ui->centralWidget->layout()->addWidget(Ui::widgetPanel);
+    widgetPanel = new widgetCalibration(settings);
+    ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 
 void MainWindow::on_pushButtonInfo_clicked()

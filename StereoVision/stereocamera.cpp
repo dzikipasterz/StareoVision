@@ -6,7 +6,7 @@ stereoCamera::stereoCamera(QObject *parent) :
 {
     leftCamera = new camera();
     rightCamera = new camera();
-    connect(this, SIGNAL(sendRetrySetup(const int, const int)), this, SLOT(receiveSetup(const int, const int)));
+    //connect(this, SIGNAL(sendRetrySetup(const int, const int)), this, SLOT(receiveSetup(const int, const int)));
 }
 
 stereoCamera::~stereoCamera()

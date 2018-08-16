@@ -10,29 +10,27 @@
 #include "stereocamera.h"
 #include "timerregulator.h"
 #include "appsettings.h"
+#include "appwidget.h"
 
 namespace Ui {
 class widgetSettings;
 }
 
-class widgetSettings : public QWidget
+class widgetSettings : public AppWidget
 {
     Q_OBJECT
 
 public:
-    explicit widgetSettings(QWidget *parent = nullptr);
+    explicit widgetSettings(AppSettings sett);
     ~widgetSettings();
-
-    void setSettings(AppSettings sett);
 
 signals:
     void sendStereoCameraSetup(const int leftCameraId, const int rightCameraId);
-    void sendSettingsChanged();
+    void sendSettingsChanged(AppSettings sett);
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
     void receiveCameraStatus(bool leftCameraStatus, bool rightCameraStatus);
-    void receiveTimerInterval(int interval);
 
 private slots:
     void on_leftCameraId_valueChanged(int arg1);
@@ -40,12 +38,8 @@ private slots:
 
 private:
     Ui::widgetSettings *ui;
-    int leftCamera;
-    int rightCamera;
-    AppSettings settings;
     QThread * threadStereoCamera;
     QThread * threadTimer;
-    QSize baseSize;
     void displayFrame(cv::Mat frame, QLabel * display);
     void displayCameraStatus(bool status, QLabel * labelStatus);
     void startup();
