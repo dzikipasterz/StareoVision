@@ -7,7 +7,7 @@ widgetMeasurement::widgetMeasurement(AppSettings sett) :
     //AppWidget
     settings = sett;
 
-    //widgetSettings
+    //widgetMeasurement
     ui->setupUi(this);
 }
 

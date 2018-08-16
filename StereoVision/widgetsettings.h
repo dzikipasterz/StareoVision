@@ -6,10 +6,6 @@
 #include <QThread>
 #include <QTimer>
 #include <QPicture>
-#include "camera.h"
-#include "stereocamera.h"
-#include "timerregulator.h"
-#include "appsettings.h"
 #include "appwidget.h"
 
 namespace Ui {
@@ -36,13 +32,13 @@ private slots:
     void on_leftCameraId_valueChanged(int arg1);
     void on_rightCameraId_valueChanged(int arg1);
 
+protected:
+    void startup();
+
 private:
     Ui::widgetSettings *ui;
-    QThread * threadStereoCamera;
-    QThread * threadTimer;
-    void displayFrame(cv::Mat frame, QLabel * display);
+
     void displayCameraStatus(bool status, QLabel * labelStatus);
-    void startup();
 };
 
 #endif // WIDGETSETTINGS_H

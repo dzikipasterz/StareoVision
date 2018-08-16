@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <appwidget.h>
+#include <stereocamera.h>
+#include <timerregulator.h>
 
 namespace Ui {
 class widgetMeasurement;

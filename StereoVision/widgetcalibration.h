@@ -16,8 +16,16 @@ public:
     explicit widgetCalibration(AppSettings sett);
     ~widgetCalibration();
 
+public slots:
+
 private:
     Ui::widgetCalibration *ui;
+    QThread * threadStereoCamera;
+    QThread * threadCornersFinder;
+    QThread * threadTimer;
+
+
+    void setup();
 };
 
 #endif // WIDGETCALIBRATION_H

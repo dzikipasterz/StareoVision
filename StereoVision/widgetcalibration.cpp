@@ -7,8 +7,11 @@ widgetCalibration::widgetCalibration(AppSettings sett) :
     //AppWidget
     settings = sett;
 
-    //widgetSettings
+    //widgetCalibration
     ui->setupUi(this);
+    ui->lefCamera->setScaledContents(true);
+    ui->rightCamera->setScaledContents(true);
+
 }
 
 widgetCalibration::~widgetCalibration()

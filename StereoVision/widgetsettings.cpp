@@ -19,64 +19,22 @@ widgetSettings::widgetSettings(AppSettings sett) :
 
 widgetSettings::~widgetSettings()
 {
-    threadStereoCamera->quit();
-    threadTimer->quit();
-    while(!threadStereoCamera->isFinished());
-    while(!threadTimer->isFinished());
-
-    delete threadStereoCamera;
-    delete threadTimer;
-
     delete ui;
 }
 
 void widgetSettings::startup()
-{
-    qRegisterMetaType<cv::Mat>("cv::Mat");
+{ 
+    AppWidget::startup();
+    AppWidget::initTimer();
+    AppWidget::initCamera(settings.readLeftCameraId(), settings.readRightCameraId());
 
-    int timerInterval = 42;
-    threadStereoCamera = new QThread();
-    threadTimer = new QThread();
+    connect(this, SIGNAL(sendStereoCameraSetup(const int, const int)), AppWidget::camera, SLOT(receiveSetup(const int, const int)));
+    connect(AppWidget::camera, SIGNAL(sendCameraStatus(bool, bool)), this, SLOT(receiveCameraStatus(bool, bool)));
+    connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), this, SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    connect(AppWidget::camera, SIGNAL(sendJobDone()), AppWidget::intervalRegulator, SLOT(receiveJobDone()));
 
-    stereoCamera * camera = new stereoCamera();
-    timerRegulator * intervalRegulator = new timerRegulator();
-    QTimer * timer = new QTimer();
-    timer->setInterval(timerInterval);
-    intervalRegulator->setInterval(timerInterval);
-
-    connect(this, SIGNAL(sendStereoCameraSetup(const int, const int)), camera, SLOT(receiveSetup(const int, const int)));
-    connect(timer, SIGNAL(timeout()), camera, SLOT(receiveGrabFrame()));
-    connect(timer, SIGNAL(timeout()), intervalRegulator, SLOT(receiveTimeout()));
-
-    connect(intervalRegulator, SIGNAL(sendInterval(int)), timer, SLOT(start(int)));
-
-    connect(camera, SIGNAL(sendCameraStatus(bool, bool)), this, SLOT(receiveCameraStatus(bool, bool)));
-    connect(camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), this, SLOT(receiveFrames(cv::Mat, cv::Mat)));
-    connect(camera, SIGNAL(sendJobDone()), intervalRegulator, SLOT(receiveJobDone()));
-
-    connect(threadStereoCamera, SIGNAL(finished()), camera, SLOT(deleteLater()));
-    connect(threadTimer, SIGNAL(finished()), timer, SLOT(deleteLater()));
-    connect(threadTimer, SIGNAL(finished()), intervalRegulator, SLOT(deleteLater()));
-    connect(threadTimer, SIGNAL(started()), timer, SLOT(start()));
-
-    camera->moveToThread(threadStereoCamera);
-
-    timer->moveToThread(threadTimer);
-    intervalRegulator->moveToThread(threadTimer);
-
-    threadStereoCamera->start();
-    threadTimer->start();
-
-    emit sendStereoCameraSetup(ui->leftCameraId->value(), ui->rightCameraId->value());
-    threadTimer->start();
-}
-
-void widgetSettings::displayFrame(cv::Mat frame, QLabel * display)
-{
-    cv::Mat frameProcessed;
-    cv::cvtColor(frame, frameProcessed, cv::COLOR_BGR2GRAY);
-    QImage output((const unsigned char *)frameProcessed.data, frameProcessed.cols, frameProcessed.rows, QImage::Format_Indexed8);
-    display->setPixmap(QPixmap::fromImage(output));
+    AppWidget::startCamera();
+    AppWidget::startTimer();
 }
 
 void widgetSettings::displayCameraStatus(bool status, QLabel * labelStatus)
@@ -108,14 +66,12 @@ void widgetSettings::receiveCameraStatus(bool leftCameraStatus, bool rightCamera
     }
 }
 
-
 void widgetSettings::on_leftCameraId_valueChanged(int leftCameraId)
 {
     settings.setLeftCameraId(leftCameraId);
     emit sendSettingsChanged(settings);
     emit sendStereoCameraSetup(settings.readLeftCameraId(), settings.readRightCameraId());
 }
-
 
 void widgetSettings::on_rightCameraId_valueChanged(int rightCameraId)
 {

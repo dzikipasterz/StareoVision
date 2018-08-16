@@ -35,7 +35,8 @@ SOURCES += \
     stereocamera.cpp \
     camera.cpp \
     appsettings.cpp \
-    appwidget.cpp
+    appwidget.cpp \
+    cornersfinder.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,7 +50,8 @@ HEADERS += \
     stereocamera.h \
     camera.h \
     appsettings.h \
-    appwidget.h
+    appwidget.h \
+    cornersfinder.h
 
 FORMS += \
         mainwindow.ui \
