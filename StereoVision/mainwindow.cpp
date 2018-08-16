@@ -6,7 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    baseSize=this->size();
+    baseSize = this->size();
+    settings = readSettingsFile();
 }
 
 MainWindow::~MainWindow()
@@ -14,9 +15,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+AppSettings MainWindow::readSettingsFile()
+{
+    AppSettings sett;
+    return sett;
+}
+
 void MainWindow::closeApplication()
 {
     QApplication::closeAllWindows();
+}
+
+void MainWindow::receiveAppSettings(AppSettings sett)
+{
+    settings = sett;
 }
 
 void MainWindow::showAppInfo()

@@ -64,7 +64,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButtonUstawienia">
+       <widget class="QPushButton" name="pushButtonPomiarOffline">
         <property name="minimumSize">
          <size>
           <width>131</width>
@@ -78,7 +78,26 @@
          </size>
         </property>
         <property name="text">
-         <string>Ustawienia</string>
+         <string>Pomiar offline</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButtonNagrywanie">
+        <property name="minimumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Nagrywanie</string>
         </property>
        </widget>
       </item>
@@ -98,6 +117,25 @@
         </property>
         <property name="text">
          <string>Kalibracja</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButtonUstawienia">
+        <property name="minimumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>131</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Ustawienia</string>
         </property>
        </widget>
       </item>

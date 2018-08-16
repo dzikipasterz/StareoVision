@@ -9,11 +9,13 @@
 #include <QLayout>
 #include <QResizeEvent>
 #include <window_geometry.h>
+#include <appsettings.h>
 #include "info.h"
 #include "closeconfirm.h"
 #include "widgetmeasurement.h"
 #include "widgetsettings.h"
 #include "widgetcalibration.h"
+
 
 
 namespace Ui {
@@ -37,6 +39,7 @@ public:
 
 public slots:
     void closeApplication();
+    void receiveAppSettings(AppSettings sett);
 
 
 private slots:
@@ -51,10 +54,13 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QSize baseSize;
+    AppSettings settings;
+
     void showAppInfo();
     void showCloseConfirmation();
     void initPanelWidget();
-
+    AppSettings readSettingsFile();
+    int writeSettingsFile(AppSettings newSettings);
 };
 
 #endif // MAINWINDOW_H

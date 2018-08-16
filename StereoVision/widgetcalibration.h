@@ -2,12 +2,13 @@
 #define WIDGETCALIBRATION_H
 
 #include <QWidget>
+#include <appwidget.h>
 
 namespace Ui {
 class widgetCalibration;
 }
 
-class widgetCalibration : public QWidget
+class widgetCalibration : public AppWidget
 {
     Q_OBJECT
 

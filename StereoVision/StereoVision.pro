@@ -33,7 +33,9 @@ SOURCES += \
     widgetcalibration.cpp \
     timerregulator.cpp \
     stereocamera.cpp \
-    camera.cpp
+    camera.cpp \
+    appsettings.cpp \
+    appwidget.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,7 +47,9 @@ HEADERS += \
     widgetcalibration.h \
     timerregulator.h \
     stereocamera.h \
-    camera.h
+    camera.h \
+    appsettings.h \
+    appwidget.h
 
 FORMS += \
         mainwindow.ui \
