@@ -19,6 +19,7 @@ public:
 
 private:
     cv::Mat frame;
+    cv::Mat emptyFrame;
     cv::VideoCapture *cap;
     bool status;
 

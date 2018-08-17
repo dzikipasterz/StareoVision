@@ -2,7 +2,7 @@
 
 camera::camera(QObject *parent) :
     QObject(parent),
-    status(false)
+    status(true)
 {
     cap = new cv::VideoCapture();
 }
@@ -26,8 +26,12 @@ void camera::closeDevice()
 
 cv::Mat camera::grabFrame()
 {
-    (*cap) >> frame;
-    return frame;
+    if(!status)
+    {
+        (*cap) >> frame;
+        return frame;
+    }
+    else return emptyFrame;
 }
 
 bool camera::setDevice(const int device)

@@ -41,7 +41,7 @@ void stereoCamera::receiveRetrySetup()
 
         if(leftCameraStatus || rightCameraStatus)
         {
-            for(int i = 0; i < 1000000; i++){};
+            for(int i = 0; i < 10000000; i++){};
             emit sendRetrySetup();
         }
         else retryFlag=false;

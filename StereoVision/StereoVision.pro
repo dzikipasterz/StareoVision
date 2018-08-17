@@ -61,7 +61,7 @@ FORMS += \
     widgetsettings.ui \
     widgetcalibration.ui
 
-LIBS += -lopencv_highgui -lopencv_core -lopencv_imgproc -lopencv_videoio
+LIBS += -lopencv_highgui -lopencv_core -lopencv_imgproc -lopencv_videoio -lopencv_calib3d
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

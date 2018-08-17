@@ -2,7 +2,8 @@
 
 timerRegulator::timerRegulator(QObject *parent) :
     QObject(parent),
-    upperThreshold(20),
+    alertThreshold(20),
+    upperThreshold(10),
     lowerThreshold(5),
     triggerCounter(0)
 {
@@ -23,6 +24,9 @@ void timerRegulator::receiveTimeout()
     triggerCounter++;
     flag = false;
 
+    if(triggerCounter == alertThreshold)
+        emit sendStop();
+
     if(triggerCounter > upperThreshold)
     {
         msecInterval++;
@@ -42,4 +46,7 @@ void timerRegulator::receiveTimeout()
 void timerRegulator::receiveJobDone()
 {
     triggerCounter--;
+    if(triggerCounter == upperThreshold)
+        emit sendStart(msecInterval);
+
 }

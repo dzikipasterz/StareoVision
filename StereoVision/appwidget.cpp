@@ -43,6 +43,8 @@ void AppWidget::initTimer(const int timerInterval)
     intervalRegulator->setInterval(timerInterval);
 
     connect(intervalRegulator, SIGNAL(sendInterval(int)), timer, SLOT(start(int)));
+    connect(intervalRegulator, SIGNAL(start(int)), timer, SLOT(start(int)));
+    connect(intervalRegulator, SIGNAL(stop()), timer, SLOT(stop()));
     connect(timer, SIGNAL(timeout()), intervalRegulator, SLOT(receiveTimeout()));
     connect(threadTimer, SIGNAL(finished()), timer, SLOT(deleteLater()));
     connect(threadTimer, SIGNAL(finished()), intervalRegulator, SLOT(deleteLater()));
@@ -73,8 +75,6 @@ void AppWidget::startCamera()
 
 void AppWidget::displayFrame(cv::Mat frame, QLabel * display)
 {
-    cv::Mat frameProcessed;
-    cv::cvtColor(frame, frameProcessed, cv::COLOR_BGR2GRAY);
-    QImage output((const unsigned char *)frameProcessed.data, frameProcessed.cols, frameProcessed.rows, QImage::Format_Indexed8);
-    display->setPixmap(QPixmap::fromImage(output));
+    QImage output(frame.data, frame.cols, frame.rows, static_cast<int>(frame.step), QImage::Format_RGB888);
+    display->setPixmap(QPixmap::fromImage(output.rgbSwapped()));
 }

@@ -15,6 +15,8 @@ public:
 
 signals:
     void sendInterval(int msecInterval);
+    void sendStop();
+    void sendStart(int msecInterval);
 
 public slots:
 
@@ -22,6 +24,7 @@ public slots:
     void receiveTimeout();
 
 private:
+    int alertThreshold;
     int upperThreshold;
     int lowerThreshold;
     int msecInterval;
