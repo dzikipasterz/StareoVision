@@ -14,6 +14,7 @@ public:
     ~camera();
 
     bool setDevice(const int device);
+    bool getStatus();
     cv::Mat grabFrame();
 
 private:

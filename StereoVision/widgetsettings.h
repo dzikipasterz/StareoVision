@@ -37,7 +37,6 @@ protected:
 
 private:
     Ui::widgetSettings *ui;
-
     void displayCameraStatus(bool status, QLabel * labelStatus);
 };
 

@@ -20,12 +20,16 @@ signals:
     void sendCameraStatus(bool leftCameraStatus, bool rightCameraStatus);
     void sendFrames(cv::Mat leftFrame, cv::Mat rightFrame);
     void sendJobDone();
+    void sendRetrySetup();
 
 public slots:
     void receiveGrabFrame();
     void receiveSetup(const int leftCameraId, const int rightCameraId);
+    void receiveRetrySetup();
 
 private:
+    int leftCameraDeviceId;
+    int rightCameraDeviceId;
     camera * leftCamera;
     camera * rightCamera;
     bool retryFlag;

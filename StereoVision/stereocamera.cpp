@@ -6,7 +6,7 @@ stereoCamera::stereoCamera(QObject *parent) :
 {
     leftCamera = new camera();
     rightCamera = new camera();
-    //connect(this, SIGNAL(sendRetrySetup(const int, const int)), this, SLOT(receiveSetup(const int, const int)));
+    connect(this, SIGNAL(sendRetrySetup()), this, SLOT(receiveRetrySetup()), Qt::QueuedConnection);
 }
 
 stereoCamera::~stereoCamera()
@@ -17,24 +17,42 @@ stereoCamera::~stereoCamera()
 
 void stereoCamera::receiveSetup(const int leftCameraId, const int rightCameraId)
 {
-    if(retryFlag)
-    {
-        for(int j = 0; j<1000000000; j++){};
-    }
-    bool leftCameraStatus = leftCamera->setDevice(leftCameraId);
-    bool rightCameraStatus = rightCamera->setDevice(rightCameraId);
+    leftCameraDeviceId = leftCameraId;
+    rightCameraDeviceId = rightCameraId;
+    bool leftCameraStatus = leftCamera->setDevice(leftCameraDeviceId);
+    bool rightCameraStatus = rightCamera->setDevice(rightCameraDeviceId);
     emit sendCameraStatus(leftCameraStatus, rightCameraStatus);
 
-    if(leftCameraId || rightCameraId) retryFlag=true;
-    else retryFlag=false;
+    if(leftCameraStatus || rightCameraStatus)
+    {
+        retryFlag = true;
+        emit sendRetrySetup();
+    }
+    else retryFlag = false;
+}
 
+void stereoCamera::receiveRetrySetup()
+{
+    if(retryFlag)
+    {
+        bool leftCameraStatus = leftCamera->setDevice(leftCameraDeviceId);
+        bool rightCameraStatus = rightCamera->setDevice(rightCameraDeviceId);
+        emit sendCameraStatus(leftCameraStatus, rightCameraStatus);
+
+        if(leftCameraStatus || rightCameraStatus)
+        {
+            for(int i = 0; i < 1000000; i++){};
+            emit sendRetrySetup();
+        }
+        else retryFlag=false;
+    }
 }
 
 void stereoCamera::receiveGrabFrame()
 {
     cv::Mat leftFrame = leftCamera->grabFrame();
     cv::Mat rightFrame = rightCamera->grabFrame();
-    if(!(leftFrame.empty() && rightFrame.empty()))
+    if(!(leftFrame.empty() || rightFrame.empty()))
             emit sendFrames(leftFrame, rightFrame);
     emit sendJobDone();
 }

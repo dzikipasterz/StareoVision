@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <appwidget.h>
+#include <cornersfinder.h>
 
 namespace Ui {
 class widgetCalibration;
@@ -17,15 +18,15 @@ public:
     ~widgetCalibration();
 
 public slots:
+    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+
+protected:
+    void startup();
 
 private:
     Ui::widgetCalibration *ui;
-    QThread * threadStereoCamera;
     QThread * threadCornersFinder;
-    QThread * threadTimer;
-
-
-    void setup();
+    CornersFinder * cornersFinder;
 };
 
 #endif // WIDGETCALIBRATION_H
