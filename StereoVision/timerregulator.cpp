@@ -5,7 +5,8 @@ timerRegulator::timerRegulator(QObject *parent) :
     alertThreshold(20),
     upperThreshold(10),
     lowerThreshold(5),
-    triggerCounter(0)
+    triggerCounter(0),
+    paused(false)
 {
 }
 
@@ -46,7 +47,19 @@ void timerRegulator::receiveTimeout()
 void timerRegulator::receiveJobDone()
 {
     triggerCounter--;
-    if(triggerCounter == upperThreshold)
+    if((triggerCounter == upperThreshold) && !paused)
         emit sendStart(msecInterval);
 
+}
+
+void timerRegulator::receivePause()
+{
+    paused = true;
+    emit sendStop();
+}
+
+void timerRegulator::receiveResume()
+{
+    paused = false;
+    emit sendStart(msecInterval);
 }

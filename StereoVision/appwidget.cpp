@@ -6,6 +6,7 @@ AppWidget::AppWidget(QWidget *parent):
     threadStereoCamera(nullptr),
     threadTimer(nullptr)
 {
+    qRegisterMetaType<cv::Mat>("cv::Mat");
 }
 
 
@@ -30,7 +31,7 @@ AppWidget::~AppWidget()
 
 void AppWidget::startup()
 {
-    qRegisterMetaType<cv::Mat>("cv::Mat");
+
 }
 
 void AppWidget::initTimer(const int timerInterval)
@@ -43,8 +44,10 @@ void AppWidget::initTimer(const int timerInterval)
     intervalRegulator->setInterval(timerInterval);
 
     connect(intervalRegulator, SIGNAL(sendInterval(int)), timer, SLOT(start(int)));
-    connect(intervalRegulator, SIGNAL(start(int)), timer, SLOT(start(int)));
-    connect(intervalRegulator, SIGNAL(stop()), timer, SLOT(stop()));
+    connect(intervalRegulator, SIGNAL(sendStart(int)), timer, SLOT(start(int)));
+    connect(intervalRegulator, SIGNAL(sendStop()), timer, SLOT(stop()));
+    connect(this, SIGNAL(sendPauseTimer()), intervalRegulator, SLOT(receivePause()));
+    connect(this, SIGNAL(sendResumeTimer()), intervalRegulator, SLOT(receiveResume()));
     connect(timer, SIGNAL(timeout()), intervalRegulator, SLOT(receiveTimeout()));
     connect(threadTimer, SIGNAL(finished()), timer, SLOT(deleteLater()));
     connect(threadTimer, SIGNAL(finished()), intervalRegulator, SLOT(deleteLater()));
@@ -56,6 +59,16 @@ void AppWidget::startTimer()
     timer->moveToThread(threadTimer);
     intervalRegulator->moveToThread(threadTimer);
     threadTimer->start();
+}
+
+void AppWidget::pauseTimer()
+{
+    emit sendPauseTimer();
+}
+
+void AppWidget::resumeTimer()
+{
+    emit sendResumeTimer();
 }
 
 void AppWidget::initCamera(const int leftCameraId, const int rightCameraId)

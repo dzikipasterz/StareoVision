@@ -21,6 +21,10 @@ public:
     AppWidget(QWidget *parent = nullptr);
     ~AppWidget();
 
+signals:
+    void sendPauseTimer();
+    void sendResumeTimer();
+
 protected:
     AppSettings settings;
     QTimer * timer;
@@ -30,8 +34,11 @@ protected:
     void startup();
     void initTimer(const int timerInterval = 42);
     void startTimer();
+    void pauseTimer();
+    void resumeTimer();
     void initCamera(const int leftCameraId = 0, const int rightCameraId = 1);
     void startCamera();
+
 
 private:
     QThread * threadStereoCamera;

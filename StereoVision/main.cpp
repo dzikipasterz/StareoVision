@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
             )
     );
 
-    w.showSettingsWidget();
+    w.showCalibrationWidget();
     w.show();
 
     return a.exec();

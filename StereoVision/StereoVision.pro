@@ -36,7 +36,8 @@ SOURCES += \
     camera.cpp \
     appsettings.cpp \
     appwidget.cpp \
-    cornersfinder.cpp
+    cornersfinder.cpp \
+    picturetaker.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +52,8 @@ HEADERS += \
     camera.h \
     appsettings.h \
     appwidget.h \
-    cornersfinder.h
+    cornersfinder.h \
+    picturetaker.h
 
 FORMS += \
         mainwindow.ui \
@@ -61,7 +63,7 @@ FORMS += \
     widgetsettings.ui \
     widgetcalibration.ui
 
-LIBS += -lopencv_highgui -lopencv_core -lopencv_imgproc -lopencv_videoio -lopencv_calib3d
+LIBS += -lopencv_highgui -lopencv_core -lopencv_imgproc -lopencv_videoio -lopencv_calib3d -lopencv_imgcodecs
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -22,6 +22,8 @@ public slots:
 
     void receiveJobDone();
     void receiveTimeout();
+    void receivePause();
+    void receiveResume();
 
 private:
     int alertThreshold;
@@ -30,6 +32,7 @@ private:
     int msecInterval;
     int triggerCounter;
     bool flag;
+    bool paused;
 };
 
 #endif // TIMERREGULATOR_H
