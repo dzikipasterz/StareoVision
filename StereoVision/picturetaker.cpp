@@ -1,11 +1,10 @@
 #include "picturetaker.h"
 
-PictureTaker::PictureTaker(QObject *parent) :
+PictureTaker::PictureTaker(QObject *parent, QString path) :
     QObject(parent),
-    takePictureFlag(false),
-    savePath("/home/slawko/StereoVisionCalibrationImages/")
+    takePictureFlag(false)
 {
-
+    savePath = path;
 }
 
 void PictureTaker::receiveTakePicture()
@@ -18,9 +17,10 @@ void PictureTaker::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
     if(takePictureFlag)
     {     
         takePictureFlag=false;
-        //QString path = savePath.append("LeftImage");
-        cv::imwrite("/home/slawko/StereoVisionCalibrationImages/LeftImage.jpg", leftFrame);
-        //path = savePath.append("RightImage");
-        cv::imwrite("/home/slawko/StereoVisionCalibrationImages/RightImage.jpg", rightFrame);
+        QDateTime currentTime = QDateTime::currentDateTime();
+        QString L = ((currentTime.toString()).append("_L.jpg").prepend(savePath));
+        QString R = ((currentTime.toString()).append("_R.jpg").prepend(savePath));
+        cv::imwrite(L.toUtf8().constData(), leftFrame);
+        cv::imwrite(R.toUtf8().constData(), rightFrame);
     }
 }

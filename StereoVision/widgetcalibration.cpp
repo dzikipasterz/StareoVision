@@ -32,7 +32,7 @@ void widgetCalibration::openCamera()
 
     threadCornersFinder = new QThread;
     cornersFinder = new CornersFinder();
-    pictureTaker = new PictureTaker();
+    pictureTaker = new PictureTaker(nullptr, settings.readCalibPictSavePath());
 
     connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), cornersFinder, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), pictureTaker, SLOT(receiveFrames(cv::Mat, cv::Mat)));

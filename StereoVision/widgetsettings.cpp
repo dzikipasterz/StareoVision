@@ -13,6 +13,7 @@ widgetSettings::widgetSettings(AppSettings sett) :
     ui->rightCamera->setScaledContents(true);
     ui->leftCameraId->setValue(settings.readLeftCameraId());
     ui->rightCameraId->setValue(settings.readRightCameraId());
+    ui->labelSavePictDir->setText(settings.readCalibPictSavePath());
 
     startup();
 }
@@ -28,9 +29,9 @@ void widgetSettings::startup()
     AppWidget::initTimer();
     AppWidget::initCamera(settings.readLeftCameraId(), settings.readRightCameraId());
 
-    connect(this, SIGNAL(sendStereoCameraSetup(const int, const int)), AppWidget::camera, SLOT(receiveSetup(const int, const int)));
-    connect(AppWidget::camera, SIGNAL(sendCameraStatus(bool, bool)), this, SLOT(receiveCameraStatus(bool, bool)));
-    connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), this, SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    connect(this,SIGNAL(sendStereoCameraSetup(const int, const int)),AppWidget::camera,SLOT(receiveSetup(const int, const int)));
+    connect(AppWidget::camera,SIGNAL(sendCameraStatus(bool, bool)),this,SLOT(receiveCameraStatus(bool, bool)));
+    connect(AppWidget::camera,SIGNAL(sendFrames(cv::Mat, cv::Mat)),this,SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(AppWidget::camera, SIGNAL(sendJobDone()), AppWidget::intervalRegulator, SLOT(receiveJobDone()));
 
     AppWidget::startCamera();
@@ -72,5 +73,30 @@ void widgetSettings::on_rightCameraId_valueChanged(int rightCameraId)
 {
     settings.setRightCameraId(rightCameraId);
     emit sendSettingsChanged(settings);
-    emit sendStereoCameraSetup(settings.readLeftCameraId(), settings.readRightCameraId());
+    emit sendStereoCameraSetup(settings.readLeftCameraId(),settings.readRightCameraId());
+}
+
+void widgetSettings::on_pushButtonSelectDirectory_clicked()
+{
+    QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder",settings.readCalibPictSavePath(),QFileDialog::ShowDirsOnly);
+
+    if(!dir.isNull())
+    {
+        dir.append("/");
+        settings.setCalibPictsSavePath(dir);
+        emit sendSettingsChanged(settings);
+        ui->labelSavePictDir->setText(dir);
+    }
+}
+
+void widgetSettings::on_pushButtonSelectCalibFile_clicked()
+{
+    QString calibFile = QFileDialog::getOpenFileName(this,"Wybierz plik kalibracyjny",settings.readCalibFilePath(),tr("Plik kalibracyjny (*.calib)"));
+
+    if(!calibFile.isNull())
+    {
+        settings.setCalibFilePath(calibFile);
+        emit sendSettingsChanged(settings);
+        ui->labelCalibFile->setText(calibFile);
+    }
 }

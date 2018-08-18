@@ -6,6 +6,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QPicture>
+#include <QFileDialog>
 #include "appwidget.h"
 
 namespace Ui {
@@ -31,6 +32,10 @@ public slots:
 private slots:
     void on_leftCameraId_valueChanged(int arg1);
     void on_rightCameraId_valueChanged(int arg1);
+
+    void on_pushButtonSelectDirectory_clicked();
+
+    void on_pushButtonSelectCalibFile_clicked();
 
 protected:
     void startup();

@@ -2,7 +2,8 @@
 
 AppSettings::AppSettings() :
     leftCameraId(0),
-    rightCameraId(1)
+    rightCameraId(1),
+    calibPictsSavePath("/home/")
 {
 
 }
@@ -27,4 +28,34 @@ void AppSettings::setRightCameraId(int cameraId)
 int AppSettings::readRightCameraId()
 {
     return rightCameraId;
+}
+
+void AppSettings::setCalibPictsSavePath(QString path)
+{
+    calibPictsSavePath = path;
+}
+
+QString AppSettings::readCalibPictSavePath()
+{
+    return calibPictsSavePath;
+}
+
+void AppSettings::setCalibFilesDir(QString path)
+{
+    calibFilesDir = path;
+}
+
+QString AppSettings::readCalibFilesDir()
+{
+    return calibFilesDir;
+}
+
+void AppSettings::setCalibFilePath(QString path)
+{
+    calibFilePath = path;
+}
+
+QString AppSettings::readCalibFilePath()
+{
+    return calibFilePath;
 }

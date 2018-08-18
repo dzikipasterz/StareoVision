@@ -2,6 +2,7 @@
 #define PICTURETAKER_H
 
 #include <QObject>
+#include <QDateTime>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -11,7 +12,7 @@ class PictureTaker : public QObject
 {
     Q_OBJECT
 public:
-    explicit PictureTaker(QObject *parent = nullptr);
+    explicit PictureTaker(QObject *parent = nullptr, QString path = "/home/");
 
 signals:
 

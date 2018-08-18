@@ -19,7 +19,8 @@ AppSettings MainWindow::readSettingsFile()
 {
     AppSettings sett;
     sett.setLeftCameraId(0);
-    sett.setRightCameraId(2);
+    sett.setRightCameraId(1);
+    sett.setCalibPictsSavePath("/home/slawko/StereoVisionCalibrationImages/");
     return sett;
 }
 
