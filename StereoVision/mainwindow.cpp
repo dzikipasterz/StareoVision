@@ -20,7 +20,10 @@ AppSettings MainWindow::readSettingsFile()
     AppSettings sett;
     sett.setLeftCameraId(0);
     sett.setRightCameraId(1);
-    sett.setCalibPictsSavePath("/home/slawko/StereoVisionCalibrationImages/");
+    sett.setCalibPictsSavePath("/home/slawko/StereoVisionDir/Pictures/");
+    sett.setCalibFilesDir("/home/slawko/StereoVisionDir/Calibration Files/");
+    sett.setCalibFilePath("/home/slawko/StereoVisionDir/Calibration Files/kalibracja.calib");
+    sett.setMovFilesDir("/home/slawko/StereoVisionDir/Movies/");
     return sett;
 }
 

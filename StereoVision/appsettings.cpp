@@ -59,3 +59,13 @@ QString AppSettings::readCalibFilePath()
 {
     return calibFilePath;
 }
+
+void AppSettings::setMovFilesDir(QString path)
+{
+    movFilesDir = path;
+}
+
+QString AppSettings::readMovFilesDir()
+{
+    return movFilesDir;
+}

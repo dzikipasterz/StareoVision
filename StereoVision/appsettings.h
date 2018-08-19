@@ -19,6 +19,8 @@ public:
     QString readCalibFilesDir();
     void setCalibFilePath(QString path);
     QString readCalibFilePath();
+    void setMovFilesDir(QString path);
+    QString readMovFilesDir();
 
 private:
     int leftCameraId;
@@ -26,6 +28,7 @@ private:
     QString calibPictsSavePath;
     QString calibFilesDir;
     QString calibFilePath;
+    QString movFilesDir;
 };
 
 #endif // APPSETTINGS_H

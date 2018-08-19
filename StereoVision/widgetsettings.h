@@ -33,9 +33,13 @@ private slots:
     void on_leftCameraId_valueChanged(int arg1);
     void on_rightCameraId_valueChanged(int arg1);
 
-    void on_pushButtonSelectDirectory_clicked();
+    void on_pushButtonSelectPicDir_clicked();
 
     void on_pushButtonSelectCalibFile_clicked();
+
+    void on_pushButtonSelectMovDir_clicked();
+
+    void on_pushButtonSelectCalibDir_clicked();
 
 protected:
     void startup();

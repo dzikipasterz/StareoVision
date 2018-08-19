@@ -169,15 +169,15 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>129</height>
+       <height>21</height>
       </size>
      </property>
     </spacer>
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_5">
-     <item row="5" column="0">
-      <widget class="QLabel" name="labelCalibFileDescription">
+     <item row="8" column="0">
+      <widget class="QLabel" name="labelCalibFileLabel">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -189,8 +189,8 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="pushButtonSelectDirectory">
+     <item row="3" column="1">
+      <widget class="QPushButton" name="pushButtonSelectPicDir">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -208,7 +208,17 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="11" column="0">
+      <widget class="QComboBox" name="comboBoxAlgorithm">
+       <property name="editable">
+        <bool>false</bool>
+       </property>
+       <property name="currentText">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
       <widget class="QPushButton" name="pushButtonSelectCalibFile">
        <property name="minimumSize">
         <size>
@@ -227,8 +237,8 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="labelSavePictDirDescription">
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelSavePictDirLabel">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -236,11 +246,11 @@
         </size>
        </property>
        <property name="text">
-        <string>Zdjęcia - lokalizacja domyślna</string>
+        <string>Zdjęcia</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="0">
+     <item row="9" column="0">
       <widget class="QLabel" name="labelCalibFile">
        <property name="minimumSize">
         <size>
@@ -262,8 +272,27 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="labelCalibFilesDescription">
+     <item row="7" column="1">
+      <widget class="QPushButton" name="pushButtonSelectCalibDir">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Wybierz...</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="labelCalibFilesLabel">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -271,12 +300,12 @@
         </size>
        </property>
        <property name="text">
-        <string>Pliki kalibracyjne - lokalizacja domyślna</string>
+        <string>Pliki kalibracyjne</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="labelCalibFile_2">
+     <item row="5" column="0">
+      <widget class="QLabel" name="labelSaveMovDir">
        <property name="minimumSize">
         <size>
          <width>735</width>
@@ -297,7 +326,42 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="7" column="0">
+      <widget class="QLabel" name="labelCalibFilesDir">
+       <property name="minimumSize">
+        <size>
+         <width>735</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>12000</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="labelAlgorithmLabel">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Algorytm estymacji odległości</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
       <widget class="QLabel" name="labelSavePictDir">
        <property name="minimumSize">
         <size>
@@ -319,8 +383,21 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QPushButton" name="pushButtonSelectCalibDir">
+     <item row="4" column="0">
+      <widget class="QLabel" name="labelSaveMovDirLabel">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Filmy</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QPushButton" name="pushButtonSelectMovDir">
        <property name="minimumSize">
         <size>
          <width>0</width>
