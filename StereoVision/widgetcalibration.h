@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <appwidget.h>
 #include <cornersfinder.h>
-#include <picturetaker.h>
+#include <calibrator.h>
 
 namespace Ui {
 class widgetCalibration;
@@ -20,6 +20,7 @@ public:
 
 signals:
     void sendTakePicture();
+    void sendAddToCalibSet(cv::Mat leftFrame, cv::Mat rightFrame);
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
@@ -35,9 +36,11 @@ private slots:
 private:
     Ui::widgetCalibration *ui;
     QThread * threadCornersFinder;
+    QThread * threadCalibrator;
     CornersFinder * cornersFinder;
-    PictureTaker * pictureTaker;
+    Calibrator * calibrator;
     bool cameraInitialized;
+    bool captureFrames;
 
     void openCamera();
 };

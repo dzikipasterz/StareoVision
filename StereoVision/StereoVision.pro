@@ -37,7 +37,8 @@ SOURCES += \
     appsettings.cpp \
     appwidget.cpp \
     cornersfinder.cpp \
-    picturetaker.cpp
+    picturetaker.cpp \
+    calibrator.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -53,7 +54,8 @@ HEADERS += \
     appsettings.h \
     appwidget.h \
     cornersfinder.h \
-    picturetaker.h
+    picturetaker.h \
+    calibrator.h
 
 FORMS += \
         mainwindow.ui \

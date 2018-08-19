@@ -3,7 +3,10 @@
 
 widgetCalibration::widgetCalibration(AppSettings sett) :
     ui(new Ui::widgetCalibration),
-    pictureTaker(nullptr)
+    threadCornersFinder(nullptr),
+    threadCalibrator(nullptr),
+    calibrator(nullptr),
+    captureFrames(false)
 {
     //AppWidget
     settings = sett;
@@ -19,7 +22,16 @@ widgetCalibration::widgetCalibration(AppSettings sett) :
 
 widgetCalibration::~widgetCalibration()
 {
-    if(pictureTaker != nullptr) delete pictureTaker;
+    if(cameraInitialized)
+    {
+        threadCalibrator->quit();
+        threadCornersFinder->quit();
+        while(!threadCalibrator->isFinished());
+        while(!threadCornersFinder->isFinished());
+
+        delete threadCalibrator;
+        delete threadCornersFinder;
+    }
     delete ui;
 }
 
@@ -31,17 +43,23 @@ void widgetCalibration::openCamera()
     AppWidget::initCamera(settings.readLeftCameraId(), settings.readRightCameraId());
 
     threadCornersFinder = new QThread;
+    threadCalibrator = new QThread;
     cornersFinder = new CornersFinder();
-    pictureTaker = new PictureTaker(nullptr, settings.readCalibPictSavePath());
+    calibrator = new Calibrator();
 
     connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), cornersFinder, SLOT(receiveFrames(cv::Mat, cv::Mat)));
-    connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), pictureTaker, SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), calibrator, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(cornersFinder, SIGNAL(sendProcessedFrames(cv::Mat, cv::Mat)), this, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(cornersFinder, SIGNAL(sendJobDone()), AppWidget::intervalRegulator, SLOT(receiveJobDone()));
-    connect(this, SIGNAL(sendTakePicture()), pictureTaker, SLOT(receiveTakePicture()));
 
+    connect(threadCalibrator, SIGNAL(finished()), calibrator, SLOT(deleteLater()));
+    connect(threadCornersFinder, SIGNAL(finished()), cornersFinder, SLOT(deleteLater()));
+    connect(this, SIGNAL(sendTakePicture()), calibrator, SLOT(receiveTakePicture()));
+
+    calibrator->moveToThread(threadCalibrator);
     cornersFinder->moveToThread(threadCornersFinder);
     threadCornersFinder->start();
+    threadCalibrator->start();
 
     AppWidget::startCamera();
     AppWidget::startTimer();
@@ -51,6 +69,8 @@ void widgetCalibration::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
     AppWidget::displayFrame(leftFrame, ui->leftCamera);
     AppWidget::displayFrame(rightFrame, ui->rightCamera);
+    leftFrame.release();
+    rightFrame.release();
 }
 
 void widgetCalibration::on_pushButtonTurnCameraOn_toggled(bool checked)

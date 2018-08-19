@@ -12,14 +12,13 @@ CornersFinder::CornersFinder(QObject *parent) :
 
 void CornersFinder::receiveFrames(Mat leftFrame, Mat rightFrame)
 {
-    bool found = findChessboardCorners(leftFrame, patternSize, centers);
+    bool found = findChessboardCorners(leftFrame, patternSize, centers, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_NORMALIZE_IMAGE | CV_CALIB_CB_FAST_CHECK);
     if (found)
         drawChessboardCorners(leftFrame, patternSize, Mat(centers), found);
 
-    found = findChessboardCorners(rightFrame, patternSize, centers);
+    found = findChessboardCorners(rightFrame, patternSize, centers, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_NORMALIZE_IMAGE | CV_CALIB_CB_FAST_CHECK);
     if (found)
         drawChessboardCorners(rightFrame, patternSize, Mat(centers), found);
-
 
     emit sendProcessedFrames(leftFrame, rightFrame);
     emit sendJobDone();

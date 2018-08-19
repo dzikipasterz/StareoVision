@@ -57,6 +57,8 @@ void widgetSettings::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
     displayFrame(leftFrame, ui->leftCamera);
     displayFrame(rightFrame, ui->rightCamera);
+    leftFrame.release();
+    rightFrame.release();
 }
 
 void widgetSettings::receiveCameraStatus(bool leftCameraStatus, bool rightCameraStatus)
