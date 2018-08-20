@@ -17,14 +17,17 @@ class Calibrator : public QObject
 public:
     explicit Calibrator(QObject *parent = nullptr);
 
+    void setPatternSize(cv::Size size);
+    void setSquareSideSize(float size);
+
 signals:
-    void sendStoreStatus(int numberOfSets, bool lastSetStatus);
+    void sendCalibratorStatus(int numberOfSets, bool lastSetStatus);
     void calibrationProgres(float progress);
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
     void receiveTakePicture();
-    //void startCalibration();
+    void receiveStartCalibration();
 
 private:
     bool capture;
@@ -34,6 +37,7 @@ private:
     cv::Size patternSize;
     std::vector<cv::Point2f> leftCenters;
     std::vector<cv::Point2f> rightCenters;
+    float squareSideSize;
 
 
 

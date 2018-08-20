@@ -24,6 +24,7 @@ signals:
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+    void receiveCalibratorStatus(int numberOfSets, bool lastSetStatus);
 
 protected:
     void startup();
