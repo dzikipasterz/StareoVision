@@ -2,6 +2,7 @@
 #define CALIBRATOR_H
 
 #include <QObject>
+#include <QDateTime>
 #include <opencv2/core/core.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -9,6 +10,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 
 
 class Calibrator : public QObject

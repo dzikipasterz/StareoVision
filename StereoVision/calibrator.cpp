@@ -36,7 +36,7 @@ void Calibrator::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
             cv::cornerSubPix(leftProcessed, leftCenters, cv::Size(11,11), cv::Size(-1,-1), cvTermCriteria(CV_TERMCRIT_ITER, 30, 0.01) );
             leftCorners.push_back(leftCenters);
             cv::cornerSubPix(rightProcessed, rightCenters, cv::Size(11,11), cv::Size(-1,-1), cvTermCriteria(CV_TERMCRIT_ITER, 30, 0.01) );
-            leftCorners.push_back(rightCenters);
+            rightCorners.push_back(rightCenters);
             capturedSetsCounter++;
             status = false; //no error
         }
@@ -86,5 +86,29 @@ void Calibrator::receiveStartCalibration()
     rightErr = cv::calibrateCamera(chessboardKnownPosition, rightCorners, imgSize, rightCamMat, rightDistCoeff, rightRvecs, rightTvecs, flag);
     stereoErr = cv::stereoCalibrate(chessboardKnownPosition, leftCorners, rightCorners, leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, essMat, fundMat);
     cv::stereoRectify(leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, leftRotMat, rightRotMat, leftProjMat, rightProjMat, perspectiveMat);
+
+    QDateTime currentTime = QDateTime::currentDateTime();
+    QString filename = (currentTime.toString()).append("_calib.xml");
+    cv::FileStorage file(filename.toUtf8().constData(), cv::FileStorage::WRITE);
+
+    file << "leftCamMat" << leftCamMat;
+    file << "rightCamMat" << rightCamMat;
+    file << "leftDistCoeff" << leftDistCoeff;
+    file << "rightDistCoeff" << rightDistCoeff;
+    file << "leftRvecs" << leftRvecs;
+    file << "rightRvecs" << rightRvecs;
+    file << "leftTvecs" << leftTvecs;
+    file << "rightTvecs" << rightTvecs;
+    file << "rotMat" << rotMat;
+    file << "transMat" << transMat;
+    file << "essMat" << essMat;
+    file << "fundMat" << fundMat;
+    file << "leftRotMat" << leftRotMat;
+    file << "rightRotMat" << rightRotMat;
+    file << "leftProjMat" << leftProjMat;
+    file << "rightProjMat" << rightProjMat;
+    file << "perspectiveMat" << perspectiveMat;
+
+    file.release();
 
 }

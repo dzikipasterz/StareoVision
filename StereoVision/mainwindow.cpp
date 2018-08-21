@@ -18,8 +18,8 @@ MainWindow::~MainWindow()
 AppSettings MainWindow::readSettingsFile()
 {
     AppSettings sett;
-    sett.setLeftCameraId(0);
-    sett.setRightCameraId(1);
+    sett.setLeftCameraId(1);
+    sett.setRightCameraId(0);
     sett.setCalibPictsSavePath("/home/slawko/StereoVisionDir/Pictures/");
     sett.setCalibFilesDir("/home/slawko/StereoVisionDir/Calibration Files/");
     sett.setCalibFilePath("/home/slawko/StereoVisionDir/Calibration Files/kalibracja.calib");
