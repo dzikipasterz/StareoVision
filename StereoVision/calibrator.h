@@ -38,7 +38,15 @@ private:
     std::vector<cv::Point2f> leftCenters;
     std::vector<cv::Point2f> rightCenters;
     float squareSideSize;
+    std::vector<std::vector<cv::Point3f>> chessboardKnownPosition;
+    cv::Size imgSize;
+    cv::Mat leftCamMat, rightCamMat, leftDistCoeff, rightDistCoeff;
+    std::vector<cv::Mat> leftRvecs, rightRvecs, leftTvecs, rightTvecs;
+    cv::Mat rotMat, transMat, essMat, fundMat;
+    double leftErr, rightErr, stereoErr;
+    cv::Mat leftRotMat, rightRotMat, leftProjMat, rightProjMat, perspectiveMat;
 
+    void generateChessboard();
 
 
 };

@@ -21,6 +21,7 @@ public:
 signals:
     void sendTakePicture();
     void sendAddToCalibSet(cv::Mat leftFrame, cv::Mat rightFrame);
+    void sendStartCalibration();
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
@@ -33,6 +34,8 @@ private slots:
     void on_pushButtonTurnCameraOn_toggled(bool checked);
 
     void on_pushButtonTakePicture_clicked();
+
+    void on_pushButtonCalibrate_clicked();
 
 private:
     Ui::widgetCalibration *ui;

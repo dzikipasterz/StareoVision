@@ -23,6 +23,7 @@ void Calibrator::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 
     if(capture)
     {
+        imgSize = leftFrame.size();
         cv::Mat leftProcessed;
         cv::Mat rightProcessed;
         bool status = false;
@@ -51,6 +52,27 @@ void Calibrator::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
     rightFrame.release();
 }
 
+
+void Calibrator::generateChessboard()
+{
+    std::vector<cv::Point3f> corners;
+
+    for(int i = 0; i < patternSize.height; i++)
+    {
+        for(int j = 0; j < patternSize.width; j++)
+        {
+            corners.push_back(cv::Point3f(j*squareSideSize, i*squareSideSize, 0.0f));
+        }
+    }
+
+    for(int i = 0; i < capturedSetsCounter; i++)
+    {
+        chessboardKnownPosition.push_back(corners);
+    }
+
+
+}
+
 void Calibrator::receiveTakePicture()
 {
     capture=true;
@@ -58,5 +80,11 @@ void Calibrator::receiveTakePicture()
 
 void Calibrator::receiveStartCalibration()
 {
+    generateChessboard();
+    int flag = CV_CALIB_FIX_K4 | CV_CALIB_FIX_K5;
+    leftErr = cv::calibrateCamera(chessboardKnownPosition, leftCorners, imgSize, leftCamMat, leftDistCoeff, leftRvecs, leftTvecs, flag);
+    rightErr = cv::calibrateCamera(chessboardKnownPosition, rightCorners, imgSize, rightCamMat, rightDistCoeff, rightRvecs, rightTvecs, flag);
+    stereoErr = cv::stereoCalibrate(chessboardKnownPosition, leftCorners, rightCorners, leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, essMat, fundMat);
+    cv::stereoRectify(leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, leftRotMat, rightRotMat, leftProjMat, rightProjMat, perspectiveMat);
 
 }

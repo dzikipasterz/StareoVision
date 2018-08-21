@@ -61,6 +61,7 @@ void widgetCalibration::openCamera()
     connect(threadCalibrator, SIGNAL(finished()), calibrator, SLOT(deleteLater()));
     connect(threadCornersFinder, SIGNAL(finished()), cornersFinder, SLOT(deleteLater()));
     connect(this, SIGNAL(sendTakePicture()), calibrator, SLOT(receiveTakePicture()), Qt::DirectConnection);
+    connect(this, SIGNAL(sendStartCalibration()), calibrator, SLOT(receiveStartCalibration()));
     connect(calibrator, SIGNAL(sendCalibratorStatus(int, bool)), this, SLOT(receiveCalibratorStatus(int, bool)));
 
     calibrator->moveToThread(threadCalibrator);
@@ -113,4 +114,9 @@ void widgetCalibration::on_pushButtonTurnCameraOn_toggled(bool checked)
 void widgetCalibration::on_pushButtonTakePicture_clicked()
 {
     emit sendTakePicture();
+}
+
+void widgetCalibration::on_pushButtonCalibrate_clicked()
+{
+    emit sendStartCalibration();
 }
