@@ -23,7 +23,7 @@ void timerRegulator::setInterval(const int interval)
 void timerRegulator::receiveTimeout()
 {
     triggerCounter++;
-    flag = false;
+    bool flag = false;
 
     if(triggerCounter == alertThreshold)
         emit sendStop();

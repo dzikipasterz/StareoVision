@@ -31,7 +31,6 @@ private:
     int lowerThreshold;
     int msecInterval;
     int triggerCounter;
-    bool flag;
     bool paused;
 };
 

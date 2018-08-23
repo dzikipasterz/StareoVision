@@ -5,10 +5,13 @@ AppSettings::AppSettings() :
     rightCameraId(1),
     calibPictsSavePath("/home/")
 {
-
+    readConfigFile();
 }
 
-AppSettings::~AppSettings(){};
+AppSettings::~AppSettings()
+{
+    writeConfigFile();
+}
 
 void AppSettings::setLeftCameraId(int cameraId)
 {
@@ -68,4 +71,19 @@ void AppSettings::setMovFilesDir(QString path)
 QString AppSettings::readMovFilesDir()
 {
     return movFilesDir;
+}
+
+void AppSettings::readConfigFile()
+{
+    leftCameraId = 1;
+    rightCameraId = 2;
+    calibPictsSavePath = "/home/slawko/StereoVisionDir/Pictures/";
+    calibFilesDir = "/home/slawko/StereoVisionDir/Calibration Files/";
+    calibFilePath = "/home/slawko/StereoVisionDir/Calibration Files/kalibracja.calib";
+    movFilesDir = "/home/slawko/StereoVisionDir/Movies/";
+}
+
+void AppSettings::writeConfigFile()
+{
+
 }

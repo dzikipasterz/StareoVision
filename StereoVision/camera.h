@@ -14,12 +14,10 @@ public:
     ~camera();
 
     bool setDevice(const int device);
-    bool getStatus();
     cv::Mat grabFrame();
 
 private:
     cv::Mat frame;
-    cv::Mat emptyFrame;
     cv::VideoCapture *cap;
     bool status;
 

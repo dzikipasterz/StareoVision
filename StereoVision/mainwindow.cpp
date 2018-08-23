@@ -7,7 +7,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     baseSize = this->size();
-    settings = readSettingsFile();
 }
 
 MainWindow::~MainWindow()
@@ -17,14 +16,7 @@ MainWindow::~MainWindow()
 
 AppSettings MainWindow::readSettingsFile()
 {
-    AppSettings sett;
-    sett.setLeftCameraId(1);
-    sett.setRightCameraId(0);
-    sett.setCalibPictsSavePath("/home/slawko/StereoVisionDir/Pictures/");
-    sett.setCalibFilesDir("/home/slawko/StereoVisionDir/Calibration Files/");
-    sett.setCalibFilePath("/home/slawko/StereoVisionDir/Calibration Files/kalibracja.calib");
-    sett.setMovFilesDir("/home/slawko/StereoVisionDir/Movies/");
-    return sett;
+
 }
 
 void MainWindow::closeApplication()

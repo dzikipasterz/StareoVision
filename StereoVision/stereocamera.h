@@ -17,7 +17,7 @@ public:
     ~stereoCamera();
 
 signals:
-    void sendCameraStatus(bool leftCameraStatus, bool rightCameraStatus);
+    void sendCameraStatus(bool leftCamStatus, bool rightCamStatus);
     void sendFrames(cv::Mat leftFrame, cv::Mat rightFrame);
     void sendJobDone();
     void sendRetrySetup();
@@ -25,6 +25,7 @@ signals:
 public slots:
     void receiveGrabFrame();
     void receiveSetup(const int leftCameraId, const int rightCameraId);
+private slots:
     void receiveRetrySetup();
 
 private:

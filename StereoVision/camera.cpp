@@ -26,6 +26,8 @@ void camera::closeDevice()
 
 cv::Mat camera::grabFrame()
 {
+    cv::Mat emptyFrame;
+
     if(!status)
     {
         (*cap) >> frame;
