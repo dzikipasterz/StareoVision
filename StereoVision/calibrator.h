@@ -24,7 +24,6 @@ public:
 
 signals:
     void sendCalibratorStatus(int numberOfSets, bool lastSetStatus);
-    void calibrationProgres(float progress);
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
@@ -34,18 +33,18 @@ public slots:
 private:
     bool capture;
     int capturedSetsCounter;
+    float squareSideSize;
+    double leftErr, rightErr, stereoErr;
+    cv::Size patternSize;
+    cv::Size imgSize;
     std::vector<std::vector<cv::Point2f>> leftCorners;
     std::vector<std::vector<cv::Point2f>> rightCorners;
-    cv::Size patternSize;
     std::vector<cv::Point2f> leftCenters;
-    std::vector<cv::Point2f> rightCenters;
-    float squareSideSize;
+    std::vector<cv::Point2f> rightCenters;   
     std::vector<std::vector<cv::Point3f>> chessboardKnownPosition;
-    cv::Size imgSize;
     cv::Mat leftCamMat, rightCamMat, leftDistCoeff, rightDistCoeff;
     std::vector<cv::Mat> leftRvecs, rightRvecs, leftTvecs, rightTvecs;
-    cv::Mat rotMat, transMat, essMat, fundMat;
-    double leftErr, rightErr, stereoErr;
+    cv::Mat rotMat, transMat, essMat, fundMat; 
     cv::Mat leftRotMat, rightRotMat, leftProjMat, rightProjMat, perspectiveMat;
 
     void generateChessboard();

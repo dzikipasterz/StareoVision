@@ -30,8 +30,8 @@ public slots:
     void receiveCameraStatus(bool leftCameraStatus, bool rightCameraStatus);
 
 private slots:
-    void on_leftCameraId_valueChanged(int arg1);
-    void on_rightCameraId_valueChanged(int arg1);
+    void on_leftCameraId_valueChanged(int id);
+    void on_rightCameraId_valueChanged(int id);
 
     void on_pushButtonSelectPicDir_clicked();
 

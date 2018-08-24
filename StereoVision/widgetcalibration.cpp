@@ -6,8 +6,7 @@ widgetCalibration::widgetCalibration(AppSettings sett) :
     threadCornersFinder(nullptr),
     threadCalibrator(nullptr),
     calibrator(nullptr),
-    cameraInitialized(false),
-    captureFrames(false)
+    cameraInitialized(false)
 {
     //AppWidget
     settings = sett;

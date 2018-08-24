@@ -91,23 +91,28 @@ void Calibrator::receiveStartCalibration()
     QString filename = (currentTime.toString()).append("_calib.xml");
     cv::FileStorage file(filename.toUtf8().constData(), cv::FileStorage::WRITE);
 
+    file << "leftErr" << leftErr;
+    file << "rightErr" << rightErr;
+    file << "stereoErr" << stereoErr;
     file << "leftCamMat" << leftCamMat;
     file << "rightCamMat" << rightCamMat;
     file << "leftDistCoeff" << leftDistCoeff;
     file << "rightDistCoeff" << rightDistCoeff;
+    /*
     file << "leftRvecs" << leftRvecs;
     file << "rightRvecs" << rightRvecs;
     file << "leftTvecs" << leftTvecs;
     file << "rightTvecs" << rightTvecs;
+    */
     file << "rotMat" << rotMat;
     file << "transMat" << transMat;
-    file << "essMat" << essMat;
-    file << "fundMat" << fundMat;
+    //file << "essMat" << essMat;
+    //file << "fundMat" << fundMat;
     file << "leftRotMat" << leftRotMat;
     file << "rightRotMat" << rightRotMat;
     file << "leftProjMat" << leftProjMat;
     file << "rightProjMat" << rightProjMat;
-    file << "perspectiveMat" << perspectiveMat;
+    //file << "perspectiveMat" << perspectiveMat;
 
     file.release();
 

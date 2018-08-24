@@ -20,7 +20,6 @@ public:
 
 signals:
     void sendTakePicture();
-    void sendAddToCalibSet(cv::Mat leftFrame, cv::Mat rightFrame);
     void sendStartCalibration();
 
 public slots:
@@ -44,7 +43,6 @@ private:
     CornersFinder * cornersFinder;
     Calibrator * calibrator;
     bool cameraInitialized;
-    bool captureFrames;
 
     void openCamera();
 };

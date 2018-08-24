@@ -67,16 +67,16 @@ void widgetSettings::receiveCameraStatus(bool leftCameraStatus, bool rightCamera
     displayCameraStatus(rightCameraStatus, ui->labelRightCameraStatus);
 }
 
-void widgetSettings::on_leftCameraId_valueChanged(int leftCameraId)
+void widgetSettings::on_leftCameraId_valueChanged(int id)
 {
-    settings.setLeftCameraId(leftCameraId);
+    settings.setLeftCameraId(id);
     emit sendSettingsChanged(settings);
     emit sendStereoCameraSetup(settings.readLeftCameraId(), settings.readRightCameraId());
 }
 
-void widgetSettings::on_rightCameraId_valueChanged(int rightCameraId)
+void widgetSettings::on_rightCameraId_valueChanged(int id)
 {
-    settings.setRightCameraId(rightCameraId);
+    settings.setRightCameraId(id);
     emit sendSettingsChanged(settings);
     emit sendStereoCameraSetup(settings.readLeftCameraId(),settings.readRightCameraId());
 }
