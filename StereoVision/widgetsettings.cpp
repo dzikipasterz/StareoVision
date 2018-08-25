@@ -18,17 +18,6 @@ widgetSettings::widgetSettings(AppSettings sett) :
     ui->labelCalibFilesDir->setText(settings.readCalibFilesDir());
     ui->labelCalibFile->setText(settings.readCalibFilePath());
 
-    startup();
-}
-
-widgetSettings::~widgetSettings()
-{
-    delete ui;
-}
-
-void widgetSettings::startup()
-{ 
-    AppWidget::startup();
     AppWidget::initTimer();
     AppWidget::initCamera(settings.readLeftCameraId(), settings.readRightCameraId());
 
@@ -40,6 +29,12 @@ void widgetSettings::startup()
     AppWidget::startCamera();
     AppWidget::startTimer();
 }
+
+widgetSettings::~widgetSettings()
+{
+    delete ui;
+}
+
 
 void widgetSettings::displayCameraStatus(bool status, QLabel * labelStatus)
 {
@@ -53,7 +48,7 @@ void widgetSettings::displayCameraStatus(bool status, QLabel * labelStatus)
     }
 }
 
-void widgetSettings::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
+void AppWidget::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
     displayFrame(leftFrame, ui->leftCamera);
     displayFrame(rightFrame, ui->rightCamera);

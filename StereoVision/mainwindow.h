@@ -16,6 +16,7 @@
 #include "widgetmeasurement.h"
 #include "widgetsettings.h"
 #include "widgetcalibration.h"
+#include "widgetrecord.h"
 
 
 
@@ -36,6 +37,7 @@ public:
     void showMeasurementWidget();
     void showSettingsWidget();
     void showCalibrationWidget();
+    void showRecordWidget();
 
 public slots:
     void closeApplication();
@@ -50,6 +52,8 @@ private slots:
     void on_pushButtonPomiarOnline_clicked();
     void on_pushButtonUstawienia_clicked();
     void on_pushButtonKalibracja_clicked();
+
+    void on_pushButtonNagrywanie_clicked();
 
 private:
     Ui::MainWindow *ui;

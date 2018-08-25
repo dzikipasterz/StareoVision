@@ -38,7 +38,8 @@ SOURCES += \
     appwidget.cpp \
     cornersfinder.cpp \
     picturetaker.cpp \
-    calibrator.cpp
+    calibrator.cpp \
+    widgetrecord.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -55,7 +56,8 @@ HEADERS += \
     appwidget.h \
     cornersfinder.h \
     picturetaker.h \
-    calibrator.h
+    calibrator.h \
+    widgetrecord.h
 
 FORMS += \
         mainwindow.ui \
@@ -63,7 +65,8 @@ FORMS += \
     closeconfirm.ui \
     widgetmeasurement.ui \
     widgetsettings.ui \
-    widgetcalibration.ui
+    widgetcalibration.ui \
+    widgetrecord.ui
 
 LIBS += -lopencv_highgui -lopencv_core -lopencv_imgproc -lopencv_videoio -lopencv_calib3d -lopencv_imgcodecs
 

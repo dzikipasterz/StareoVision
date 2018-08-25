@@ -25,13 +25,15 @@ signals:
     void sendPauseTimer();
     void sendResumeTimer();
 
+public slots:
+    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+
 protected:
     AppSettings settings;
     QTimer * timer;
     timerRegulator * intervalRegulator;
     stereoCamera * camera;
     void displayFrame(cv::Mat frame, QLabel * display);
-    void startup();
     void initTimer(const int timerInterval = 42);
     void startTimer();
     void pauseTimer();

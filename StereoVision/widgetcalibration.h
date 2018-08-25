@@ -26,9 +26,6 @@ public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
     void receiveCalibratorStatus(int numberOfSets, bool lastSetStatus);
 
-protected:
-    void startup();
-
 private slots:
     void on_pushButtonTurnCameraOn_toggled(bool checked);
 

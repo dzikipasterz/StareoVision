@@ -76,6 +76,13 @@ void MainWindow::showCalibrationWidget()
     ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 
+void MainWindow::showRecordWidget()
+{
+    initPanelWidget();
+    widgetPanel = new widgetRecord();
+    ui->centralWidget->layout()->addWidget(widgetPanel);
+}
+
 void MainWindow::on_pushButtonInfo_clicked()
 {
    showAppInfo();
@@ -109,4 +116,9 @@ void MainWindow::on_pushButtonUstawienia_clicked()
 void MainWindow::on_pushButtonKalibracja_clicked()
 {
     showCalibrationWidget();
+}
+
+void MainWindow::on_pushButtonNagrywanie_clicked()
+{
+    showRecordWidget();
 }

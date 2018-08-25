@@ -40,7 +40,6 @@ widgetCalibration::~widgetCalibration()
 
 void widgetCalibration::openCamera()
 {
-    AppWidget::startup();
     AppWidget::initTimer();
     AppWidget::initCamera(settings.readLeftCameraId(), settings.readRightCameraId());
 

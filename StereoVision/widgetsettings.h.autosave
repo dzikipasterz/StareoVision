@@ -8,6 +8,7 @@
 #include <QPicture>
 #include <QFileDialog>
 #include "appwidget.h"
+#include 
 
 namespace Ui {
 class widgetSettings;

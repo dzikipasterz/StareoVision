@@ -86,6 +86,8 @@ void Calibrator::receiveStartCalibration()
     rightErr = cv::calibrateCamera(chessboardKnownPosition, rightCorners, imgSize, rightCamMat, rightDistCoeff, rightRvecs, rightTvecs, flag);
     stereoErr = cv::stereoCalibrate(chessboardKnownPosition, leftCorners, rightCorners, leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, essMat, fundMat);
     cv::stereoRectify(leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, leftRotMat, rightRotMat, leftProjMat, rightProjMat, perspectiveMat);
+    cv::initUndistortRectifyMap(leftCamMat, leftDistCoeff, leftRotMat, leftProjMat, imgSize,  CV_16SC2, leftMap1, leftMap2);
+    cv::initUndistortRectifyMap(rightCamMat, rightDistCoeff, rightRotMat, rightProjMat, imgSize,  CV_16SC2, rightMap1, rightMap2);
 
     QDateTime currentTime = QDateTime::currentDateTime();
     QString filename = (currentTime.toString()).append("_calib.xml");
@@ -98,21 +100,16 @@ void Calibrator::receiveStartCalibration()
     file << "rightCamMat" << rightCamMat;
     file << "leftDistCoeff" << leftDistCoeff;
     file << "rightDistCoeff" << rightDistCoeff;
-    /*
-    file << "leftRvecs" << leftRvecs;
-    file << "rightRvecs" << rightRvecs;
-    file << "leftTvecs" << leftTvecs;
-    file << "rightTvecs" << rightTvecs;
-    */
     file << "rotMat" << rotMat;
     file << "transMat" << transMat;
-    //file << "essMat" << essMat;
-    //file << "fundMat" << fundMat;
     file << "leftRotMat" << leftRotMat;
     file << "rightRotMat" << rightRotMat;
     file << "leftProjMat" << leftProjMat;
     file << "rightProjMat" << rightProjMat;
-    //file << "perspectiveMat" << perspectiveMat;
+    file << "leftMap1" << leftMap1;
+    file << "leftMap2" << leftMap2;
+    file << "rightMap1" << rightMap1;
+    file << "rightMap2" << rightMap2;
 
     file.release();
 

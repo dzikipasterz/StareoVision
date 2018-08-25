@@ -29,11 +29,6 @@ AppWidget::~AppWidget()
 }
 
 
-void AppWidget::startup()
-{
-
-}
-
 void AppWidget::initTimer(const int timerInterval)
 {
     threadTimer = new QThread();
