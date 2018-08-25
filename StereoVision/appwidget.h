@@ -25,9 +25,6 @@ signals:
     void sendPauseTimer();
     void sendResumeTimer();
 
-public slots:
-    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
-
 protected:
     AppSettings settings;
     QTimer * timer;
@@ -40,7 +37,6 @@ protected:
     void resumeTimer();
     void initCamera(const int leftCameraId = 0, const int rightCameraId = 1);
     void startCamera();
-
 
 private:
     QThread * threadStereoCamera;

@@ -13,7 +13,7 @@ widgetSettings::widgetSettings(AppSettings sett) :
     ui->rightCamera->setScaledContents(true);
     ui->leftCameraId->setValue(settings.readLeftCameraId());
     ui->rightCameraId->setValue(settings.readRightCameraId());
-    ui->labelSavePictDir->setText(settings.readCalibPictSavePath());
+    ui->labelSavePictDir->setText(settings.readPictSavePath());
     ui->labelSaveMovDir->setText(settings.readMovFilesDir());
     ui->labelCalibFilesDir->setText(settings.readCalibFilesDir());
     ui->labelCalibFile->setText(settings.readCalibFilePath());
@@ -48,7 +48,7 @@ void widgetSettings::displayCameraStatus(bool status, QLabel * labelStatus)
     }
 }
 
-void AppWidget::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
+void widgetSettings::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
     displayFrame(leftFrame, ui->leftCamera);
     displayFrame(rightFrame, ui->rightCamera);
@@ -78,12 +78,12 @@ void widgetSettings::on_rightCameraId_valueChanged(int id)
 
 void widgetSettings::on_pushButtonSelectPicDir_clicked()
 {
-    QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla zdjęć kalibracyjnych",settings.readCalibPictSavePath(),QFileDialog::ShowDirsOnly);
+    QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla zdjęć",settings.readPictSavePath(),QFileDialog::ShowDirsOnly);
 
     if(!dir.isNull())
     {
         dir.append("/");
-        settings.setCalibPictsSavePath(dir);
+        settings.setPictsSavePath(dir);
         emit sendSettingsChanged(settings);
         ui->labelSavePictDir->setText(dir);
     }

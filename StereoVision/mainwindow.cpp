@@ -79,7 +79,7 @@ void MainWindow::showCalibrationWidget()
 void MainWindow::showRecordWidget()
 {
     initPanelWidget();
-    widgetPanel = new widgetRecord();
+    widgetPanel = new widgetRecord(settings);
     ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 

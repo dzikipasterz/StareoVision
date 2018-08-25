@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include "appwidget.h"
 
+
 namespace Ui {
 class widgetSettings;
 }
@@ -26,6 +27,7 @@ signals:
     void sendSettingsChanged(AppSettings sett);
 
 public slots:
+    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
     void receiveCameraStatus(bool leftCameraStatus, bool rightCameraStatus);
 
 private slots:

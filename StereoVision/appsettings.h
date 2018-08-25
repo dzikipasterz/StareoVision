@@ -13,8 +13,8 @@ public:
     int readLeftCameraId();
     void setRightCameraId(int cameraId);
     int readRightCameraId();
-    void setCalibPictsSavePath(QString path);
-    QString readCalibPictSavePath();
+    void setPictsSavePath(QString path);
+    QString readPictSavePath();
     void setCalibFilesDir(QString path);
     QString readCalibFilesDir();
     void setCalibFilePath(QString path);
@@ -25,7 +25,7 @@ public:
 private:
     int leftCameraId;
     int rightCameraId;
-    QString calibPictsSavePath;
+    QString pictsSavePath;
     QString calibFilesDir;
     QString calibFilePath;
     QString movFilesDir;

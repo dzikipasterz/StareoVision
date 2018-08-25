@@ -3,7 +3,7 @@
 AppSettings::AppSettings() :
     leftCameraId(0),
     rightCameraId(1),
-    calibPictsSavePath("/home/")
+    pictsSavePath("/home/")
 {
     readConfigFile();
 }
@@ -33,14 +33,14 @@ int AppSettings::readRightCameraId()
     return rightCameraId;
 }
 
-void AppSettings::setCalibPictsSavePath(QString path)
+void AppSettings::setPictsSavePath(QString path)
 {
-    calibPictsSavePath = path;
+    pictsSavePath = path;
 }
 
-QString AppSettings::readCalibPictSavePath()
+QString AppSettings::readPictSavePath()
 {
-    return calibPictsSavePath;
+    return pictsSavePath;
 }
 
 void AppSettings::setCalibFilesDir(QString path)
@@ -77,7 +77,7 @@ void AppSettings::readConfigFile()
 {
     leftCameraId = 1;
     rightCameraId = 2;
-    calibPictsSavePath = "/home/slawko/StereoVisionDir/Pictures/";
+    pictsSavePath = "/home/slawko/StereoVisionDir/Pictures/";
     calibFilesDir = "/home/slawko/StereoVisionDir/Calibration Files/";
     calibFilePath = "/home/slawko/StereoVisionDir/Calibration Files/kalibracja.calib";
     movFilesDir = "/home/slawko/StereoVisionDir/Movies/";

@@ -17,10 +17,19 @@ widgetRecord::widgetRecord(AppSettings sett) :
 
     AppWidget::initTimer();
     AppWidget::initCamera(settings.readLeftCameraId(), settings.readRightCameraId());
+    threadRecord = new QThread();
+    pictureTaker = new PictureTaker(nullptr, settings.readPictSavePath());
 
-    connect(AppWidget::camera,SIGNAL(sendFrames(cv::Mat, cv::Mat)),this,SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)),this, SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), pictureTaker, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(AppWidget::camera, SIGNAL(sendJobDone()), AppWidget::intervalRegulator, SLOT(receiveJobDone()));
+    connect(threadRecord, SIGNAL(finished()), pictureTaker, SLOT(deleteLater()));
+    connect(this, SIGNAL(sendTakePicture()), pictureTaker, SLOT(receiveTakePicture()));
+    connect(pictureTaker, SIGNAL(sendLeftImagePath(QString)), this, SLOT(receiveLeftImagePath(QString)));
+    connect(pictureTaker, SIGNAL(sendRightImagePath(QString)), this, SLOT(receiveRightImagePath(QString)));
 
+    pictureTaker->moveToThread(threadRecord);
+    threadRecord->start();
     AppWidget::startCamera();
     AppWidget::startTimer();
 
@@ -28,6 +37,10 @@ widgetRecord::widgetRecord(AppSettings sett) :
 
 widgetRecord::~widgetRecord()
 {
+    threadRecord->quit();
+    while(!threadRecord->isFinished());
+    delete threadRecord;
+
     delete ui;
 }
 
@@ -36,4 +49,33 @@ void widgetRecord::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
     displayFrame(leftFrame, ui->labelLeftCamera);
     displayFrame(rightFrame, ui->labelRightCamera);
+}
+
+void widgetRecord::receiveLeftImagePath(QString path)
+{
+    ui->labelLeftPicPath->setText(path);
+}
+
+void widgetRecord::receiveRightImagePath(QString path)
+{
+    ui->labelRightPicPath->setText(path);
+}
+
+void widgetRecord::on_pushButtonTakePicture_clicked()
+{
+    emit sendTakePicture();
+}
+
+void widgetRecord::on_pushButtonMakeMovie_toggled(bool checked)
+{
+    if(checked)
+    {
+        ui->pushButtonMakeMovie->setText("Zatrzymaj");
+        emit sendStartRecording();
+    }
+    else
+    {
+        ui->pushButtonMakeMovie->setText("Nagrywaj");
+        emit sendStopRecording();
+    }
 }
