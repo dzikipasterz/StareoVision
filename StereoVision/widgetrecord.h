@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <appwidget.h>
+#include <videowriter.h>
 #include <appsettings.h>
 #include <picturetaker.h>
 
@@ -25,8 +26,8 @@ signals:
 
 public slots:
         void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
-        void receiveLeftImagePath(QString path);
-        void receiveRightImagePath(QString path);
+        void receiveImagesPaths(QString leftPath, QString rightPath);
+        void receiveMoviesPaths(QString leftPath, QString rightPath);
 
 private slots:
         void on_pushButtonTakePicture_clicked();
@@ -37,6 +38,7 @@ private:
     Ui::widgetRecord *ui;
     QThread *threadRecord;
     PictureTaker *pictureTaker;
+    VideoWriter *videoWriter;
 };
 
 #endif // WIDGETRECORD_H

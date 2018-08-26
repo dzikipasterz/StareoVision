@@ -15,8 +15,7 @@ public:
     explicit PictureTaker(QObject *parent = nullptr, QString path = "/home/");
 
 signals:
-    void sendLeftImagePath(QString path);
-    void sendRightImagePath(QString path);
+    void sendImagesPaths(QString leftPath, QString rightPath);
 
 public slots:
     void receiveTakePicture();

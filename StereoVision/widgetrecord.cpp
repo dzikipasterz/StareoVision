@@ -11,7 +11,8 @@ widgetRecord::widgetRecord(AppSettings sett) :
     ui->labelRightCamera->setScaledContents(true);
     ui->labelLeftPicPath->setText("");
     ui->labelRightPicPath->setText("");
-    ui->labelMovPath->setText("");
+    ui->labelLeftMovPath->setText("");
+    ui->labelRightMovPath->setText("");
     ui->pushButtonMakeMovie->toggled(false);
     ui->pushButtonMakeMovie->setText("Nagrywaj");
 
@@ -19,14 +20,20 @@ widgetRecord::widgetRecord(AppSettings sett) :
     AppWidget::initCamera(settings.readLeftCameraId(), settings.readRightCameraId());
     threadRecord = new QThread();
     pictureTaker = new PictureTaker(nullptr, settings.readPictSavePath());
+    videoWriter = new VideoWriter(settings.readMovFilesDir());
 
     connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)),this, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), pictureTaker, SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), videoWriter, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(AppWidget::camera, SIGNAL(sendJobDone()), AppWidget::intervalRegulator, SLOT(receiveJobDone()));
     connect(threadRecord, SIGNAL(finished()), pictureTaker, SLOT(deleteLater()));
+    connect(threadRecord, SIGNAL(finished()), videoWriter, SLOT(deleteLater()));
     connect(this, SIGNAL(sendTakePicture()), pictureTaker, SLOT(receiveTakePicture()));
-    connect(pictureTaker, SIGNAL(sendLeftImagePath(QString)), this, SLOT(receiveLeftImagePath(QString)));
-    connect(pictureTaker, SIGNAL(sendRightImagePath(QString)), this, SLOT(receiveRightImagePath(QString)));
+    connect(pictureTaker, SIGNAL(sendImagesPaths(QString, QString)), this, SLOT(receiveImagesPaths(QString, QString)));
+    connect(this, SIGNAL(sendStartRecording()), videoWriter, SLOT(receiveStartRecording()));
+    connect(this, SIGNAL(sendStopRecording()), videoWriter, SLOT(receiveStopRecording()));
+    connect(videoWriter, SIGNAL(sendMovFilesPaths(QString, QString)), this, SLOT(receiveMoviesPaths(QString, QString)));
+
 
     pictureTaker->moveToThread(threadRecord);
     threadRecord->start();
@@ -51,14 +58,16 @@ void widgetRecord::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
     displayFrame(rightFrame, ui->labelRightCamera);
 }
 
-void widgetRecord::receiveLeftImagePath(QString path)
+void widgetRecord::receiveImagesPaths(QString leftPath, QString rightPath)
 {
-    ui->labelLeftPicPath->setText(path);
+    ui->labelLeftPicPath->setText(leftPath);
+    ui->labelRightPicPath->setText(rightPath);
 }
 
-void widgetRecord::receiveRightImagePath(QString path)
+void widgetRecord::receiveMoviesPaths(QString leftPath, QString rightPath)
 {
-    ui->labelRightPicPath->setText(path);
+    ui->labelLeftMovPath->setText(leftPath);
+    ui->labelRightMovPath->setText(rightPath);
 }
 
 void widgetRecord::on_pushButtonTakePicture_clicked()

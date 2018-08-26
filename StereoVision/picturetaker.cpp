@@ -23,7 +23,6 @@ void PictureTaker::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
         cv::imwrite(L.toUtf8().constData(), leftFrame);
         cv::imwrite(R.toUtf8().constData(), rightFrame);
 
-        emit sendLeftImagePath(L);
-        emit sendRightImagePath(R);
+        emit sendImagesPaths(L, R);
     }
 }

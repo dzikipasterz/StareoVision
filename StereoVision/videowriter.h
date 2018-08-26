@@ -14,7 +14,7 @@ public:
     ~VideoWriter();
 
 signals:
-    void sendMovFilePath(QString path);
+    void sendMovFilesPaths(QString leftPath, QString rightPath);
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
