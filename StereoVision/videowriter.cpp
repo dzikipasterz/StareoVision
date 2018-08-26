@@ -28,8 +28,8 @@ void VideoWriter::receiveStartRecording()
     //rightCap = new cv::VideoWriter(R.toUtf8().constData(), -1, CV_FOURCC('P','I','M','1'), 24, frameSize);
     leftCap = new cv::VideoWriter();
     rightCap = new cv::VideoWriter();
-    leftCap->open(L.toUtf8().constData(), CV_FOURCC( 'D','I','V','3'), 24.0, frameSize, false);
-    rightCap->open(R.toUtf8().constData(), CV_FOURCC( 'D','I','V','3'), 24.0, frameSize, false);
+    leftCap->open(L.toUtf8().constData(), CV_FOURCC( 'D','I','V','X'), 24.0, frameSize, true);
+    rightCap->open(R.toUtf8().constData(), CV_FOURCC( 'D','I','V','X'), 24.0, frameSize, true);
     emit sendMovFilesPaths(L, R);
 }
 
