@@ -39,6 +39,7 @@ private:
     QThread *threadRecord;
     PictureTaker *pictureTaker;
     VideoWriter *videoWriter;
+    cv::VideoWriter test;
 };
 
 #endif // WIDGETRECORD_H
