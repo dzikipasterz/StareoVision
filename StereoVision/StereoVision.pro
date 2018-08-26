@@ -39,7 +39,8 @@ SOURCES += \
     cornersfinder.cpp \
     picturetaker.cpp \
     calibrator.cpp \
-    widgetrecord.cpp
+    widgetrecord.cpp \
+    videowriter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -57,7 +58,8 @@ HEADERS += \
     cornersfinder.h \
     picturetaker.h \
     calibrator.h \
-    widgetrecord.h
+    widgetrecord.h \
+    videowriter.h
 
 FORMS += \
         mainwindow.ui \
