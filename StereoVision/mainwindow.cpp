@@ -49,7 +49,7 @@ void MainWindow::showCloseConfirmation()
 void MainWindow::initPanelWidget()
 {
     if(widgetPanel != nullptr)
-        ui->centralWidget->layout()->removeWidget(widgetPanel);
+    ui->centralWidget->layout()->removeWidget(widgetPanel);
     widgetPanel->deleteLater();
 }
 
@@ -58,6 +58,20 @@ void MainWindow::showMeasurementWidget()
 {
     initPanelWidget();
     widgetPanel = new widgetMeasurement(settings);
+    ui->centralWidget->layout()->addWidget(widgetPanel);
+}
+
+void MainWindow::showMeasurementOfflineWidget()
+{
+    initPanelWidget();
+    widgetPanel = new widgetMeasOffline(settings);
+    ui->centralWidget->layout()->addWidget(widgetPanel);
+}
+
+void MainWindow::showMeasurementOnlineWidget()
+{
+    initPanelWidget();
+    widgetPanel = new widgetMeasOnline(settings);
     ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 
@@ -105,7 +119,7 @@ void MainWindow::on_actionZako_cz_triggered()
 
 void MainWindow::on_pushButtonPomiarOnline_clicked()
 {
-    showMeasurementWidget();
+    showMeasurementOnlineWidget();
 }
 
 void MainWindow::on_pushButtonUstawienia_clicked()
@@ -121,4 +135,9 @@ void MainWindow::on_pushButtonKalibracja_clicked()
 void MainWindow::on_pushButtonNagrywanie_clicked()
 {
     showRecordWidget();
+}
+
+void MainWindow::on_pushButtonPomiarOffline_clicked()
+{
+    showMeasurementOfflineWidget();
 }

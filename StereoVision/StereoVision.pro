@@ -40,7 +40,10 @@ SOURCES += \
     picturetaker.cpp \
     calibrator.cpp \
     widgetrecord.cpp \
-    videowriter.cpp
+    videowriter.cpp \
+    widgetmeasoffline.cpp \
+    widgetmeasonline.cpp \
+    depthdisplay.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -59,7 +62,10 @@ HEADERS += \
     picturetaker.h \
     calibrator.h \
     widgetrecord.h \
-    videowriter.h
+    videowriter.h \
+    widgetmeasoffline.h \
+    widgetmeasonline.h \
+    depthdisplay.h
 
 FORMS += \
         mainwindow.ui \
@@ -68,7 +74,9 @@ FORMS += \
     widgetmeasurement.ui \
     widgetsettings.ui \
     widgetcalibration.ui \
-    widgetrecord.ui
+    widgetrecord.ui \
+    widgetmeasoffline.ui \
+    widgetmeasonline.ui
 
 LIBS += -lopencv_highgui -lopencv_core -lopencv_imgproc -lopencv_videoio -lopencv_calib3d -lopencv_imgcodecs
 

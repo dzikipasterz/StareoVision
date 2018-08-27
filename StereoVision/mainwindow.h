@@ -14,6 +14,8 @@
 #include "info.h"
 #include "closeconfirm.h"
 #include "widgetmeasurement.h"
+#include "widgetmeasonline.h"
+#include "widgetmeasoffline.h"
 #include "widgetsettings.h"
 #include "widgetcalibration.h"
 #include "widgetrecord.h"
@@ -35,6 +37,8 @@ public:
     ~MainWindow();
 
     void showMeasurementWidget();
+    void showMeasurementOnlineWidget();
+    void showMeasurementOfflineWidget();
     void showSettingsWidget();
     void showCalibrationWidget();
     void showRecordWidget();
@@ -54,6 +58,8 @@ private slots:
     void on_pushButtonKalibracja_clicked();
 
     void on_pushButtonNagrywanie_clicked();
+
+    void on_pushButtonPomiarOffline_clicked();
 
 private:
     Ui::MainWindow *ui;
