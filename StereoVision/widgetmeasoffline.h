@@ -19,6 +19,9 @@ public:
     explicit widgetMeasOffline(AppSettings sett);
     ~widgetMeasOffline();
 
+public slots:
+    void receivePixelArrCoord(int x, int y);
+
 private:
     Ui::widgetMeasOffline *ui;
     DepthDisplay *depthDisplay;

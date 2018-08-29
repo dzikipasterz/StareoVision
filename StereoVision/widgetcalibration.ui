@@ -101,6 +101,97 @@
     </spacer>
    </item>
    <item>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="1" column="0">
+      <widget class="QSpinBox" name="spinBox">
+       <property name="minimumSize">
+        <size>
+         <width>276</width>
+         <height>26</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="spinBox_2">
+       <property name="minimumSize">
+        <size>
+         <width>277</width>
+         <height>26</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox">
+       <property name="minimumSize">
+        <size>
+         <width>276</width>
+         <height>26</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="minimumSize">
+        <size>
+         <width>276</width>
+         <height>17</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>17</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Liczba wierszy szachownicy</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_2">
+       <property name="minimumSize">
+        <size>
+         <width>277</width>
+         <height>17</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>17</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Liczba kolumn szachownicy</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_3">
+       <property name="minimumSize">
+        <size>
+         <width>276</width>
+         <height>17</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>17</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Rozmiar pola szachownicy</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="labelLastPictStatus">
@@ -185,7 +276,7 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>209</height>
+       <height>153</height>
       </size>
      </property>
     </spacer>

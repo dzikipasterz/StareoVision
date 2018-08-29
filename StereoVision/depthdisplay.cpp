@@ -33,6 +33,9 @@ void DepthDisplay::mousePressEvent(QMouseEvent *event)
         xPixelSelect = int (pixmapWidth*(x/labelWidth));
         yPixelSelect = int (pixmapHeight*(y/labelHeight));
 
+        emit sendPixelArrCoord(xPixelSelect, yPixelSelect);
+
+        //test
         QPixmap temp = this->pixmap()->copy();
         this->setPixmap(temp);
 

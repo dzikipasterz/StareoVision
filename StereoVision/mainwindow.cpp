@@ -16,7 +16,13 @@ MainWindow::~MainWindow()
 
 AppSettings MainWindow::readSettingsFile()
 {
-
+    QSettings mySettings("config.ini", QSettings::IniFormat);
+    settings.setCalibFilePath(mySettings.value("calibration_file", "/home/").toString());
+    settings.setCalibFilesDir(mySettings.value("calibration_dir","/home/").toString());
+    settings.setMovFilesDir(mySettings.value("movies_dir","/home/").toString());
+    settings.setPictsSavePath(mySettings.value("pictures_dir","/home/").toString());
+    settings.setLeftCameraId(mySettings.value("left_camera_id", 0).toInt());
+    settings.setRightCameraId(mySettings.value("right_camera_id", 1).toInt());
 }
 
 void MainWindow::closeApplication()

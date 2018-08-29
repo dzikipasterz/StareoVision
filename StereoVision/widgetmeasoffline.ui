@@ -168,6 +168,20 @@
          </property>
         </spacer>
        </item>
+       <item>
+        <widget class="QSpinBox" name="spinBox">
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinBox_2">
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item row="2" column="1">

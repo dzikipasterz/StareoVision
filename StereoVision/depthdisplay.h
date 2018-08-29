@@ -16,9 +16,9 @@ public:
     QSize minimumSizeHint() const override;
 
 signals:
+    void sendPixelArrCoord(int x, int y);
 
 protected:
-    //bool eventFilter( QObject* sender, QEvent* event) override;
     void mousePressEvent(QMouseEvent *event) override;
 
 public slots:

@@ -7,8 +7,10 @@ widgetMeasOffline::widgetMeasOffline(AppSettings sett) :
 {
     ui->setupUi(this);
     settings = sett;
+
+    connect(depthDisplay, SIGNAL(sendPixelArrCoord(int, int)), this, SLOT(receivePixelArrCoord(int, int)));
+
     ui->gridLayout->addWidget(depthDisplay,0,0);
-    //ui->mainLayout->addWidget(depthDisplay);
     depthDisplay->setFrameShape(QFrame::Box);
 
 }
@@ -17,4 +19,11 @@ widgetMeasOffline::~widgetMeasOffline()
 {
     delete ui;
     delete depthDisplay;
+}
+
+
+void widgetMeasOffline::receivePixelArrCoord(int x, int y)
+{
+    ui->spinBox->setValue(x);
+    ui->spinBox_2->setValue(y);
 }

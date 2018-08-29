@@ -8,6 +8,7 @@
 #include <QStackedWidget>
 #include <QLayout>
 #include <QResizeEvent>
+#include <QSettings>
 #include <window_geometry.h>
 #include <appsettings.h>
 #include <appwidget.h>
