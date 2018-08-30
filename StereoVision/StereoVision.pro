@@ -43,7 +43,8 @@ SOURCES += \
     videowriter.cpp \
     widgetmeasoffline.cpp \
     widgetmeasonline.cpp \
-    depthdisplay.cpp
+    depthdisplay.cpp \
+    undistortmapper.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -65,7 +66,8 @@ HEADERS += \
     videowriter.h \
     widgetmeasoffline.h \
     widgetmeasonline.h \
-    depthdisplay.h
+    depthdisplay.h \
+    undistortmapper.h
 
 FORMS += \
         mainwindow.ui \

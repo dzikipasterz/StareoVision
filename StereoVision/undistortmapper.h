@@ -1,0 +1,33 @@
+#ifndef UNDISTORTMAPPER_H
+#define UNDISTORTMAPPER_H
+
+#include <QObject>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+
+class UndistortMapper : public QObject
+{
+    Q_OBJECT
+public:
+    explicit UndistortMapper(QObject *parent = nullptr);
+
+    void setCalibrationFile(QString filename);
+
+signals:
+    void sendProcessedFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+
+public slots:
+    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+
+private:
+    QString calibrationFile;
+    cv::Mat leftMap1;
+    cv::Mat leftMap2;
+    cv::Mat rightMap1;
+    cv::Mat rightMap2;
+
+    void readCalibFile();
+};
+
+#endif // UNDISTORTMAPPER_H
