@@ -20,6 +20,8 @@ class CornersFinder : public QObject
 public:
     CornersFinder(QObject *parent = nullptr);
 
+    void setPatternSize(cv::Size size);
+
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
 

@@ -46,8 +46,6 @@ public:
 
 public slots:
     void closeApplication();
-    void receiveAppSettings(AppSettings sett);
-
 
 private slots:
     void on_pushButtonInfo_clicked();
@@ -70,8 +68,6 @@ private:
     void showAppInfo();
     void showCloseConfirmation();
     void initPanelWidget();
-    AppSettings readSettingsFile();
-    int writeSettingsFile(AppSettings newSettings);
 };
 
 #endif // MAINWINDOW_H

@@ -103,7 +103,7 @@
    <item>
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="1" column="0">
-      <widget class="QSpinBox" name="spinBox">
+      <widget class="QSpinBox" name="spinBoxRows">
        <property name="minimumSize">
         <size>
          <width>276</width>
@@ -113,7 +113,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QSpinBox" name="spinBox_2">
+      <widget class="QSpinBox" name="spinBoxCols">
        <property name="minimumSize">
         <size>
          <width>277</width>
@@ -123,7 +123,7 @@
       </widget>
      </item>
      <item row="1" column="2">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox">
+      <widget class="QDoubleSpinBox" name="doubleSpinBoxSquareSize">
        <property name="minimumSize">
         <size>
          <width>276</width>
@@ -185,7 +185,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Rozmiar pola szachownicy</string>
+        <string>Rozmiar pola szachownicy (mm)</string>
        </property>
       </widget>
      </item>

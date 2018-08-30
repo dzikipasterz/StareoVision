@@ -15,7 +15,7 @@ class widgetCalibration : public AppWidget
     Q_OBJECT
 
 public:
-    explicit widgetCalibration(AppSettings sett);
+    explicit widgetCalibration(AppSettings *sett);
     ~widgetCalibration();
 
 signals:

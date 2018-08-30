@@ -18,6 +18,11 @@ void Calibrator::setSquareSideSize(float size)
     squareSideSize = size;
 }
 
+void Calibrator::setSaveCalibrationDir(QString dir)
+{
+    CalibrationSavePath = dir;
+}
+
 void Calibrator::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
 
@@ -42,7 +47,7 @@ void Calibrator::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
         }
         else status=true; //error
 
-        emit sendCalibratorStatus(capturedSetsCounter, status);
+        emit sendCollectionStatus(capturedSetsCounter, status);
         capture=false;
 
         leftProcessed.release();
@@ -80,6 +85,7 @@ void Calibrator::receiveTakePicture()
 
 void Calibrator::receiveStartCalibration()
 {
+    emit sendCalibrationStatus("Kalibracja rozpoczęta");
     generateChessboard();
     int flag = CV_CALIB_FIX_K4 | CV_CALIB_FIX_K5;
     leftErr = cv::calibrateCamera(chessboardKnownPosition, leftCorners, imgSize, leftCamMat, leftDistCoeff, leftRvecs, leftTvecs, flag);
@@ -89,8 +95,10 @@ void Calibrator::receiveStartCalibration()
     cv::initUndistortRectifyMap(leftCamMat, leftDistCoeff, leftRotMat, leftProjMat, imgSize,  CV_16SC2, leftMap1, leftMap2);
     cv::initUndistortRectifyMap(rightCamMat, rightDistCoeff, rightRotMat, rightProjMat, imgSize,  CV_16SC2, rightMap1, rightMap2);
 
+    emit sendCalibrationStatus("Zapis do pliku kalibracyjnego rozpoczęty");
+
     QDateTime currentTime = QDateTime::currentDateTime();
-    QString filename = (currentTime.toString()).append("_calib.xml");
+    QString filename = CalibrationSavePath.append(currentTime.toString(Qt::ISODate)).append("_calib.xml");
     cv::FileStorage file(filename.toUtf8().constData(), cv::FileStorage::WRITE);
 
     file << "leftErr" << leftErr;
@@ -112,5 +120,7 @@ void Calibrator::receiveStartCalibration()
     file << "rightMap2" << rightMap2;
 
     file.release();
+
+    emit sendCalibrationStatus(QString("Kalibracja zapisana do pliku ").append(filename).append("."));
 
 }

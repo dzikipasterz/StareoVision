@@ -1,7 +1,7 @@
 #include "widgetmeasurement.h"
 #include "ui_widgetmeasurement.h"
 
-widgetMeasurement::widgetMeasurement(AppSettings sett) :
+widgetMeasurement::widgetMeasurement(AppSettings *sett) :
     ui(new Ui::widgetMeasurement)
 {
     //AppWidget

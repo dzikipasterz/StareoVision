@@ -1,7 +1,7 @@
 #include "widgetrecord.h"
 #include "ui_widgetrecord.h"
 
-widgetRecord::widgetRecord(AppSettings sett) :
+widgetRecord::widgetRecord(AppSettings *sett) :
     ui(new Ui::widgetRecord)
 {
     ui->setupUi(this);
@@ -17,10 +17,10 @@ widgetRecord::widgetRecord(AppSettings sett) :
     ui->pushButtonMakeMovie->setText("Nagrywaj");
 
     AppWidget::initTimer();
-    AppWidget::initCamera(settings.readLeftCameraId(), settings.readRightCameraId());
+    AppWidget::initCamera(settings->readLeftCameraId(), settings->readRightCameraId());
     threadRecord = new QThread();
-    pictureTaker = new PictureTaker(nullptr, settings.readPictSavePath());
-    videoWriter = new VideoWriter(settings.readMovFilesDir());
+    pictureTaker = new PictureTaker(nullptr, settings->readPictSavePath());
+    videoWriter = new VideoWriter(settings->readMovFilesDir());
 
     connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)),this, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), pictureTaker, SLOT(receiveFrames(cv::Mat, cv::Mat)));

@@ -14,26 +14,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-AppSettings MainWindow::readSettingsFile()
-{
-    QSettings mySettings("config.ini", QSettings::IniFormat);
-    settings.setCalibFilePath(mySettings.value("calibration_file", "/home/").toString());
-    settings.setCalibFilesDir(mySettings.value("calibration_dir","/home/").toString());
-    settings.setMovFilesDir(mySettings.value("movies_dir","/home/").toString());
-    settings.setPictsSavePath(mySettings.value("pictures_dir","/home/").toString());
-    settings.setLeftCameraId(mySettings.value("left_camera_id", 0).toInt());
-    settings.setRightCameraId(mySettings.value("right_camera_id", 1).toInt());
-}
 
 void MainWindow::closeApplication()
 {
     QApplication::closeAllWindows();
 }
 
-void MainWindow::receiveAppSettings(AppSettings sett)
-{
-    settings = sett;
-}
 
 void MainWindow::showAppInfo()
 {
@@ -63,43 +49,42 @@ void MainWindow::initPanelWidget()
 void MainWindow::showMeasurementWidget()
 {
     initPanelWidget();
-    widgetPanel = new widgetMeasurement(settings);
+    widgetPanel = new widgetMeasurement(&settings);
     ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 
 void MainWindow::showMeasurementOfflineWidget()
 {
     initPanelWidget();
-    widgetPanel = new widgetMeasOffline(settings);
+    widgetPanel = new widgetMeasOffline(&settings);
     ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 
 void MainWindow::showMeasurementOnlineWidget()
 {
     initPanelWidget();
-    widgetPanel = new widgetMeasOnline(settings);
+    widgetPanel = new widgetMeasOnline(&settings);
     ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 
 void MainWindow::showSettingsWidget()
 {
     initPanelWidget();
-    widgetPanel = new widgetSettings(settings);
-    connect(widgetPanel, SIGNAL(sendSettingsChanged(AppSettings)), this, SLOT(receiveAppSettings(AppSettings)));
+    widgetPanel = new widgetSettings(&settings);
     ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 
 void MainWindow::showCalibrationWidget()
 {
     initPanelWidget();
-    widgetPanel = new widgetCalibration(settings);
+    widgetPanel = new widgetCalibration(&settings);
     ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 
 void MainWindow::showRecordWidget()
 {
     initPanelWidget();
-    widgetPanel = new widgetRecord(settings);
+    widgetPanel = new widgetRecord(&settings);
     ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 

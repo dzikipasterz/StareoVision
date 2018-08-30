@@ -16,7 +16,7 @@ class widgetMeasOffline : public AppWidget
     Q_OBJECT
 
 public:
-    explicit widgetMeasOffline(AppSettings sett);
+    explicit widgetMeasOffline(AppSettings *sett);
     ~widgetMeasOffline();
 
 public slots:

@@ -19,12 +19,11 @@ class widgetSettings : public AppWidget
     Q_OBJECT
 
 public:
-    explicit widgetSettings(AppSettings sett);
+    explicit widgetSettings(AppSettings *sett);
     ~widgetSettings();
 
 signals:
     void sendStereoCameraSetup(const int leftCameraId, const int rightCameraId);
-    void sendSettingsChanged(AppSettings sett);
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);

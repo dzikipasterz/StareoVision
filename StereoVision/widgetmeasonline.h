@@ -14,7 +14,7 @@ class widgetMeasOnline : public AppWidget
     Q_OBJECT
 
 public:
-    explicit widgetMeasOnline(AppSettings sett);
+    explicit widgetMeasOnline(AppSettings *sett);
     ~widgetMeasOnline();
 
 private:

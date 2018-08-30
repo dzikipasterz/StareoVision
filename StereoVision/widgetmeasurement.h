@@ -15,7 +15,7 @@ class widgetMeasurement : public AppWidget
     Q_OBJECT
 
 public:
-    explicit widgetMeasurement(AppSettings sett);
+    explicit widgetMeasurement(AppSettings *sett);
     ~widgetMeasurement();
 
 private:

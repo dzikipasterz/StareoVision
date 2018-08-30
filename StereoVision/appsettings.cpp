@@ -1,89 +1,122 @@
 #include "appsettings.h"
 
 AppSettings::AppSettings() :
-    leftCameraId(0),
-    rightCameraId(1),
-    pictsSavePath("/home/")
+    config(new QSettings("../config/config.ini", QSettings::IniFormat))
 {
-    readConfigFile();
+
 }
 
 AppSettings::~AppSettings()
 {
-    writeConfigFile();
+    delete config;
 }
 
 void AppSettings::setLeftCameraId(int cameraId)
 {
-    leftCameraId = cameraId;
+    config->setValue("app_settings/left_camera_id", cameraId);
 }
 
 int AppSettings::readLeftCameraId()
 {
-    return leftCameraId;
+    return config->value("app_settings/left_camera_id", 0).toInt();
 }
 
 void AppSettings::setRightCameraId(int cameraId)
 {
-    rightCameraId = cameraId;
+    config->setValue("app_settings/right_camera_id", cameraId);
 }
 
 int AppSettings::readRightCameraId()
 {
-    return rightCameraId;
+    return config->value("app_settings/right_camera_id", 0).toInt();
 }
 
 void AppSettings::setPictsSavePath(QString path)
 {
-    pictsSavePath = path;
+    config->setValue("app_settings/pictures_dir", path);
 }
 
 QString AppSettings::readPictSavePath()
 {
-    return pictsSavePath;
+    return config->value("app_settings/pictures_dir", "/home/").toString();
 }
 
 void AppSettings::setCalibFilesDir(QString path)
 {
-    calibFilesDir = path;
+    config->setValue("app_settings/calibration_dir", path);
 }
 
 QString AppSettings::readCalibFilesDir()
 {
-    return calibFilesDir;
+    return config->value("app_settings/calibration_dir", "/home/").toString();
 }
 
 void AppSettings::setCalibFilePath(QString path)
 {
-    calibFilePath = path;
+    config->setValue("app_settings/calibration_file", path);
 }
 
 QString AppSettings::readCalibFilePath()
 {
-    return calibFilePath;
+    return config->value("app_settings/calibration_file", "/home/").toString();
 }
 
 void AppSettings::setMovFilesDir(QString path)
 {
-    movFilesDir = path;
+    config->setValue("app_settings/movies_dir", path);
 }
 
 QString AppSettings::readMovFilesDir()
 {
-    return movFilesDir;
+    return config->value("app_settings/movies_dir", "/home/").toString();
+}
+
+void AppSettings::setChessboardRows(int rows)
+{
+    config->setValue("app_settings/chessboard_rows", rows);
+}
+
+int AppSettings::readChessboardRows()
+{
+    return config->value("app_settings/chessboard_rows", 6).toInt();
+}
+
+void AppSettings::setChessboardCols(int cols)
+{
+    config->setValue("app_settings/chessboard_cols", cols);
+}
+
+int AppSettings::readChessboardCols()
+{
+    return config->value("app_settings/chessboard_cols", 9).toInt();
+}
+
+void AppSettings::setChessboardSquareSize(double size)
+{
+    config->setValue("app_settings/square_size", size);
+}
+
+double AppSettings::readChessboardSquareSize()
+{
+    return config->value("app_settings/square_size", 36.33).toDouble();
+}
+
+cv::Size AppSettings::readPatternSize()
+{
+    return cv::Size(readChessboardCols()-1, readChessboardRows()-1);
 }
 
 void AppSettings::readConfigFile()
 {
-    leftCameraId = 1;
-    rightCameraId = 2;
-    pictsSavePath = "/home/slawko/StereoVisionDir/Pictures/";
-    calibFilesDir = "/home/slawko/StereoVisionDir/Calibration Files/";
-    calibFilePath = "/home/slawko/StereoVisionDir/Calibration Files/kalibracja.calib";
-    movFilesDir = "/home/slawko/StereoVisionDir/Movies/";
+    config->sync();
+    this->setCalibFilePath(config->value("app_settings/calibration_file", "/home/").toString());
+    this->setCalibFilesDir(config->value("app_settings/calibration_dir","/home/").toString());
+    this->setMovFilesDir(config->value("app_settings/movies_dir","/home/").toString());
+    this->setPictsSavePath(config->value("app_settings/pictures_dir","/home/").toString());
+    this->setLeftCameraId(config->value("app_settings/left_camera_id", 0).toInt());
+    this->setRightCameraId(config->value("app_settings/right_camera_id", 1).toInt());
+    this->setChessboardRows(config->value("app_settings/chessboard_rows", 6).toInt());
+    this->setChessboardCols(config->value("app_settings/chessboard_cols", 8).toInt());
+    this->setChessboardSquareSize(config->value("app_settings/square_size", 36.33).toDouble());
 }
 
-void AppSettings::writeConfigFile()
-{
-
-}

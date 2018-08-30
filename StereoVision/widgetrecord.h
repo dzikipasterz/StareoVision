@@ -16,7 +16,7 @@ class widgetRecord : public AppWidget
     Q_OBJECT
 
 public:
-    explicit widgetRecord(AppSettings sett);
+    explicit widgetRecord(AppSettings *sett);
     ~widgetRecord();
 
 signals:

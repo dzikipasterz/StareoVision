@@ -26,7 +26,7 @@ signals:
     void sendResumeTimer();
 
 protected:
-    AppSettings settings;
+    AppSettings *settings;
     QTimer * timer;
     timerRegulator * intervalRegulator;
     stereoCamera * camera;

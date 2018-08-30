@@ -2,6 +2,8 @@
 #define APPSETTINGS_H
 
 #include <QString>
+#include <QSettings>
+#include <opencv2/core/core.hpp>
 
 class AppSettings
 {
@@ -21,17 +23,17 @@ public:
     QString readCalibFilePath();
     void setMovFilesDir(QString path);
     QString readMovFilesDir();
+    void setChessboardRows(int rows);
+    int readChessboardRows();
+    void setChessboardCols(int cols);
+    int readChessboardCols();
+    void setChessboardSquareSize(double size);
+    double readChessboardSquareSize();
+    cv::Size readPatternSize();
 
 private:
-    int leftCameraId;
-    int rightCameraId;
-    QString pictsSavePath;
-    QString calibFilesDir;
-    QString calibFilePath;
-    QString movFilesDir;
-
+    QSettings *config;
     void readConfigFile();
-    void writeConfigFile();
 };
 
 #endif // APPSETTINGS_H

@@ -21,9 +21,11 @@ public:
 
     void setPatternSize(cv::Size size);
     void setSquareSideSize(float size);
+    void setSaveCalibrationDir(QString dir);
 
 signals:
-    void sendCalibratorStatus(int numberOfSets, bool lastSetStatus);
+    void sendCalibrationStatus(QString status);
+    void sendCollectionStatus(int setsNumber, bool lastSetStatus);
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
@@ -34,6 +36,7 @@ private:
     bool capture;
     int capturedSetsCounter;
     float squareSideSize;
+    QString CalibrationSavePath;
     double leftErr, rightErr, stereoErr;
     cv::Size patternSize;
     cv::Size imgSize;

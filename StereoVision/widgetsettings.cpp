@@ -1,7 +1,7 @@
 #include "widgetsettings.h"
 #include "ui_widgetsettings.h"
 
-widgetSettings::widgetSettings(AppSettings sett) :
+widgetSettings::widgetSettings(AppSettings *sett) :
     ui(new Ui::widgetSettings)
 {
     //AppWidget
@@ -11,15 +11,15 @@ widgetSettings::widgetSettings(AppSettings sett) :
     ui->setupUi(this);
     ui->leftCamera->setScaledContents(true);
     ui->rightCamera->setScaledContents(true);
-    ui->leftCameraId->setValue(settings.readLeftCameraId());
-    ui->rightCameraId->setValue(settings.readRightCameraId());
-    ui->labelSavePictDir->setText(settings.readPictSavePath());
-    ui->labelSaveMovDir->setText(settings.readMovFilesDir());
-    ui->labelCalibFilesDir->setText(settings.readCalibFilesDir());
-    ui->labelCalibFile->setText(settings.readCalibFilePath());
+    ui->leftCameraId->setValue(settings->readLeftCameraId());
+    ui->rightCameraId->setValue(settings->readRightCameraId());
+    ui->labelSavePictDir->setText(settings->readPictSavePath());
+    ui->labelSaveMovDir->setText(settings->readMovFilesDir());
+    ui->labelCalibFilesDir->setText(settings->readCalibFilesDir());
+    ui->labelCalibFile->setText(settings->readCalibFilePath());
 
     AppWidget::initTimer();
-    AppWidget::initCamera(settings.readLeftCameraId(), settings.readRightCameraId());
+    AppWidget::initCamera(settings->readLeftCameraId(), settings->readRightCameraId());
 
     connect(this,SIGNAL(sendStereoCameraSetup(const int, const int)),AppWidget::camera,SLOT(receiveSetup(const int, const int)));
     connect(AppWidget::camera,SIGNAL(sendCameraStatus(bool, bool)),this,SLOT(receiveCameraStatus(bool, bool)));
@@ -64,65 +64,59 @@ void widgetSettings::receiveCameraStatus(bool leftCameraStatus, bool rightCamera
 
 void widgetSettings::on_leftCameraId_valueChanged(int id)
 {
-    settings.setLeftCameraId(id);
-    emit sendSettingsChanged(settings);
-    emit sendStereoCameraSetup(settings.readLeftCameraId(), settings.readRightCameraId());
+    settings->setLeftCameraId(id);
+    emit sendStereoCameraSetup(settings->readLeftCameraId(), settings->readRightCameraId());
 }
 
 void widgetSettings::on_rightCameraId_valueChanged(int id)
 {
-    settings.setRightCameraId(id);
-    emit sendSettingsChanged(settings);
-    emit sendStereoCameraSetup(settings.readLeftCameraId(),settings.readRightCameraId());
+    settings->setRightCameraId(id);
+    emit sendStereoCameraSetup(settings->readLeftCameraId(),settings->readRightCameraId());
 }
 
 void widgetSettings::on_pushButtonSelectPicDir_clicked()
 {
-    QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla zdjęć",settings.readPictSavePath(),QFileDialog::ShowDirsOnly);
+    QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla zdjęć",settings->readPictSavePath(),QFileDialog::ShowDirsOnly);
 
     if(!dir.isNull())
     {
         dir.append("/");
-        settings.setPictsSavePath(dir);
-        emit sendSettingsChanged(settings);
+        settings->setPictsSavePath(dir);
         ui->labelSavePictDir->setText(dir);
     }
 }
 
 void widgetSettings::on_pushButtonSelectCalibFile_clicked()
 {
-    QString calibFile = QFileDialog::getOpenFileName(this,"Wybierz plik kalibracyjny",settings.readCalibFilePath(),tr("Plik kalibracyjny (*.calib)"));
+    QString calibFile = QFileDialog::getOpenFileName(this,"Wybierz plik kalibracyjny",settings->readCalibFilePath(),tr("Plik kalibracyjny (*.calib)"));
 
     if(!calibFile.isNull())
     {
-        settings.setCalibFilePath(calibFile);
-        emit sendSettingsChanged(settings);
+        settings->setCalibFilePath(calibFile);
         ui->labelCalibFile->setText(calibFile);
     }
 }
 
 void widgetSettings::on_pushButtonSelectMovDir_clicked()
 {
-    QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla nagrywanych filmów",settings.readMovFilesDir(),QFileDialog::ShowDirsOnly);
+    QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla nagrywanych filmów",settings->readMovFilesDir(),QFileDialog::ShowDirsOnly);
 
     if(!dir.isNull())
     {
         dir.append("/");
-        settings.setMovFilesDir(dir);
-        emit sendSettingsChanged(settings);
+        settings->setMovFilesDir(dir);
         ui->labelSaveMovDir->setText(dir);
     }
 }
 
 void widgetSettings::on_pushButtonSelectCalibDir_clicked()
 {
-    QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla plików kalibracyjnych",settings.readCalibFilesDir(),QFileDialog::ShowDirsOnly);
+    QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla plików kalibracyjnych",settings->readCalibFilesDir(),QFileDialog::ShowDirsOnly);
 
     if(!dir.isNull())
     {
         dir.append("/");
-        settings.setCalibFilesDir(dir);
-        emit sendSettingsChanged(settings);
+        settings->setCalibFilesDir(dir);
         ui->labelCalibFilesDir->setText(dir);
     }
 }

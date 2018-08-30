@@ -1,7 +1,7 @@
 #include "widgetmeasoffline.h"
 #include "ui_widgetmeasoffline.h"
 
-widgetMeasOffline::widgetMeasOffline(AppSettings sett) :
+widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     ui(new Ui::widgetMeasOffline),
     depthDisplay(new DepthDisplay())
 {

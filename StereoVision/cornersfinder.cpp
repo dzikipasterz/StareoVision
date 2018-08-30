@@ -4,10 +4,14 @@ using namespace cv;
 using namespace std;
 
 CornersFinder::CornersFinder(QObject *parent) :
-    QObject(parent),
-    patternSize(6,9)
+    QObject(parent)
 {
 
+}
+
+void CornersFinder::setPatternSize(cv::Size size)
+{
+    patternSize = size;
 }
 
 void CornersFinder::receiveFrames(Mat leftFrame, Mat rightFrame)
