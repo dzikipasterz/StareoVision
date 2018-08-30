@@ -25,6 +25,8 @@ signals:
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
     void receiveCalibratorStatus(int numberOfSets, bool lastSetStatus);
+    void receiveCalibrationStatus(QString status);
+    void receiveCalibrationFilePath(QString path);
 
 private slots:
     void on_pushButtonTurnCameraOn_toggled(bool checked);

@@ -66,6 +66,8 @@ void widgetCalibration::openCamera()
     connect(this, SIGNAL(sendTakePicture()), calibrator, SLOT(receiveTakePicture()), Qt::DirectConnection);
     connect(this, SIGNAL(sendStartCalibration()), calibrator, SLOT(receiveStartCalibration()));
     connect(calibrator, SIGNAL(sendCollectionStatus(int, bool)), this, SLOT(receiveCalibratorStatus(int, bool)));
+    connect(calibrator, SIGNAL(sendCreatedFilePath(QString)), this, SLOT(receiveCalibrationFilePath(QString)));
+    connect(calibrator, SIGNAL(sendCalibrationStatus(QString)), this, SLOT(receiveCalibrationStatus(QString)));
 
     calibrator->moveToThread(threadCalibrator);
     cornersFinder->moveToThread(threadCornersFinder);
@@ -91,6 +93,16 @@ void widgetCalibration::receiveCalibratorStatus(int setsNumber, bool lastSetStat
     else status = "Zdjęcie zostało pomyślnie dodane";
     ui->spinBoxCollectedSets->setValue(setsNumber);
     ui->labelLastPictStatus->setText(status);
+}
+
+void widgetCalibration::receiveCalibrationStatus(QString status)
+{
+    ui->labelCalibrationStatus->setText(status);
+}
+
+void widgetCalibration::receiveCalibrationFilePath(QString path)
+{
+    settings->setCalibFilePath(path);
 }
 
 void widgetCalibration::on_pushButtonTurnCameraOn_toggled(bool checked)

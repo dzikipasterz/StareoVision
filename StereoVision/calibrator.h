@@ -25,6 +25,7 @@ public:
 
 signals:
     void sendCalibrationStatus(QString status);
+    void sendCreatedFilePath(QString filepath);
     void sendCollectionStatus(int setsNumber, bool lastSetStatus);
 
 public slots:

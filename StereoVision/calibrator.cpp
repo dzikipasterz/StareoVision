@@ -122,5 +122,6 @@ void Calibrator::receiveStartCalibration()
     file.release();
 
     emit sendCalibrationStatus(QString("Kalibracja zapisana do pliku ").append(filename).append("."));
+    emit sendCreatedFilePath(filename);
 
 }
