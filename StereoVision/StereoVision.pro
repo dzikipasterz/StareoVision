@@ -44,7 +44,11 @@ SOURCES += \
     widgetmeasoffline.cpp \
     widgetmeasonline.cpp \
     depthdisplay.cpp \
-    undistortmapper.cpp
+    stereomatcher.cpp \
+    blockmatching.cpp \
+    sourcereader.cpp \
+    imagereader.cpp \
+    rectifier.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -67,7 +71,11 @@ HEADERS += \
     widgetmeasoffline.h \
     widgetmeasonline.h \
     depthdisplay.h \
-    undistortmapper.h
+    stereomatcher.h \
+    blockmatching.h \
+    sourcereader.h \
+    imagereader.h \
+    rectifier.h
 
 FORMS += \
         mainwindow.ui \

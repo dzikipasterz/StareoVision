@@ -6,11 +6,11 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-class UndistortMapper : public QObject
+class Rectifier : public QObject
 {
     Q_OBJECT
 public:
-    explicit UndistortMapper(QObject *parent = nullptr);
+    explicit Rectifier(QObject *parent = nullptr);
 
     void setCalibrationFile(QString filename);
 

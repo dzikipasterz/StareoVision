@@ -1,17 +1,17 @@
-#include "undistortmapper.h"
+#include "rectifier.h"
 
-UndistortMapper::UndistortMapper(QObject *parent) : QObject(parent)
+Rectifier::Rectifier(QObject *parent) : QObject(parent)
 {
     readCalibFile();
 }
 
 
-void UndistortMapper::setCalibrationFile(QString filename)
+void Rectifier::setCalibrationFile(QString filename)
 {
     calibrationFile = filename;
 }
 
-void UndistortMapper::readCalibFile()
+void Rectifier::readCalibFile()
 {
     cv::FileStorage file(calibrationFile.toUtf8().constData(), cv::FileStorage::READ);
 
@@ -23,7 +23,7 @@ void UndistortMapper::readCalibFile()
     file.release();
 }
 
-void UndistortMapper::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
+void Rectifier::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
     cv::Mat leftDst = leftFrame.clone();
     cv::Mat rightDst = rightFrame.clone();
