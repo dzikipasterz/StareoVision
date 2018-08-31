@@ -2,7 +2,7 @@
 
 StereoMatcher::StereoMatcher(QObject *parent) : QObject(parent)
 {
-
+    readCalibFile();
 }
 
 void StereoMatcher::setCalibFile(QString file)
