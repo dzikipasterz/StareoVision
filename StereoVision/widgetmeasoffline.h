@@ -28,7 +28,7 @@ public:
     ~widgetMeasOffline();
 
 signals:
-    void startMeas();
+    void SendStartMeas();
 
 public slots:
     void receiveFrame(cv::Mat frame);

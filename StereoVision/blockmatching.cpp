@@ -2,7 +2,16 @@
 
 BlockMatching::BlockMatching()
 {
-    bm = cv::StereoBM::create(160, 10);
+
+}
+
+BlockMatching::~BlockMatching()
+{
+}
+
+void BlockMatching::setup()
+{
+    bm = cv::StereoBM::create(80, 15);
 
     bm->setROI1(roi1);
     bm->setROI2(roi2);
@@ -13,16 +22,13 @@ BlockMatching::BlockMatching()
     bm->setSpeckleWindowSize(100);
     bm->setSpeckleRange(32);
     bm->setDisp12MaxDiff(1);
-}
 
-BlockMatching::~BlockMatching()
-{
-    delete bm;
 }
 
 
-void BlockMatching::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
+void BlockMatching::processFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
-    bm->compute(leftFrame, rightFrame, disparity);
-    emit sendDisparityMap(disparity);
+    //bm->compute(leftFrame, rightFrame, disparity);
+    //emit sendDisparityMap(disparity);
+    emit sendDisparityMap(rightFrame);
 }

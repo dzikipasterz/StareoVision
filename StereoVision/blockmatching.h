@@ -12,8 +12,12 @@ public:
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
 
+protected:
+    void processFrames(cv::Mat leftFrame, cv::Mat rightFrame) override;
+    void setup() override;
+
 private:
-    cv::StereoBM *bm;
+    cv::Ptr<cv::StereoBM> bm;
     cv::Mat disparity;
 };
 

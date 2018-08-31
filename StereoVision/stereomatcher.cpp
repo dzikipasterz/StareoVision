@@ -2,12 +2,14 @@
 
 StereoMatcher::StereoMatcher(QObject *parent) : QObject(parent)
 {
-    readCalibFile();
+
 }
 
 void StereoMatcher::setCalibFile(QString file)
 {
     calibrationFile = file;
+    readCalibFile();
+    setup();
 }
 
 void StereoMatcher::readCalibFile()
@@ -21,6 +23,7 @@ void StereoMatcher::readCalibFile()
 }
 
 void StereoMatcher::processFrames(cv::Mat, cv::Mat){}
+void StereoMatcher::setup(){};
 
 void StereoMatcher::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {

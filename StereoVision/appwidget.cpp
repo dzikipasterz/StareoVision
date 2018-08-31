@@ -83,6 +83,15 @@ void AppWidget::startCamera()
 
 void AppWidget::displayFrame(cv::Mat frame, QLabel * display)
 {
-    QImage output(frame.data, frame.cols, frame.rows, static_cast<int>(frame.step), QImage::Format_RGB888);
-    display->setPixmap(QPixmap::fromImage(output.rgbSwapped()));
+    int channels = frame.channels();
+    if(channels == 3)
+    {
+        QImage output(frame.data, frame.cols, frame.rows, static_cast<int>(frame.step), QImage::Format_RGB888);
+        display->setPixmap(QPixmap::fromImage(output.rgbSwapped()));
+    }
+    if(channels == 1)
+    {
+        QImage output(frame.data, frame.cols, frame.rows, static_cast<int>(frame.step), QImage::Format_Grayscale8);
+        display->setPixmap(QPixmap::fromImage(output));
+    }
 }

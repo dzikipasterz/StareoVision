@@ -5,6 +5,8 @@ camera::camera(QObject *parent) :
     status(true)
 {
     cap = new cv::VideoCapture();
+    cap->set(CV_CAP_PROP_FRAME_WIDTH,1440);
+    cap->set(CV_CAP_PROP_FRAME_HEIGHT,1080);
 }
 
 camera::~camera()

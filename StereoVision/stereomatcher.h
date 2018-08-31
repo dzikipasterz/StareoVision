@@ -27,6 +27,7 @@ protected:
     cv::Rect roi1, roi2;
 
     void virtual processFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+    void virtual setup();
 
 private:
     void readCalibFile();

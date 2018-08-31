@@ -18,6 +18,7 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     connect(depthDisplay, SIGNAL(sendPixelArrCoord(int, int)), this, SLOT(receivePixelArrCoord(int, int)));
     ui->gridLayout->addWidget(depthDisplay,0,0);
     depthDisplay->setFrameShape(QFrame::Box);
+    depthDisplay->setScaledContents(true);
 }
 
 
@@ -51,11 +52,12 @@ void widgetMeasOffline::setupMeasurement()
     connect(threadPostprocessing, SIGNAL(finished()), filter, SLOT(deleteLater()));
     connect(threadDispToDist, SIGNAL(finished()), converter, SLOT(deleteLater()));
 
-    connect(this, SIGNAL(startMeas()), sourceReader, SLOT(receiveStart()));
+    connect(this, SIGNAL(SendStartMeas()), sourceReader, SLOT(receiveStart()));
     connect(sourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), rectifier, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    //connect(stereoMatcher, SIGNAL(sendDisparityMap(cv::Mat)), this, SLOT(receiveFrame(cv::Mat)));
     connect(stereoMatcher, SIGNAL(sendDisparityMap(cv::Mat)), filter, SLOT(receiveFrame(cv::Mat)));
-    connect(filter, SIGNAL(sendFrame(cv::Mat)), converter, SLOT(receiveFrames(cv::Mat)));
+    connect(filter, SIGNAL(sendFrame(cv::Mat)), converter, SLOT(receiveFrame(cv::Mat)));
     connect(converter, SIGNAL(sendFrame(cv::Mat)), this, SLOT(receiveFrame(cv::Mat)));
 
     sourceReader->moveToThread(threadSourceReader);
@@ -67,6 +69,8 @@ void widgetMeasOffline::setupMeasurement()
     threadStereoMatcher->start();
     threadRectifier->start();
     threadSourceReader->start();
+
+    emit SendStartMeas();
 }
 
 void widgetMeasOffline::stopThreads()
@@ -120,11 +124,13 @@ void widgetMeasOffline::receiveFrame(cv::Mat frame)
 void widgetMeasOffline::on_pushButtonLeftSource_clicked()
 {
     leftSourcePath = QFileDialog::getOpenFileName(nullptr, "Wybierz źródło lewego obrazu", settings->readPictSavePath());
+    ui->labelSourceLeft->setText(leftSourcePath);
 }
 
 void widgetMeasOffline::on_pushButtonRightSource_clicked()
 {
     rightSourcePath = QFileDialog::getOpenFileName(nullptr, "Wybierz źródło prawego obrazu", settings->readPictSavePath());
+    ui->labelSourceRight->setText(rightSourcePath);
 }
 
 void widgetMeasOffline::on_pushButtonStart_clicked()

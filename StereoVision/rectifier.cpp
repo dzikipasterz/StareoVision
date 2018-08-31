@@ -2,13 +2,14 @@
 
 Rectifier::Rectifier(QObject *parent) : QObject(parent)
 {
-    readCalibFile();
+
 }
 
 
 void Rectifier::setCalibrationFile(QString filename)
 {
     calibrationFile = filename;
+    readCalibFile();
 }
 
 void Rectifier::readCalibFile()

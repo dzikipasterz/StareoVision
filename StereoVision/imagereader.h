@@ -8,8 +8,8 @@ class ImageReader : public SourceReader
 public:
     ImageReader();
 
-public slots:
-    void receiveStart();
+protected:
+    void executeStart() override;
 };
 
 #endif // IMAGEREADER_H
