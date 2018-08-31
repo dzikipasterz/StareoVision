@@ -39,7 +39,7 @@ private slots:
 
     void on_pushButtonRightSource_clicked();
 
-    void on_pushButton_clicked();
+    void on_pushButtonStart_clicked();
 
 private:
     Ui::widgetMeasOffline *ui;

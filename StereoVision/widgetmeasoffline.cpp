@@ -107,7 +107,7 @@ void widgetMeasOffline::stopThreads()
     }
 }
 
-void widgetMeasOffline::receivePixelArrCoord(int x, int y)
+void widgetMeasOffline::receivePixelArrCoord(int, int)
 {
 
 }
@@ -127,7 +127,7 @@ void widgetMeasOffline::on_pushButtonRightSource_clicked()
     rightSourcePath = QFileDialog::getOpenFileName(nullptr, "Wybierz źródło prawego obrazu", settings->readPictSavePath());
 }
 
-void widgetMeasOffline::on_pushButton_clicked()
+void widgetMeasOffline::on_pushButtonStart_clicked()
 {
-
+    setupMeasurement();
 }
