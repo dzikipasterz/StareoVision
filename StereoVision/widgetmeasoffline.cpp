@@ -4,7 +4,7 @@
 widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     ui(new Ui::widgetMeasOffline),
     depthDisplay(new DepthDisplay()),
-    mapper(nullptr),
+    rectifier(nullptr),
     stereoMatcher(nullptr),
     threadSourceReader(nullptr),
     threadRectifier(nullptr),
@@ -37,10 +37,26 @@ void widgetMeasOffline::setupMeasurement()
     threadDispToDist = new QThread();
 
     sourceReader = new ImageReader(); //#todo: zaleznie od formatu
+    sourceReader->setSourcePaths(ui->labelSourceLeft->text(), ui->labelSourceRight->text());
     rectifier = new Rectifier();
+    rectifier->setCalibrationFile(settings->readCalibFilePath());
     stereoMatcher = new BlockMatching(); //#todo: zaleznie od wybranego algorytmu
+    stereoMatcher->setCalibFile(settings->readCalibFilePath());
+    filter = new PostFilter(); //#todo: zaleznie od wybranego algorytmu
+    converter = new DisparityConverter();
 
-    // connect
+    connect(threadSourceReader, SIGNAL(finished()), sourceReader, SLOT(deleteLater()));
+    connect(threadRectifier, SIGNAL(finished()), rectifier, SLOT(deleteLater()));
+    connect(threadStereoMatcher, SIGNAL(finished()), stereoMatcher, SLOT(deleteLater()));
+    connect(threadPostprocessing, SIGNAL(finished()), filter, SLOT(deleteLater()));
+    connect(threadDispToDist, SIGNAL(finished()), converter, SLOT(deleteLater()));
+
+    connect(this, SIGNAL(startMeas()), sourceReader, SLOT(receiveStart()));
+    connect(sourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), rectifier, SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    connect(stereoMatcher, SIGNAL(sendDisparityMap(cv::Mat)), filter, SLOT(receiveFrame(cv::Mat)));
+    connect(filter, SIGNAL(sendFrame(cv::Mat)), converter, SLOT(receiveFrames(cv::Mat)));
+    connect(converter, SIGNAL(sendFrame(cv::Mat)), this, SLOT(receiveFrame(cv::Mat)));
 
     sourceReader->moveToThread(threadSourceReader);
     rectifier->moveToThread(threadRectifier);
@@ -94,6 +110,11 @@ void widgetMeasOffline::stopThreads()
 void widgetMeasOffline::receivePixelArrCoord(int x, int y)
 {
 
+}
+
+void widgetMeasOffline::receiveFrame(cv::Mat frame)
+{
+    displayFrame(frame, depthDisplay);
 }
 
 void widgetMeasOffline::on_pushButtonLeftSource_clicked()

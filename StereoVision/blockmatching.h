@@ -10,7 +10,7 @@ public:
     ~BlockMatching() override;
 
 public slots:
-    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame) override;
+    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
 
 private:
     cv::StereoBM *bm;

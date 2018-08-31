@@ -48,7 +48,9 @@ SOURCES += \
     blockmatching.cpp \
     sourcereader.cpp \
     imagereader.cpp \
-    rectifier.cpp
+    rectifier.cpp \
+    disparityconverter.cpp \
+    postfilter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -75,7 +77,9 @@ HEADERS += \
     blockmatching.h \
     sourcereader.h \
     imagereader.h \
-    rectifier.h
+    rectifier.h \
+    disparityconverter.h \
+    postfilter.h
 
 FORMS += \
         mainwindow.ui \

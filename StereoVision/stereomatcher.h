@@ -14,11 +14,22 @@ class StereoMatcher : public QObject
 public:
     explicit StereoMatcher(QObject *parent = nullptr);
 
+    void setCalibFile(QString file);
+
 signals:
     void sendDisparityMap(cv::Mat disparity);
 
 public slots:
-    void virtual receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+
+protected:
+    QString calibrationFile;
+    cv::Rect roi1, roi2;
+
+    void virtual processFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+
+private:
+    void readCalibFile();
 
 };
 

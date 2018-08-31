@@ -34,5 +34,5 @@ void Rectifier::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
     leftFrame.release();
     rightFrame.release();
 
-    emit sendProcessedFrames(leftDst, rightDst);
+    emit sendFrames(leftDst, rightDst);
 }

@@ -19,7 +19,10 @@ signals:
     void sendFrames(cv::Mat leftFrame, cv::Mat rightFrame);
 
 public slots:
-    void virtual receiveStart();
+    void receiveStart();
+
+protected:
+    void virtual executeStart();
 
 protected:
     QString leftSourcePath;

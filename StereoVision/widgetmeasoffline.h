@@ -12,6 +12,8 @@
 #include <rectifier.h>
 #include <stereomatcher.h>
 #include <blockmatching.h>
+#include <postfilter.h>
+#include <disparityconverter.h>
 
 namespace Ui {
 class widgetMeasOffline;
@@ -25,7 +27,11 @@ public:
     explicit widgetMeasOffline(AppSettings *sett);
     ~widgetMeasOffline();
 
+signals:
+    void startMeas();
+
 public slots:
+    void receiveFrame(cv::Mat frame);
     void receivePixelArrCoord(int x, int y);
 
 private slots:
@@ -43,6 +49,8 @@ private:
     SourceReader *sourceReader;
     Rectifier *rectifier;
     StereoMatcher *stereoMatcher;
+    PostFilter *filter;
+    DisparityConverter *converter;
     QThread *threadSourceReader;
     QThread *threadRectifier;
     QThread *threadStereoMatcher;

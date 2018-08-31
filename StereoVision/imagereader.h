@@ -9,7 +9,7 @@ public:
     ImageReader();
 
 public slots:
-    void receiveStart() override;
+    void receiveStart();
 };
 
 #endif // IMAGEREADER_H

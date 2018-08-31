@@ -15,7 +15,7 @@ public:
     void setCalibrationFile(QString filename);
 
 signals:
-    void sendProcessedFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+    void sendFrames(cv::Mat leftFrame, cv::Mat rightFrame);
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);

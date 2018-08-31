@@ -88,11 +88,24 @@ void Calibrator::receiveStartCalibration()
     emit sendCalibrationStatus("Kalibracja rozpoczęta");
     generateChessboard();
     int flag = CV_CALIB_FIX_K4 | CV_CALIB_FIX_K5;
+
+    emit sendCalibrationStatus("Kalibracja lewej kamery w toku");
     leftErr = cv::calibrateCamera(chessboardKnownPosition, leftCorners, imgSize, leftCamMat, leftDistCoeff, leftRvecs, leftTvecs, flag);
+
+    emit sendCalibrationStatus("Kalibracja prawej kamery w toku");
     rightErr = cv::calibrateCamera(chessboardKnownPosition, rightCorners, imgSize, rightCamMat, rightDistCoeff, rightRvecs, rightTvecs, flag);
+
+    emit sendCalibrationStatus("Stereokalibracja w toku");
     stereoErr = cv::stereoCalibrate(chessboardKnownPosition, leftCorners, rightCorners, leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, essMat, fundMat);
-    cv::stereoRectify(leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, leftRotMat, rightRotMat, leftProjMat, rightProjMat, perspectiveMat);
+
+    emit sendCalibrationStatus("Wyznaczanie parametrów rektyfikacji w toku");
+    cv::Rect roi1, roi2;
+    cv::stereoRectify(leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, leftRotMat, rightRotMat, leftProjMat, rightProjMat, perspectiveMat, cv::CALIB_ZERO_DISPARITY, -1, imgSize, &roi1, &roi2);
+
+    emit sendCalibrationStatus("Budowa mapy rektyfikacji dla lewej kamery w toku");
     cv::initUndistortRectifyMap(leftCamMat, leftDistCoeff, leftRotMat, leftProjMat, imgSize,  CV_16SC2, leftMap1, leftMap2);
+
+    emit sendCalibrationStatus("Budowa mapy rektyfikacji dla prawej kamery w toku");
     cv::initUndistortRectifyMap(rightCamMat, rightDistCoeff, rightRotMat, rightProjMat, imgSize,  CV_16SC2, rightMap1, rightMap2);
 
     emit sendCalibrationStatus("Zapis do pliku kalibracyjnego rozpoczęty");
@@ -114,6 +127,8 @@ void Calibrator::receiveStartCalibration()
     file << "rightRotMat" << rightRotMat;
     file << "leftProjMat" << leftProjMat;
     file << "rightProjMat" << rightProjMat;
+    file << "roi1" << roi1;
+    file << "roi2" << roi2;
     file << "leftMap1" << leftMap1;
     file << "leftMap2" << leftMap2;
     file << "rightMap1" << rightMap1;
