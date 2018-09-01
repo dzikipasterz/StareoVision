@@ -3,11 +3,11 @@
 
 #include <stereomatcher.h>
 
-class BlockMatching : public StereoMatcher
+class StereoBM : public StereoMatcher
 {
 public:
-    BlockMatching();
-    ~BlockMatching() override;
+    StereoBM();
+    ~StereoBM() override;
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
@@ -17,8 +17,9 @@ protected:
     void setup() override;
 
 private:
-    cv::Ptr<cv::StereoBM> bm;
-    cv::Mat disparity;
+    cv::Ptr<cv::StereoBM> bm;  
+    cv::Mat disparityRaw, disparity;
+    int numOfDisparities;
 };
 
 #endif // BLOCKMATCHING_H

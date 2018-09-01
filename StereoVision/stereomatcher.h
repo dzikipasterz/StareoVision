@@ -7,6 +7,7 @@
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/imgcodecs.hpp>
+#include "opencv2/ximgproc/disparity_filter.hpp"
 
 class StereoMatcher : public QObject
 {

@@ -41,7 +41,7 @@ void widgetMeasOffline::setupMeasurement()
     sourceReader->setSourcePaths(ui->labelSourceLeft->text(), ui->labelSourceRight->text());
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
-    stereoMatcher = new BlockMatching(); //#todo: zaleznie od wybranego algorytmu
+    stereoMatcher = new StereoSGBM(); //#todo: zaleznie od wybranego algorytmu
     stereoMatcher->setCalibFile(settings->readCalibFilePath());
     filter = new PostFilter(); //#todo: zaleznie od wybranego algorytmu
     converter = new DisparityConverter();

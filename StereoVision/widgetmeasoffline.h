@@ -11,7 +11,8 @@
 #include <imagereader.h>
 #include <rectifier.h>
 #include <stereomatcher.h>
-#include <blockmatching.h>
+#include <stereobm.h>
+#include <stereosgbm.h>
 #include <postfilter.h>
 #include <disparityconverter.h>
 
