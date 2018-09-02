@@ -33,6 +33,7 @@ signals:
 
 public slots:
     void receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
+    void receivePixValue(int val);
     void receivePixelArrCoord(int x, int y);
 
 private slots:

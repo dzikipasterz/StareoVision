@@ -2,9 +2,9 @@
 
 StereoSGBM::StereoSGBM() :
     numOfDisparities(80),
-    sgbmWinSize(5)
+    sgbmWinSize(1)
 {
-    leftMatcher = cv::StereoSGBM::create(0, numOfDisparities, sgbmWinSize);
+    leftMatcher = cv::StereoSGBM::create(20, numOfDisparities, sgbmWinSize);
 
     leftMatcher->setP1(24*sgbmWinSize*sgbmWinSize);
     leftMatcher->setP2(96*sgbmWinSize*sgbmWinSize);

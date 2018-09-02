@@ -2,9 +2,11 @@
 
 timerRegulator::timerRegulator(QObject *parent) :
     QObject(parent),
-    alertThreshold(8),
-    upperThreshold(5),
-    lowerThreshold(2),
+    timer(nullptr),
+    alertThreshold(5),
+    upperThreshold(3),
+    lowerThreshold(1),
+    msecInterval(42),
     triggerCounter(0),
     paused(false)
 {
@@ -12,7 +14,7 @@ timerRegulator::timerRegulator(QObject *parent) :
 
 timerRegulator::~timerRegulator()
 {
-
+    if(timer != nullptr) timer->deleteLater();
 }
 
 void timerRegulator::setInterval(const int interval)
@@ -20,13 +22,22 @@ void timerRegulator::setInterval(const int interval)
     msecInterval = interval;
 }
 
+void timerRegulator::receiveStart()
+{
+    timer = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(receiveTimeout()));
+    timer->setInterval(msecInterval);
+    timer->start();
+}
+
 void timerRegulator::receiveTimeout()
 {
     triggerCounter++;
     bool flag = false;
+    emit sendTimeout();
 
     if(triggerCounter == alertThreshold)
-        emit sendStop();
+        timer->stop();
 
     if(triggerCounter > upperThreshold)
     {
@@ -40,7 +51,7 @@ void timerRegulator::receiveTimeout()
         flag=true;
     }
 
-    if(flag) emit sendInterval(msecInterval);
+    if(flag) timer->setInterval(msecInterval);
 
 }
 
@@ -48,18 +59,18 @@ void timerRegulator::receiveJobDone()
 {
     triggerCounter--;
     if((triggerCounter == upperThreshold) && !paused)
-        emit sendStart(msecInterval);
+        emit timer->start(msecInterval);
 
 }
 
 void timerRegulator::receivePause()
 {
     paused = true;
-    emit sendStop();
+    emit timer->stop();
 }
 
 void timerRegulator::receiveResume()
 {
     paused = false;
-    emit sendStart(msecInterval);
+    emit timer->start(msecInterval);
 }

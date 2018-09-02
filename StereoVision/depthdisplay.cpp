@@ -4,7 +4,6 @@ DepthDisplay::DepthDisplay(QWidget *parent) :
     QLabel(parent)
 {
     this->setScaledContents(true);
-    this->setPixmap(QPixmap(this->width(), this->height()));
     xPixelSelect = int (this->width()/2);
     yPixelSelect = int (this->height()/2);
     penline.setColor(Qt::green);
@@ -34,11 +33,7 @@ void DepthDisplay::mousePressEvent(QMouseEvent *event)
         yPixelSelect = int (pixmapHeight*(y/labelHeight));
 
         emit sendPixelArrCoord(xPixelSelect, yPixelSelect);
-
-        //test
-        //QPixmap temp = this->pixmap()->copy();
-        //this->setPixmap(temp);
-
+        this->setImage(imageRaw, imageEqualized);
     }
 
     else
@@ -47,14 +42,16 @@ void DepthDisplay::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void DepthDisplay::setPixmap(const QPixmap &pix)
+void DepthDisplay::setImage(QImage imageRawIn, QImage imageEqualizedIn)
 {
-    QPixmap pixmap = pix;
-    painter = new QPainter(&pixmap);
+    imageRaw = imageRawIn;
+    imageEqualized = imageEqualizedIn;
+    pixmapTemp = QPixmap::fromImage(imageEqualized);
+    painter = new QPainter(&pixmapTemp);
     painter->setPen(penline);
     painter->drawPoint(xPixelSelect, yPixelSelect);
 
-
-    QLabel::setPixmap(pixmap);
+    emit sendPixelValue(imageRaw.pixelColor(xPixelSelect, yPixelSelect).red());
+    QLabel::setPixmap(pixmapTemp);
     delete painter;
 }

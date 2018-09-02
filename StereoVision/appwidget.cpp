@@ -25,7 +25,9 @@ AppWidget::~AppWidget()
     }
 
     delete threadStereoCamera;
+    threadStereoCamera = nullptr;
     delete threadTimer;
+    threadTimer = nullptr;
 }
 
 
@@ -33,25 +35,17 @@ void AppWidget::initTimer(const int timerInterval)
 {
     threadTimer = new QThread();
     intervalRegulator = new timerRegulator();
-    timer = new QTimer();
 
-    timer->setInterval(timerInterval);
     intervalRegulator->setInterval(timerInterval);
 
-    connect(intervalRegulator, SIGNAL(sendInterval(int)), timer, SLOT(start(int)));
-    connect(intervalRegulator, SIGNAL(sendStart(int)), timer, SLOT(start(int)));
-    connect(intervalRegulator, SIGNAL(sendStop()), timer, SLOT(stop()));
     connect(this, SIGNAL(sendPauseTimer()), intervalRegulator, SLOT(receivePause()));
     connect(this, SIGNAL(sendResumeTimer()), intervalRegulator, SLOT(receiveResume()));
-    connect(timer, SIGNAL(timeout()), intervalRegulator, SLOT(receiveTimeout()));
-    connect(threadTimer, SIGNAL(finished()), timer, SLOT(deleteLater()));
     connect(threadTimer, SIGNAL(finished()), intervalRegulator, SLOT(deleteLater()));
-    connect(threadTimer, SIGNAL(started()), timer, SLOT(start()));
+    connect(threadTimer, SIGNAL(started()), intervalRegulator, SLOT(receiveStart()));
 }
 
 void AppWidget::startTimer()
 {
-    timer->moveToThread(threadTimer);
     intervalRegulator->moveToThread(threadTimer);
     threadTimer->start();
 }
@@ -71,7 +65,7 @@ void AppWidget::initCamera(const int leftCameraId, const int rightCameraId)
     threadStereoCamera = new QThread();
     camera = new stereoCamera();
     camera->receiveSetup(leftCameraId, rightCameraId);
-    connect(timer, SIGNAL(timeout()), camera, SLOT(receiveGrabFrame()));
+    connect(intervalRegulator, SIGNAL(sendTimeout()), camera, SLOT(receiveGrabFrame()));
     connect(threadStereoCamera, SIGNAL(finished()), camera, SLOT(deleteLater()));
 }
 
@@ -94,4 +88,13 @@ void AppWidget::displayFrame(cv::Mat frame, QLabel * display)
         QImage output(frame.data, frame.cols, frame.rows, static_cast<int>(frame.step), QImage::Format_Grayscale8);
         display->setPixmap(QPixmap::fromImage(output));
     }
+}
+
+void AppWidget::displayDisparity(cv::Mat frame, DepthDisplay * display)
+{
+    cv::Mat frameEq;
+    cv::equalizeHist(frame, frameEq);
+    QImage outputRaw(frame.data, frame.cols, frame.rows, static_cast<int>(frame.step), QImage::Format_Grayscale8);
+    QImage outputEq(frameEq.data, frameEq.cols, frameEq.rows, static_cast<int>(frameEq.step), QImage::Format_Grayscale8);
+    display->setImage(outputRaw, outputEq);
 }

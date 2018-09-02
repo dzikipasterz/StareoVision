@@ -9,6 +9,12 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
     ui->setupUi(this);
     settings = sett;
 
+    disparityDisplay = new DepthDisplay();
+    disparityDisplay->setScaledContents(true);
+
+    connect(disparityDisplay, SIGNAL(sendPixelValue(int)), this, SLOT(receivePixelValue(int)));
+
+    ui->gridLayout->addWidget(disparityDisplay,0,0);
 
     AppWidget::initTimer();
     AppWidget::initCamera(settings->readLeftCameraId(), settings->readRightCameraId());
@@ -39,6 +45,8 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
 widgetMeasOnline::~widgetMeasOnline()
 {
     delete ui;
+    ui->gridLayout->removeWidget(disparityDisplay);
+    delete disparityDisplay;
 
     if(threadRectifier != nullptr)
     {
@@ -59,5 +67,10 @@ void widgetMeasOnline::receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrame
 {
     leftFrameRaw.release();
     rightFrameRaw.release();
-    displayFrame(disparity, ui->labelDisparityDisplay);
+    displayDisparity(disparity, disparityDisplay);
+}
+
+void widgetMeasOnline::receivePixelValue(int val)
+{
+    ui->doubleSpinBoxPixVal->setValue(val);
 }

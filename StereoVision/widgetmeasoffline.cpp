@@ -14,6 +14,7 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     settings = sett;
 
     connect(depthDisplay, SIGNAL(sendPixelArrCoord(int, int)), this, SLOT(receivePixelArrCoord(int, int)));
+    connect(depthDisplay, SIGNAL(sendPixelValue(int)), this, SLOT(receivePixValue(int)));
     ui->gridLayout->addWidget(depthDisplay,0,0);
     depthDisplay->setFrameShape(QFrame::Box);
     depthDisplay->setScaledContents(true);
@@ -93,9 +94,14 @@ void widgetMeasOffline::receivePixelArrCoord(int, int)
 
 void widgetMeasOffline::receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity)
 {
-    displayFrame(disparity, depthDisplay);
+    displayDisparity(disparity, depthDisplay);
     displayFrame(leftFrameRaw, ui->labelLeftDisplay);
     displayFrame(rightFrameRaw, ui->labelRightDisplay);
+}
+
+void widgetMeasOffline::receivePixValue(int val)
+{
+    ui->doubleSpinBoxPixelVal->setValue(val);
 }
 
 void widgetMeasOffline::on_pushButtonLeftSource_clicked()

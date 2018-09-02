@@ -2,6 +2,7 @@
 #define TIMERREGULATOR_H
 
 #include <QObject>
+#include <QTimer>
 
 class timerRegulator : public QObject
 {
@@ -14,18 +15,18 @@ public:
 
 
 signals:
-    void sendInterval(int msecInterval);
-    void sendStop();
-    void sendStart(int msecInterval);
+    void sendTimeout();
 
 public slots:
 
+    void receiveStart();
     void receiveJobDone();
     void receiveTimeout();
     void receivePause();
     void receiveResume();
 
 private:
+    QTimer *timer;
     int alertThreshold;
     int upperThreshold;
     int lowerThreshold;
