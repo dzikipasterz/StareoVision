@@ -1,9 +1,14 @@
 #include "stereobm.h"
 
 StereoBM::StereoBM() :
-    numOfDisparities(16)
+    numOfDisparities(80),
+    winSize(5)
 {
-
+    leftMatcher = cv::StereoBM::create(numOfDisparities, winSize);
+    filter = cv::ximgproc::createDisparityWLSFilter(leftMatcher);
+    filter->setLambda(8000.0);
+    filter->setSigmaColor(1.5);
+    rightMatcher = cv::ximgproc::createRightMatcher(leftMatcher);
 }
 
 StereoBM::~StereoBM()
@@ -12,26 +17,16 @@ StereoBM::~StereoBM()
 
 void StereoBM::setup()
 {
-    bm = cv::StereoBM::create(numOfDisparities, 9);
-/*
-    bm->setROI1(roi1);
-    bm->setROI2(roi2);
-    bm->setPreFilterCap(31);
-    bm->setMinDisparity(0);
-    bm->setTextureThreshold(10);
-    bm->setUniquenessRatio(15);
-    bm->setSpeckleWindowSize(100);
-    bm->setSpeckleRange(32);
-    bm->setDisp12MaxDiff(1);
-*/
+    //bm = cv::StereoBM::create(numOfDisparities, 9);
 }
 
 
-void StereoBM::processFrames(cv::Mat leftFrame, cv::Mat rightFrame)
+void StereoBM::processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
 {
-    bm->compute(leftFrame, rightFrame, disparityRaw);
-    disparityRaw.convertTo(disparity, CV_8U, 255/(numOfDisparities*16.));
+    leftMatcher->compute(leftFrameRectified, rightFrameRectified, leftDisp);
+    rightMatcher->compute(rightFrameRectified, leftFrameRectified, rightDisp);
+    filter->filter(leftDisp, leftFrameRectified, filteredDisp, rightDisp);
+    cv::ximgproc::getDisparityVis(filteredDisp, filteredDispVis);
 
-    emit sendDisparityMap(disparity);
-    //emit sendDisparityMap(leftFrame);
+    emit sendDisparity(leftFrameRaw, rightFrameRaw, filteredDispVis);
 }

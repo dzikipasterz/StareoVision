@@ -32,7 +32,7 @@ signals:
     void SendStartMeas();
 
 public slots:
-    void receiveFrame(cv::Mat frame);
+    void receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
     void receivePixelArrCoord(int x, int y);
 
 private slots:
@@ -51,12 +51,9 @@ private:
     Rectifier *rectifier;
     StereoMatcher *stereoMatcher;
     PostFilter *filter;
-    DisparityConverter *converter;
     QThread *threadSourceReader;
     QThread *threadRectifier;
     QThread *threadStereoMatcher;
-    QThread *threadPostprocessing;
-    QThread *threadDispToDist;
 
     void setupMeasurement();
     void stopThreads();

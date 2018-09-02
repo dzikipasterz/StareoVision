@@ -5,7 +5,7 @@ DisparityConverter::DisparityConverter(QObject *parent) : QObject(parent)
 
 }
 
-void DisparityConverter::receiveFrame(cv::Mat disparityFrame)
+void DisparityConverter::receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparityFrame)
 {
-    emit sendFrame(disparityFrame);
+    emit sendDisparity(leftFrameRaw, rightFrameRaw, disparityFrame);
 }

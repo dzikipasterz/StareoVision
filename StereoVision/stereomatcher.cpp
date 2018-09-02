@@ -22,11 +22,12 @@ void StereoMatcher::readCalibFile()
     file.release();
 }
 
-void StereoMatcher::processFrames(cv::Mat, cv::Mat){}
+void StereoMatcher::processFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat){}
 void StereoMatcher::setup(){};
 
-void StereoMatcher::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
+void StereoMatcher::receiveFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
 {
-    processFrames(leftFrame, rightFrame);
+    processFrames(leftFrameRaw, rightFrameRaw, leftFrameRectified, rightFrameRectified);
+    emit sendJobDone();
 }
 

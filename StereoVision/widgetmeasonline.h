@@ -4,6 +4,9 @@
 #include <QWidget>
 #include <appsettings.h>
 #include <appwidget.h>
+#include <rectifier.h>
+#include <stereobm.h>
+#include <stereosgbm.h>
 
 namespace Ui {
 class widgetMeasOnline;
@@ -17,8 +20,15 @@ public:
     explicit widgetMeasOnline(AppSettings *sett);
     ~widgetMeasOnline();
 
+public slots:
+    void receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
+
 private:
     Ui::widgetMeasOnline *ui;
+    QThread *threadRectifier, *threadStereoMatcher;
+    Rectifier *rectifier;
+    StereoMatcher *stereoMatcher;
+
 };
 
 #endif // WIDGETMEASONLINE_H

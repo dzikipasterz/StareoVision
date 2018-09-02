@@ -8,9 +8,7 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     stereoMatcher(nullptr),
     threadSourceReader(nullptr),
     threadRectifier(nullptr),
-    threadStereoMatcher(nullptr),
-    threadPostprocessing(nullptr),
-    threadDispToDist(nullptr)
+    threadStereoMatcher(nullptr)
 {
     ui->setupUi(this);
     settings = sett;
@@ -19,6 +17,8 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     ui->gridLayout->addWidget(depthDisplay,0,0);
     depthDisplay->setFrameShape(QFrame::Box);
     depthDisplay->setScaledContents(true);
+    ui->labelLeftDisplay->setScaledContents(true);
+    ui->labelRightDisplay->setScaledContents(true);
 }
 
 
@@ -34,38 +34,27 @@ void widgetMeasOffline::setupMeasurement()
     threadSourceReader = new QThread();
     threadRectifier = new QThread();
     threadStereoMatcher = new QThread();
-    threadPostprocessing = new QThread();
-    threadDispToDist = new QThread();
 
     sourceReader = new ImageReader(); //#todo: zaleznie od formatu
     sourceReader->setSourcePaths(ui->labelSourceLeft->text(), ui->labelSourceRight->text());
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
-    stereoMatcher = new StereoSGBM(); //#todo: zaleznie od wybranego algorytmu
-    stereoMatcher->setCalibFile(settings->readCalibFilePath());
-    filter = new PostFilter(); //#todo: zaleznie od wybranego algorytmu
-    converter = new DisparityConverter();
+    stereoMatcher = new StereoBM(); //#todo: zaleznie od wybranego algorytmu
 
     connect(threadSourceReader, SIGNAL(finished()), sourceReader, SLOT(deleteLater()));
     connect(threadRectifier, SIGNAL(finished()), rectifier, SLOT(deleteLater()));
     connect(threadStereoMatcher, SIGNAL(finished()), stereoMatcher, SLOT(deleteLater()));
-    connect(threadPostprocessing, SIGNAL(finished()), filter, SLOT(deleteLater()));
-    connect(threadDispToDist, SIGNAL(finished()), converter, SLOT(deleteLater()));
+
 
     connect(this, SIGNAL(SendStartMeas()), sourceReader, SLOT(receiveStart()));
     connect(sourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), rectifier, SLOT(receiveFrames(cv::Mat, cv::Mat)));
-    connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat)));
-    //connect(stereoMatcher, SIGNAL(sendDisparityMap(cv::Mat)), this, SLOT(receiveFrame(cv::Mat)));
-    connect(stereoMatcher, SIGNAL(sendDisparityMap(cv::Mat)), filter, SLOT(receiveFrame(cv::Mat)));
-    connect(filter, SIGNAL(sendFrame(cv::Mat)), converter, SLOT(receiveFrame(cv::Mat)));
-    connect(converter, SIGNAL(sendFrame(cv::Mat)), this, SLOT(receiveFrame(cv::Mat)));
+    connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
+    connect(stereoMatcher, SIGNAL(sendDisparity(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparity(cv::Mat, cv::Mat, cv::Mat)));
 
     sourceReader->moveToThread(threadSourceReader);
     rectifier->moveToThread(threadRectifier);
     stereoMatcher->moveToThread(threadStereoMatcher);
 
-    threadDispToDist->start();
-    threadPostprocessing->start();
     threadStereoMatcher->start();
     threadRectifier->start();
     threadSourceReader->start();
@@ -95,20 +84,6 @@ void widgetMeasOffline::stopThreads()
         while(!threadStereoMatcher->isFinished());
         threadStereoMatcher = nullptr;
     }
-
-    if(threadPostprocessing != nullptr)
-    {
-        threadPostprocessing->quit();
-        while(!threadPostprocessing->isFinished());
-        threadPostprocessing = nullptr;
-    }
-
-    if(threadDispToDist != nullptr)
-    {
-        threadDispToDist->quit();
-        while(!threadDispToDist->isFinished());
-        threadDispToDist = nullptr;
-    }
 }
 
 void widgetMeasOffline::receivePixelArrCoord(int, int)
@@ -116,9 +91,11 @@ void widgetMeasOffline::receivePixelArrCoord(int, int)
 
 }
 
-void widgetMeasOffline::receiveFrame(cv::Mat frame)
+void widgetMeasOffline::receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity)
 {
-    displayFrame(frame, depthDisplay);
+    displayFrame(disparity, depthDisplay);
+    displayFrame(leftFrameRaw, ui->labelLeftDisplay);
+    displayFrame(rightFrameRaw, ui->labelRightDisplay);
 }
 
 void widgetMeasOffline::on_pushButtonLeftSource_clicked()

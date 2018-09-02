@@ -1,4 +1,4 @@
-#ifndef STEREOMATCHER_H
+﻿#ifndef STEREOMATCHER_H
 #define STEREOMATCHER_H
 
 #include <QObject>
@@ -18,16 +18,17 @@ public:
     void setCalibFile(QString file);
 
 signals:
-    void sendDisparityMap(cv::Mat disparity);
+    void sendDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
+    void sendJobDone();
 
 public slots:
-    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+    void receiveFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified);
 
 protected:
     QString calibrationFile;
     cv::Rect roi1, roi2;
 
-    void virtual processFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+    void virtual processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified);
     void virtual setup();
 
 private:

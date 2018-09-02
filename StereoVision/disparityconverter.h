@@ -11,10 +11,10 @@ public:
     explicit DisparityConverter(QObject *parent = nullptr);
 
 signals:
-    void sendFrame(cv::Mat distanceFrame);
+    void sendDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat distanceFrame);
 
 public slots:
-    void receiveFrame(cv::Mat disparityFrame);
+    void receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparityFrame);
 };
 
 #endif // DISPARITYCONVERTER_H

@@ -10,7 +10,7 @@ public:
     StereoSGBM();
 
 protected:
-    void processFrames(cv::Mat leftFrame, cv::Mat rightFrame) override;
+    void processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified) override;
 
 private:
     cv::Ptr<cv::StereoSGBM> leftMatcher;

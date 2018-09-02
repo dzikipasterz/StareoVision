@@ -2,9 +2,9 @@
 
 timerRegulator::timerRegulator(QObject *parent) :
     QObject(parent),
-    alertThreshold(20),
-    upperThreshold(10),
-    lowerThreshold(5),
+    alertThreshold(8),
+    upperThreshold(5),
+    lowerThreshold(2),
     triggerCounter(0),
     paused(false)
 {

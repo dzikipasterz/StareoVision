@@ -8,13 +8,8 @@ StereoSGBM::StereoSGBM() :
 
     leftMatcher->setP1(24*sgbmWinSize*sgbmWinSize);
     leftMatcher->setP2(96*sgbmWinSize*sgbmWinSize);
-    //leftMatcher->setMinDisparity(50);
     leftMatcher->setNumDisparities(numOfDisparities);
     leftMatcher->setPreFilterCap(63);
-    //leftMatcher->setUniquenessRatio(10);
-    //leftMatcher->setSpeckleWindowSize(100);
-    //leftMatcher->setSpeckleRange(32);
-    //leftMatcher->setDisp12MaxDiff(1);
     leftMatcher->setMode(cv::StereoSGBM::MODE_SGBM_3WAY);
 
     filter = cv::ximgproc::createDisparityWLSFilter(leftMatcher);
@@ -23,12 +18,12 @@ StereoSGBM::StereoSGBM() :
     rightMatcher = cv::ximgproc::createRightMatcher(leftMatcher);
 }
 
-void StereoSGBM::processFrames(cv::Mat leftFrame, cv::Mat rightFrame)
+void StereoSGBM::processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
 {   
-    leftMatcher->compute(leftFrame, rightFrame, leftDisp);
-    rightMatcher->compute(rightFrame, leftFrame, rightDisp);
-    filter->filter(leftDisp, leftFrame, filteredDisp, rightDisp);
+    leftMatcher->compute(leftFrameRectified, rightFrameRectified, leftDisp);
+    rightMatcher->compute(rightFrameRectified, leftFrameRectified, rightDisp);
+    filter->filter(leftDisp, leftFrameRectified, filteredDisp, rightDisp);
     cv::ximgproc::getDisparityVis(filteredDisp, filteredDispVis);
 
-    emit sendDisparityMap(filteredDispVis);
+    emit sendDisparity(leftFrameRaw, rightFrameRaw, filteredDispVis);
 }

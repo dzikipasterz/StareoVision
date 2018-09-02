@@ -26,14 +26,21 @@ void Rectifier::readCalibFile()
 
 void Rectifier::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
+    if(leftFrame.type() != CV_8UC1)
+    {
+        cv::cvtColor(leftFrame, leftFrame, CV_BGR2GRAY);
+    }
+
+    if(rightFrame.type() != CV_8UC1)
+    {
+        cv::cvtColor(rightFrame, rightFrame, CV_BGR2GRAY);
+    }
+
     cv::Mat leftDst = leftFrame.clone();
     cv::Mat rightDst = rightFrame.clone();
 
     cv::remap(leftFrame, leftDst, leftMap1, leftMap2, cv::INTER_LINEAR);
     cv::remap(rightFrame, rightDst, rightMap1, rightMap2, cv::INTER_LINEAR);
 
-    leftFrame.release();
-    rightFrame.release();
-
-    emit sendFrames(leftDst, rightDst);
+    emit sendFrames(leftFrame, rightFrame, leftDst, rightDst);
 }
