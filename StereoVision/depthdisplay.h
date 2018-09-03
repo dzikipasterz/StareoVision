@@ -2,6 +2,8 @@
 #define DEPTHDISPLAY_H
 
 #include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
 #include <QLabel>
 #include <QSize>
 #include <QEvent>
@@ -16,11 +18,11 @@ public:
 
     QSize minimumSizeHint() const override;
     void setImage(QImage imageRaw, QImage imageEqualized);
+    void setDispToDistMat(cv::Mat map);
 
 
 signals:
-    void sendPixelArrCoord(int x, int y);
-    void sendPixelValue(int val);
+    void sendDistance(double distance);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -33,6 +35,10 @@ private:
     QPen penline;
     QPixmap pixmapTemp;
     QImage imageRaw, imageEqualized;
+    double distance;
+    cv::Mat dispDistMap;
+
+    void dispToDepth();
 };
 
 #endif // DEPTHDISPLAY_H

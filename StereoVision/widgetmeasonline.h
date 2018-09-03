@@ -22,7 +22,7 @@ public:
 
 public slots:
     void receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
-    void receivePixelValue(int val);
+    void receiveDistance(double distance);
 
 private:
     Ui::widgetMeasOnline *ui;

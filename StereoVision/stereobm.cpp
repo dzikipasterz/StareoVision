@@ -1,13 +1,13 @@
 #include "stereobm.h"
 
 StereoBM::StereoBM() :
-    numOfDisparities(80),
-    winSize(5)
+    numOfDisparities(160),
+    winSize(13)
 {
     leftMatcher = cv::StereoBM::create(numOfDisparities, winSize);
     filter = cv::ximgproc::createDisparityWLSFilter(leftMatcher);
-    filter->setLambda(8000.0);
-    filter->setSigmaColor(1.5);
+    filter->setLambda(10000.0);
+    filter->setSigmaColor(1.0);
     rightMatcher = cv::ximgproc::createRightMatcher(leftMatcher);
 }
 

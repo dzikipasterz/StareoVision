@@ -49,7 +49,7 @@ private:
     cv::Mat leftCamMat, rightCamMat, leftDistCoeff, rightDistCoeff;
     std::vector<cv::Mat> leftRvecs, rightRvecs, leftTvecs, rightTvecs;
     cv::Mat rotMat, transMat, essMat, fundMat; 
-    cv::Mat leftRotMat, rightRotMat, leftProjMat, rightProjMat, perspectiveMat;
+    cv::Mat leftRotMat, rightRotMat, leftProjMat, rightProjMat, dispToDepthMat;
     cv::Mat leftMap1, leftMap2, rightMap1, rightMap2;
 
     void generateChessboard();

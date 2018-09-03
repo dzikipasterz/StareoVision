@@ -11,8 +11,9 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
 
     disparityDisplay = new DepthDisplay();
     disparityDisplay->setScaledContents(true);
+    disparityDisplay->setDispToDistMat(settings->readDispToDepthMap());
 
-    connect(disparityDisplay, SIGNAL(sendPixelValue(int)), this, SLOT(receivePixelValue(int)));
+    connect(disparityDisplay, SIGNAL(sendDistance(double)), this, SLOT(receiveDistance(double)));
 
     ui->gridLayout->addWidget(disparityDisplay,0,0);
 
@@ -24,7 +25,7 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
 
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
-    stereoMatcher = new StereoSGBM(); //#todo: zaleznie od wybranego algorytmu
+    stereoMatcher = new StereoBM(); //#todo: zaleznie od wybranego algorytmu
 
     connect(AppWidget::camera,SIGNAL(sendFrames(cv::Mat, cv::Mat)),rectifier,SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
@@ -70,7 +71,7 @@ void widgetMeasOnline::receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrame
     displayDisparity(disparity, disparityDisplay);
 }
 
-void widgetMeasOnline::receivePixelValue(int val)
+void widgetMeasOnline::receiveDistance(double distance)
 {
-    ui->doubleSpinBoxPixVal->setValue(val);
+    ui->doubleSpinBoxDistance->setValue(distance);
 }

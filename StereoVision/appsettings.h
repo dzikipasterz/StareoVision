@@ -30,6 +30,7 @@ public:
     void setChessboardSquareSize(double size);
     double readChessboardSquareSize();
     cv::Size readPatternSize();
+    cv::Mat readDispToDepthMap();
 
 private:
     QSettings *config;

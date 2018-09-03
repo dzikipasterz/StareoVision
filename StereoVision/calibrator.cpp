@@ -92,17 +92,17 @@ void Calibrator::receiveStartCalibration()
     //int flag = CV_CALIB_FIX_PRINCIPAL_POINT | CV_CALIB_RATIONAL_MODEL | CV_CALIB_FIX_K3;
 
     emit sendCalibrationStatus("Kalibracja lewej kamery w toku");
-    leftErr = cv::calibrateCamera(chessboardKnownPosition, leftCorners, imgSize, leftCamMat, leftDistCoeff, leftRvecs, leftTvecs, flag, cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 10000, 1e-9));
+    leftErr = cv::calibrateCamera(chessboardKnownPosition, leftCorners, imgSize, leftCamMat, leftDistCoeff, leftRvecs, leftTvecs, flag, cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 1000, 1e-9));
 
     emit sendCalibrationStatus("Kalibracja prawej kamery w toku");
-    rightErr = cv::calibrateCamera(chessboardKnownPosition, rightCorners, imgSize, rightCamMat, rightDistCoeff, rightRvecs, rightTvecs, flag, cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 10000, 1e-9));
+    rightErr = cv::calibrateCamera(chessboardKnownPosition, rightCorners, imgSize, rightCamMat, rightDistCoeff, rightRvecs, rightTvecs, flag, cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 1000, 1e-9));
 
     emit sendCalibrationStatus("Stereokalibracja w toku");
-    stereoErr = cv::stereoCalibrate(chessboardKnownPosition, leftCorners, rightCorners, leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, essMat, fundMat, CV_CALIB_FIX_INTRINSIC | CV_CALIB_SAME_FOCAL_LENGTH , cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 10000, 1e-9));
+    stereoErr = cv::stereoCalibrate(chessboardKnownPosition, leftCorners, rightCorners, leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, essMat, fundMat, CV_CALIB_FIX_INTRINSIC | CV_CALIB_SAME_FOCAL_LENGTH , cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 30, 1e-9));
 
     emit sendCalibrationStatus("Wyznaczanie parametrów rektyfikacji w toku");
     cv::Rect roi1, roi2;
-    cv::stereoRectify(leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, leftRotMat, rightRotMat, leftProjMat, rightProjMat, perspectiveMat, cv::CALIB_ZERO_DISPARITY, 0.0, imgSize, &roi1, &roi2);
+    cv::stereoRectify(leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, leftRotMat, rightRotMat, leftProjMat, rightProjMat, dispToDepthMat, cv::CALIB_ZERO_DISPARITY, 0.0, imgSize, &roi1, &roi2);
 
     emit sendCalibrationStatus("Budowa mapy rektyfikacji dla lewej kamery w toku");
     cv::initUndistortRectifyMap(leftCamMat, leftDistCoeff, leftRotMat, leftProjMat, imgSize,  CV_16SC2, leftMap1, leftMap2);
@@ -129,6 +129,7 @@ void Calibrator::receiveStartCalibration()
     file << "rightRotMat" << rightRotMat;
     file << "leftProjMat" << leftProjMat;
     file << "rightProjMat" << rightProjMat;
+    file << "dispToDepthMat" << dispToDepthMat;
     file << "roi1" << roi1;
     file << "roi2" << roi2;
     file << "leftMap1" << leftMap1;

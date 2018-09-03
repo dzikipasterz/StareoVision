@@ -1,10 +1,10 @@
 #include "stereosgbm.h"
 
 StereoSGBM::StereoSGBM() :
-    numOfDisparities(80),
-    sgbmWinSize(1)
+    numOfDisparities(160),
+    sgbmWinSize(13)
 {
-    leftMatcher = cv::StereoSGBM::create(20, numOfDisparities, sgbmWinSize);
+    leftMatcher = cv::StereoSGBM::create(1, numOfDisparities, sgbmWinSize);
 
     leftMatcher->setP1(24*sgbmWinSize*sgbmWinSize);
     leftMatcher->setP2(96*sgbmWinSize*sgbmWinSize);
@@ -13,8 +13,8 @@ StereoSGBM::StereoSGBM() :
     leftMatcher->setMode(cv::StereoSGBM::MODE_SGBM_3WAY);
 
     filter = cv::ximgproc::createDisparityWLSFilter(leftMatcher);
-    filter->setLambda(8000.0);
-    filter->setSigmaColor(1.5);
+    filter->setLambda(10000.0);
+    filter->setSigmaColor(1.0);
     rightMatcher = cv::ximgproc::createRightMatcher(leftMatcher);
 }
 

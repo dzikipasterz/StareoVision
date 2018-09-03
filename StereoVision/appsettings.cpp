@@ -106,6 +106,17 @@ cv::Size AppSettings::readPatternSize()
     return cv::Size(readChessboardCols()-1, readChessboardRows()-1);
 }
 
+cv::Mat AppSettings::readDispToDepthMap()
+{
+    cv::FileStorage file(this->readCalibFilePath().toUtf8().constData(), cv::FileStorage::READ);
+    cv::Mat Map;
+    file["dispToDepthMat"] >> Map;
+
+    file.release();
+
+    return Map;
+}
+
 void AppSettings::readConfigFile()
 {
     config->sync();
