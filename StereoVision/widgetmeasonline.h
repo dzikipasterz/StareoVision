@@ -7,6 +7,7 @@
 #include <rectifier.h>
 #include <stereobm.h>
 #include <stereosgbm.h>
+#include <stereobp.h>
 #include "mrf.h"
 #include "ICM.h"
 #include "GCoptimization.h"
