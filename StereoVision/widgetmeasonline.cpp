@@ -8,6 +8,7 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
 {
     ui->setupUi(this);
     settings = sett;
+    MRF *mrf;
 
     disparityDisplay = new DepthDisplay();
     disparityDisplay->setScaledContents(true);
@@ -25,7 +26,7 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
 
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
-    stereoMatcher = new StereoBM(); //#todo: zaleznie od wybranego algorytmu
+    stereoMatcher = new StereoSGBM(); //#todo: zaleznie od wybranego algorytmu
 
     connect(AppWidget::camera,SIGNAL(sendFrames(cv::Mat, cv::Mat)),rectifier,SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));

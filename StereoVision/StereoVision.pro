@@ -51,7 +51,8 @@ SOURCES += \
     disparityconverter.cpp \
     postfilter.cpp \
     stereobm.cpp \
-    stereosgbm.cpp
+    stereosgbm.cpp \
+    stereobp.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -81,7 +82,8 @@ HEADERS += \
     disparityconverter.h \
     postfilter.h \
     stereobm.h \
-    stereosgbm.h
+    stereosgbm.h \
+    stereobp.h
 
 FORMS += \
         mainwindow.ui \
@@ -94,7 +96,9 @@ FORMS += \
     widgetmeasoffline.ui \
     widgetmeasonline.ui
 
+
 LIBS += -lopencv_highgui -lopencv_core -lopencv_imgproc -lopencv_videoio -lopencv_calib3d -lopencv_imgcodecs -lopencv_ximgproc
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

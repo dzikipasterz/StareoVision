@@ -7,6 +7,13 @@
 #include <rectifier.h>
 #include <stereobm.h>
 #include <stereosgbm.h>
+#include "mrf.h"
+#include "ICM.h"
+#include "GCoptimization.h"
+#include "MaxProdBP.h"
+#include "TRW-S.h"
+#include "BP-S.h"
+
 
 namespace Ui {
 class widgetMeasOnline;
