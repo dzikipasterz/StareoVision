@@ -32,7 +32,7 @@ void DepthDisplay::mousePressEvent(QMouseEvent *event)
         xPixelSelect = int (pixmapWidth*(x/labelWidth));
         yPixelSelect = int (pixmapHeight*(y/labelHeight));
 
-        this->setImage(imageRaw, imageEqualized);
+        this->setImage(imageRaw);
     }
 
     else
@@ -41,10 +41,9 @@ void DepthDisplay::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void DepthDisplay::setImage(QImage imageRawIn, QImage imageEqualizedIn)
+void DepthDisplay::setImage(QImage disparity)
 {
-    imageRaw = imageRawIn;
-    imageEqualized = imageEqualizedIn;
+    imageRaw = disparity;
     pixmapTemp = QPixmap::fromImage(imageRaw);
     painter = new QPainter(&pixmapTemp);
     painter->setPen(penline);

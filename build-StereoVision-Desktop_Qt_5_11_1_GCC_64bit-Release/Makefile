@@ -38,7 +38,7 @@ DISTNAME      = StereoVision1.0.0
 DISTDIR = /home/slawko/StereoVision/build-StereoVision-Desktop_Qt_5_11_1_GCC_64bit-Release/.tmp/StereoVision1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/home/slawko/Qt/5.11.1/gcc_64/lib
-LIBS          = $(SUBLIBS) -lopencv_cudaarithm -lopencv_cudabgsegm -lopencv_cudacodec -lopencv_cudafeatures2d -lopencv_cudafilters -lopencv_cudaimgproc -lopencv_cudalegacy -lopencv_cudaobjdetect -lopencv_cudaoptflow -lopencv_cudawarping -lopencv_cudev -lopencv_cudastereo -lopencv_highgui -lopencv_core -lopencv_imgproc -lopencv_videoio -lopencv_calib3d -lopencv_imgcodecs -lopencv_ximgproc -L/home/slawko/Qt/5.11.1/gcc_64/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -lopencv_photo -lopencv_cudaarithm -lopencv_cudabgsegm -lopencv_cudacodec -lopencv_cudafeatures2d -lopencv_cudafilters -lopencv_cudaimgproc -lopencv_cudalegacy -lopencv_cudaobjdetect -lopencv_cudaoptflow -lopencv_cudawarping -lopencv_cudev -lopencv_cudastereo -lopencv_highgui -lopencv_core -lopencv_imgproc -lopencv_videoio -lopencv_calib3d -lopencv_imgcodecs -lopencv_ximgproc -L/home/slawko/Qt/5.11.1/gcc_64/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -77,9 +77,11 @@ SOURCES       = ../StereoVision/main.cpp \
 		../StereoVision/rectifier.cpp \
 		../StereoVision/disparityconverter.cpp \
 		../StereoVision/postfilter.cpp \
-		../StereoVision/stereobm.cpp \
-		../StereoVision/stereosgbm.cpp \
-		../StereoVision/stereobp.cpp moc_mainwindow.cpp \
+		../StereoVision/stereobpcuda.cpp \
+		../StereoVision/stereobmcpu.cpp \
+		../StereoVision/stereosgbmcpu.cpp \
+		../StereoVision/stereobmcuda.cpp \
+		../StereoVision/stereocsbpcuda.cpp moc_mainwindow.cpp \
 		moc_info.cpp \
 		moc_closeconfirm.cpp \
 		moc_widgetmeasurement.cpp \
@@ -129,9 +131,11 @@ OBJECTS       = main.o \
 		rectifier.o \
 		disparityconverter.o \
 		postfilter.o \
-		stereobm.o \
-		stereosgbm.o \
-		stereobp.o \
+		stereobpcuda.o \
+		stereobmcpu.o \
+		stereosgbmcpu.o \
+		stereobmcuda.o \
+		stereocsbpcuda.o \
 		moc_mainwindow.o \
 		moc_info.o \
 		moc_closeconfirm.o \
@@ -351,9 +355,11 @@ DIST          = ../../Qt/5.11.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../StereoVision/rectifier.h \
 		../StereoVision/disparityconverter.h \
 		../StereoVision/postfilter.h \
-		../StereoVision/stereobm.h \
-		../StereoVision/stereosgbm.h \
-		../StereoVision/stereobp.h ../StereoVision/main.cpp \
+		../StereoVision/stereobpcuda.h \
+		../StereoVision/stereobmcpu.h \
+		../StereoVision/stereosgbmcpu.h \
+		../StereoVision/stereobmcuda.h \
+		../StereoVision/stereocsbpcuda.h ../StereoVision/main.cpp \
 		../StereoVision/mainwindow.cpp \
 		../StereoVision/info.cpp \
 		../StereoVision/window_geometry.cpp \
@@ -380,9 +386,11 @@ DIST          = ../../Qt/5.11.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../StereoVision/rectifier.cpp \
 		../StereoVision/disparityconverter.cpp \
 		../StereoVision/postfilter.cpp \
-		../StereoVision/stereobm.cpp \
-		../StereoVision/stereosgbm.cpp \
-		../StereoVision/stereobp.cpp
+		../StereoVision/stereobpcuda.cpp \
+		../StereoVision/stereobmcpu.cpp \
+		../StereoVision/stereosgbmcpu.cpp \
+		../StereoVision/stereobmcuda.cpp \
+		../StereoVision/stereocsbpcuda.cpp
 QMAKE_TARGET  = StereoVision
 DESTDIR       = 
 TARGET        = StereoVision
@@ -758,8 +766,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../Qt/5.11.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../StereoVision/mainwindow.h ../StereoVision/info.h ../StereoVision/window_geometry.h ../StereoVision/closeconfirm.h ../StereoVision/widgetmeasurement.h ../StereoVision/widgetsettings.h ../StereoVision/widgetcalibration.h ../StereoVision/timerregulator.h ../StereoVision/stereocamera.h ../StereoVision/camera.h ../StereoVision/appsettings.h ../StereoVision/appwidget.h ../StereoVision/cornersfinder.h ../StereoVision/picturetaker.h ../StereoVision/calibrator.h ../StereoVision/widgetrecord.h ../StereoVision/videowriter.h ../StereoVision/widgetmeasoffline.h ../StereoVision/widgetmeasonline.h ../StereoVision/depthdisplay.h ../StereoVision/stereomatcher.h ../StereoVision/sourcereader.h ../StereoVision/imagereader.h ../StereoVision/rectifier.h ../StereoVision/disparityconverter.h ../StereoVision/postfilter.h ../StereoVision/stereobm.h ../StereoVision/stereosgbm.h ../StereoVision/stereobp.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../StereoVision/main.cpp ../StereoVision/mainwindow.cpp ../StereoVision/info.cpp ../StereoVision/window_geometry.cpp ../StereoVision/closeconfirm.cpp ../StereoVision/widgetmeasurement.cpp ../StereoVision/widgetsettings.cpp ../StereoVision/widgetcalibration.cpp ../StereoVision/timerregulator.cpp ../StereoVision/stereocamera.cpp ../StereoVision/camera.cpp ../StereoVision/appsettings.cpp ../StereoVision/appwidget.cpp ../StereoVision/cornersfinder.cpp ../StereoVision/picturetaker.cpp ../StereoVision/calibrator.cpp ../StereoVision/widgetrecord.cpp ../StereoVision/videowriter.cpp ../StereoVision/widgetmeasoffline.cpp ../StereoVision/widgetmeasonline.cpp ../StereoVision/depthdisplay.cpp ../StereoVision/stereomatcher.cpp ../StereoVision/sourcereader.cpp ../StereoVision/imagereader.cpp ../StereoVision/rectifier.cpp ../StereoVision/disparityconverter.cpp ../StereoVision/postfilter.cpp ../StereoVision/stereobm.cpp ../StereoVision/stereosgbm.cpp ../StereoVision/stereobp.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../StereoVision/mainwindow.h ../StereoVision/info.h ../StereoVision/window_geometry.h ../StereoVision/closeconfirm.h ../StereoVision/widgetmeasurement.h ../StereoVision/widgetsettings.h ../StereoVision/widgetcalibration.h ../StereoVision/timerregulator.h ../StereoVision/stereocamera.h ../StereoVision/camera.h ../StereoVision/appsettings.h ../StereoVision/appwidget.h ../StereoVision/cornersfinder.h ../StereoVision/picturetaker.h ../StereoVision/calibrator.h ../StereoVision/widgetrecord.h ../StereoVision/videowriter.h ../StereoVision/widgetmeasoffline.h ../StereoVision/widgetmeasonline.h ../StereoVision/depthdisplay.h ../StereoVision/stereomatcher.h ../StereoVision/sourcereader.h ../StereoVision/imagereader.h ../StereoVision/rectifier.h ../StereoVision/disparityconverter.h ../StereoVision/postfilter.h ../StereoVision/stereobpcuda.h ../StereoVision/stereobmcpu.h ../StereoVision/stereosgbmcpu.h ../StereoVision/stereobmcuda.h ../StereoVision/stereocsbpcuda.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../StereoVision/main.cpp ../StereoVision/mainwindow.cpp ../StereoVision/info.cpp ../StereoVision/window_geometry.cpp ../StereoVision/closeconfirm.cpp ../StereoVision/widgetmeasurement.cpp ../StereoVision/widgetsettings.cpp ../StereoVision/widgetcalibration.cpp ../StereoVision/timerregulator.cpp ../StereoVision/stereocamera.cpp ../StereoVision/camera.cpp ../StereoVision/appsettings.cpp ../StereoVision/appwidget.cpp ../StereoVision/cornersfinder.cpp ../StereoVision/picturetaker.cpp ../StereoVision/calibrator.cpp ../StereoVision/widgetrecord.cpp ../StereoVision/videowriter.cpp ../StereoVision/widgetmeasoffline.cpp ../StereoVision/widgetmeasonline.cpp ../StereoVision/depthdisplay.cpp ../StereoVision/stereomatcher.cpp ../StereoVision/sourcereader.cpp ../StereoVision/imagereader.cpp ../StereoVision/rectifier.cpp ../StereoVision/disparityconverter.cpp ../StereoVision/postfilter.cpp ../StereoVision/stereobpcuda.cpp ../StereoVision/stereobmcpu.cpp ../StereoVision/stereosgbmcpu.cpp ../StereoVision/stereobmcuda.cpp ../StereoVision/stereocsbpcuda.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../StereoVision/mainwindow.ui ../StereoVision/info.ui ../StereoVision/closeconfirm.ui ../StereoVision/widgetmeasurement.ui ../StereoVision/widgetsettings.ui ../StereoVision/widgetcalibration.ui ../StereoVision/widgetrecord.ui ../StereoVision/widgetmeasoffline.ui ../StereoVision/widgetmeasonline.ui $(DISTDIR)/
 
 
@@ -958,10 +966,12 @@ moc_mainwindow.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QMainWindow \
 		../StereoVision/widgetmeasurement.h \
 		../StereoVision/widgetmeasonline.h \
 		../StereoVision/rectifier.h \
-		../StereoVision/stereobm.h \
+		../StereoVision/stereobmcpu.h \
 		../StereoVision/stereomatcher.h \
-		../StereoVision/stereosgbm.h \
-		../StereoVision/stereobp.h \
+		../StereoVision/stereosgbmcpu.h \
+		../StereoVision/stereobpcuda.h \
+		../StereoVision/stereocsbpcuda.h \
+		../StereoVision/stereobmcuda.h \
 		../StereoVision/widgetmeasoffline.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/QImage \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QFileDialog \
@@ -2424,8 +2434,8 @@ moc_widgetmeasoffline.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../StereoVision/imagereader.h \
 		../StereoVision/rectifier.h \
 		../StereoVision/stereomatcher.h \
-		../StereoVision/stereobm.h \
-		../StereoVision/stereosgbm.h \
+		../StereoVision/stereobmcpu.h \
+		../StereoVision/stereosgbmcpu.h \
 		../StereoVision/postfilter.h \
 		../StereoVision/disparityconverter.h \
 		../StereoVision/widgetmeasoffline.h \
@@ -2562,10 +2572,12 @@ moc_widgetmeasonline.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
 		../StereoVision/rectifier.h \
-		../StereoVision/stereobm.h \
+		../StereoVision/stereobmcpu.h \
 		../StereoVision/stereomatcher.h \
-		../StereoVision/stereosgbm.h \
-		../StereoVision/stereobp.h \
+		../StereoVision/stereosgbmcpu.h \
+		../StereoVision/stereobpcuda.h \
+		../StereoVision/stereocsbpcuda.h \
+		../StereoVision/stereobmcuda.h \
 		../StereoVision/widgetmeasonline.h \
 		moc_predefs.h \
 		../../Qt/5.11.1/gcc_64/bin/moc
@@ -3175,10 +3187,12 @@ main.o: ../StereoVision/main.cpp ../StereoVision/mainwindow.h \
 		../StereoVision/widgetmeasurement.h \
 		../StereoVision/widgetmeasonline.h \
 		../StereoVision/rectifier.h \
-		../StereoVision/stereobm.h \
+		../StereoVision/stereobmcpu.h \
 		../StereoVision/stereomatcher.h \
-		../StereoVision/stereosgbm.h \
-		../StereoVision/stereobp.h \
+		../StereoVision/stereosgbmcpu.h \
+		../StereoVision/stereobpcuda.h \
+		../StereoVision/stereocsbpcuda.h \
+		../StereoVision/stereobmcuda.h \
 		../StereoVision/widgetmeasoffline.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/QImage \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QFileDialog \
@@ -3367,10 +3381,12 @@ mainwindow.o: ../StereoVision/mainwindow.cpp ../StereoVision/mainwindow.h \
 		../StereoVision/widgetmeasurement.h \
 		../StereoVision/widgetmeasonline.h \
 		../StereoVision/rectifier.h \
-		../StereoVision/stereobm.h \
+		../StereoVision/stereobmcpu.h \
 		../StereoVision/stereomatcher.h \
-		../StereoVision/stereosgbm.h \
-		../StereoVision/stereobp.h \
+		../StereoVision/stereosgbmcpu.h \
+		../StereoVision/stereobpcuda.h \
+		../StereoVision/stereocsbpcuda.h \
+		../StereoVision/stereobmcuda.h \
 		../StereoVision/widgetmeasoffline.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/QImage \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QFileDialog \
@@ -5130,8 +5146,8 @@ widgetmeasoffline.o: ../StereoVision/widgetmeasoffline.cpp ../StereoVision/widge
 		../StereoVision/imagereader.h \
 		../StereoVision/rectifier.h \
 		../StereoVision/stereomatcher.h \
-		../StereoVision/stereobm.h \
-		../StereoVision/stereosgbm.h \
+		../StereoVision/stereobmcpu.h \
+		../StereoVision/stereosgbmcpu.h \
 		../StereoVision/postfilter.h \
 		../StereoVision/disparityconverter.h \
 		ui_widgetmeasoffline.h \
@@ -5292,10 +5308,12 @@ widgetmeasonline.o: ../StereoVision/widgetmeasonline.cpp ../StereoVision/widgetm
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
 		../StereoVision/rectifier.h \
-		../StereoVision/stereobm.h \
+		../StereoVision/stereobmcpu.h \
 		../StereoVision/stereomatcher.h \
-		../StereoVision/stereosgbm.h \
-		../StereoVision/stereobp.h \
+		../StereoVision/stereosgbmcpu.h \
+		../StereoVision/stereobpcuda.h \
+		../StereoVision/stereocsbpcuda.h \
+		../StereoVision/stereobmcuda.h \
 		ui_widgetmeasonline.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QVariant \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QApplication \
@@ -5752,7 +5770,7 @@ postfilter.o: ../StereoVision/postfilter.cpp ../StereoVision/postfilter.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o postfilter.o ../StereoVision/postfilter.cpp
 
-stereobm.o: ../StereoVision/stereobm.cpp ../StereoVision/stereobm.h \
+stereobpcuda.o: ../StereoVision/stereobpcuda.cpp ../StereoVision/stereobpcuda.h \
 		../StereoVision/stereomatcher.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QObject \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qobject.h \
@@ -5804,9 +5822,63 @@ stereobm.o: ../StereoVision/stereobm.cpp ../StereoVision/stereobm.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stereobm.o ../StereoVision/stereobm.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stereobpcuda.o ../StereoVision/stereobpcuda.cpp
 
-stereosgbm.o: ../StereoVision/stereosgbm.cpp ../StereoVision/stereosgbm.h \
+stereobmcpu.o: ../StereoVision/stereobmcpu.cpp ../StereoVision/stereobmcpu.h \
+		../StereoVision/stereomatcher.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QObject \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringview.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stereobmcpu.o ../StereoVision/stereobmcpu.cpp
+
+stereosgbmcpu.o: ../StereoVision/stereosgbmcpu.cpp ../StereoVision/stereosgbmcpu.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QObject \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qobject.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs.h \
@@ -5858,9 +5930,9 @@ stereosgbm.o: ../StereoVision/stereosgbm.cpp ../StereoVision/stereosgbm.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h \
 		../StereoVision/stereomatcher.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stereosgbm.o ../StereoVision/stereosgbm.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stereosgbmcpu.o ../StereoVision/stereosgbmcpu.cpp
 
-stereobp.o: ../StereoVision/stereobp.cpp ../StereoVision/stereobp.h \
+stereobmcuda.o: ../StereoVision/stereobmcuda.cpp ../StereoVision/stereobmcuda.h \
 		../StereoVision/stereomatcher.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QObject \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qobject.h \
@@ -5912,7 +5984,61 @@ stereobp.o: ../StereoVision/stereobp.cpp ../StereoVision/stereobp.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stereobp.o ../StereoVision/stereobp.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stereobmcuda.o ../StereoVision/stereobmcuda.cpp
+
+stereocsbpcuda.o: ../StereoVision/stereocsbpcuda.cpp ../StereoVision/stereocsbpcuda.h \
+		../StereoVision/stereomatcher.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QObject \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringview.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stereocsbpcuda.o ../StereoVision/stereocsbpcuda.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

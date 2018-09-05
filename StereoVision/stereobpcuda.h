@@ -4,20 +4,21 @@
 #include <stereomatcher.h>
 #include <opencv2/cudastereo.hpp>
 
-class StereoBP : public StereoMatcher
+class StereoBPcuda : public StereoMatcher
 {
 public:
-    StereoBP();
-    ~StereoBP() override;
+    StereoBPcuda();
+    ~StereoBPcuda() override;
 
 protected:
     void processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified) override;
 
 private:
-    cv::Ptr<cv::cuda::StereoBeliefPropagation> stereoBP;
-    cv::cuda::GpuMat leftFrameGpu, rightFrameGpu, dispGpu;
+    cv::Ptr<cv::cuda::StereoBeliefPropagation> stereoBPcuda;
+    cv::Ptr<cv::cuda::DisparityBilateralFilter> filter;
+    cv::cuda::GpuMat leftFrameGpu, rightFrameGpu, dispGpu, dispGpuOut;
     cv::Mat dispOut;
-
+    int ndisp, iters, levels;
 };
 
 #endif // STEREOBP_H

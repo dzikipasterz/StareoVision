@@ -17,7 +17,7 @@ public:
     explicit DepthDisplay(QWidget *parent = nullptr);
 
     QSize minimumSizeHint() const override;
-    void setImage(QImage imageRaw, QImage imageEqualized);
+    void setImage(QImage disparity);
     void setDispToDistMat(cv::Mat map);
 
 
@@ -34,7 +34,7 @@ private:
     QPainter *painter;
     QPen penline;
     QPixmap pixmapTemp;
-    QImage imageRaw, imageEqualized;
+    QImage imageRaw;
     double distance;
     cv::Mat dispDistMap;
 

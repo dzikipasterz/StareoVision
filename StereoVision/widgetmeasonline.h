@@ -5,15 +5,11 @@
 #include <appsettings.h>
 #include <appwidget.h>
 #include <rectifier.h>
-#include <stereobm.h>
-#include <stereosgbm.h>
-#include <stereobp.h>
-#include "mrf.h"
-#include "ICM.h"
-#include "GCoptimization.h"
-#include "MaxProdBP.h"
-#include "TRW-S.h"
-#include "BP-S.h"
+#include <stereobmcpu.h>
+#include <stereosgbmcpu.h>
+#include <stereobpcuda.h>
+#include <stereocsbpcuda.h>
+#include <stereobmcuda.h>
 
 
 namespace Ui {

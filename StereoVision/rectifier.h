@@ -2,9 +2,11 @@
 #define UNDISTORTMAPPER_H
 
 #include <QObject>
+#include <opencv2/opencv.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/opencv_modules.hpp>
 
 class Rectifier : public QObject
 {
@@ -26,6 +28,7 @@ private:
     cv::Mat leftMap2;
     cv::Mat rightMap1;
     cv::Mat rightMap2;
+    cv::Ptr<cv::CLAHE> clahe;
 
     void readCalibFile();
 };

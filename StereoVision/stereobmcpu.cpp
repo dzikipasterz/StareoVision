@@ -1,6 +1,6 @@
-#include "stereobm.h"
+#include "stereobmcpu.h"
 
-StereoBM::StereoBM() :
+StereoBMcpu::StereoBMcpu() :
     numOfDisparities(160),
     winSize(13)
 {
@@ -11,17 +11,17 @@ StereoBM::StereoBM() :
     rightMatcher = cv::ximgproc::createRightMatcher(leftMatcher);
 }
 
-StereoBM::~StereoBM()
+StereoBMcpu::~StereoBMcpu()
 {
 }
 
-void StereoBM::setup()
+void StereoBMcpu::setup()
 {
     //bm = cv::StereoBM::create(numOfDisparities, 9);
 }
 
 
-void StereoBM::processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
+void StereoBMcpu::processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
 {
     leftMatcher->compute(leftFrameRectified, rightFrameRectified, leftDisp);
     rightMatcher->compute(rightFrameRectified, leftFrameRectified, rightDisp);

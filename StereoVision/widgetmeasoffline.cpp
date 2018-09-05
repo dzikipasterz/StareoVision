@@ -40,7 +40,7 @@ void widgetMeasOffline::setupMeasurement()
     sourceReader->setSourcePaths(ui->labelSourceLeft->text(), ui->labelSourceRight->text());
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
-    stereoMatcher = new StereoBM(); //#todo: zaleznie od wybranego algorytmu
+    stereoMatcher = new StereoSGBMcpu(); //#todo: zaleznie od wybranego algorytmu
 
     connect(threadSourceReader, SIGNAL(finished()), sourceReader, SLOT(deleteLater()));
     connect(threadRectifier, SIGNAL(finished()), rectifier, SLOT(deleteLater()));

@@ -4,10 +4,10 @@
 #include <QObject>
 #include <stereomatcher.h>
 
-class StereoSGBM : public StereoMatcher
+class StereoSGBMcpu : public StereoMatcher
 {
 public:
-    StereoSGBM();
+    StereoSGBMcpu();
 
 protected:
     void processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified) override;

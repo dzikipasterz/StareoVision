@@ -38,9 +38,9 @@ void Calibrator::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
         bool rightFound = findChessboardCorners(rightProcessed, patternSize, rightCenters, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_NORMALIZE_IMAGE);
         if(leftFound && rightFound)
         {
-            cv::cornerSubPix(leftProcessed, leftCenters, cv::Size(5,5), cv::Size(-1,-1), cvTermCriteria(CV_TERMCRIT_ITER, 30, 0.01) );
+            //cv::cornerSubPix(leftProcessed, leftCenters, cv::Size(5,5), cv::Size(-1,-1), cvTermCriteria(CV_TERMCRIT_ITER, 30, 0.01) );
             leftCorners.push_back(leftCenters);
-            cv::cornerSubPix(rightProcessed, rightCenters, cv::Size(5,5), cv::Size(-1,-1), cvTermCriteria(CV_TERMCRIT_ITER, 30, 0.01) );
+            //cv::cornerSubPix(rightProcessed, rightCenters, cv::Size(5,5), cv::Size(-1,-1), cvTermCriteria(CV_TERMCRIT_ITER, 30, 0.01) );
             rightCorners.push_back(rightCenters);
             capturedSetsCounter++;
             status = false; //no error

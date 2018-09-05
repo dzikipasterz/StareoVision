@@ -3,11 +3,11 @@
 
 #include <stereomatcher.h>
 
-class StereoBM : public StereoMatcher
+class StereoBMcpu : public StereoMatcher
 {
 public:
-    StereoBM();
-    ~StereoBM() override;
+    StereoBMcpu();
+    ~StereoBMcpu() override;
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);

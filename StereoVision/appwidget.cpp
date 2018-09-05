@@ -92,9 +92,6 @@ void AppWidget::displayFrame(cv::Mat frame, QLabel * display)
 
 void AppWidget::displayDisparity(cv::Mat frame, DepthDisplay * display)
 {
-    cv::Mat frameEq;
-    cv::equalizeHist(frame, frameEq);
-    QImage outputRaw(frame.data, frame.cols, frame.rows, static_cast<int>(frame.step), QImage::Format_Grayscale8);
-    QImage outputEq(frameEq.data, frameEq.cols, frameEq.rows, static_cast<int>(frameEq.step), QImage::Format_Grayscale8);
-    display->setImage(outputRaw, outputEq);
+    QImage output(frame.data, frame.cols, frame.rows, static_cast<int>(frame.step), QImage::Format_Grayscale8);
+    display->setImage(output);
 }
