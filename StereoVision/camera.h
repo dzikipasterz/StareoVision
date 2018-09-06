@@ -19,6 +19,7 @@ public:
 private:
     cv::Mat frame;
     cv::VideoCapture *cap;
+    cv::Size outputSize;
     bool status;
 
     void openDevice(const int device);

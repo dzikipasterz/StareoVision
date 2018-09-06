@@ -25,7 +25,7 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
 
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
-    stereoMatcher = new StereoBMcpu(); //#todo: zaleznie od wybranego algorytmu
+    stereoMatcher = new StereoSGBMcpu(); //#todo: zaleznie od wybranego algorytmu
 
     connect(AppWidget::camera,SIGNAL(sendFrames(cv::Mat, cv::Mat)),rectifier,SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
