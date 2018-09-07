@@ -22,8 +22,8 @@ void StereoBPcuda::processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv
     leftFrameGpu.upload(leftFrameRectified);
     rightFrameGpu.upload(rightFrameRectified);
 
-    stereoBPcuda->compute(leftFrameGpu, rightFrameGpu, dispGpu);
-    filter->apply(dispGpu,leftFrameGpu, dispGpuOut);
+    stereoBPcuda->compute(leftFrameGpu, rightFrameGpu, dispGpuOut);
+    filter->apply(dispGpuOut,leftFrameGpu, dispGpuOut);
 
     dispGpuOut.download(dispOut);
     dispOut.convertTo(dispOut, CV_8UC1);

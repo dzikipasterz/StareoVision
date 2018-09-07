@@ -15,13 +15,15 @@ widgetCalibration::widgetCalibration(AppSettings *sett) :
     ui->setupUi(this);
     ui->leftCamera->setScaledContents(true);
     ui->rightCamera->setScaledContents(true);
-    ui->pushButtonTurnCameraOn->setText("Włącz kamerę");
-    ui->pushButtonTurnCameraOn->toggled(false);
+    //ui->pushButtonTurnCameraOn->setText("Włącz kamerę");
+    //ui->pushButtonTurnCameraOn->toggled(false);
     ui->spinBoxCollectedSets->setValue(0);
     ui->labelLastPictStatus->setText("");
     ui->spinBoxRows->setValue(settings->readChessboardRows());
     ui->spinBoxCols->setValue(settings->readChessboardCols());
     ui->doubleSpinBoxSquareSize->setValue(settings->readChessboardSquareSize());
+
+    openCamera();
 }
 
 widgetCalibration::~widgetCalibration()
@@ -64,7 +66,9 @@ void widgetCalibration::openCamera()
     connect(threadCalibrator, SIGNAL(finished()), calibrator, SLOT(deleteLater()));
     connect(threadCornersFinder, SIGNAL(finished()), cornersFinder, SLOT(deleteLater()));
     connect(this, SIGNAL(sendTakePicture()), calibrator, SLOT(receiveTakePicture()), Qt::DirectConnection);
+    connect(this, SIGNAL(sendLoadPicture()), calibrator, SLOT(receiveTakePicture()));
     connect(this, SIGNAL(sendStartCalibration()), calibrator, SLOT(receiveStartCalibration()));
+    connect(this, SIGNAL(sendLoadedFrames(cv::Mat, cv::Mat)), calibrator, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(calibrator, SIGNAL(sendCollectionStatus(int, bool)), this, SLOT(receiveCalibratorStatus(int, bool)));
     connect(calibrator, SIGNAL(sendCreatedFilePath(QString)), this, SLOT(receiveCalibrationFilePath(QString)));
     connect(calibrator, SIGNAL(sendCalibrationStatus(QString)), this, SLOT(receiveCalibrationStatus(QString)));
@@ -105,6 +109,7 @@ void widgetCalibration::receiveCalibrationFilePath(QString path)
     settings->setCalibFilePath(path);
 }
 
+/*
 void widgetCalibration::on_pushButtonTurnCameraOn_toggled(bool checked)
 {
     if(checked)
@@ -125,6 +130,7 @@ void widgetCalibration::on_pushButtonTurnCameraOn_toggled(bool checked)
         pauseTimer();
     }
 }
+*/
 
 void widgetCalibration::on_pushButtonTakePicture_clicked()
 {
@@ -134,4 +140,52 @@ void widgetCalibration::on_pushButtonTakePicture_clicked()
 void widgetCalibration::on_pushButtonCalibrate_clicked()
 {
     emit sendStartCalibration();
+}
+
+void widgetCalibration::on_spinBoxRows_valueChanged(int arg1)
+{
+    settings->setChessboardRows(arg1);
+}
+
+
+
+void widgetCalibration::on_spinBoxCols_valueChanged(int arg1)
+{
+    settings->setChessboardCols(arg1);
+}
+
+
+
+void widgetCalibration::on_doubleSpinBoxSquareSize_valueChanged(double arg1)
+{
+    settings->setChessboardSquareSize(arg1);
+}
+
+void widgetCalibration::on_pushButtonChooseDirToLoad_clicked()
+{
+    QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder ze zdjęciami kalibracyjnymi","/home/",QFileDialog::ShowDirsOnly);
+
+    if(!dir.isNull())
+    {
+        dir.append("/");
+        settings->setCalibFilesDir(dir);
+        ui->labelPicsDir->setText(dir);
+    }
+}
+
+void widgetCalibration::on_pushButtonLoad_clicked()
+{
+    QDir directory(ui->labelPicsDir->text());
+    directory.setNameFilters(QStringList("*.jpg"));
+    directory.setSorting(QDir::Name);
+    QStringList files = directory.entryList();
+    cv::Mat leftFrame, rightFrame;
+
+    for(int i = 0; i < files.size(); i+=2)
+    {
+        leftFrame = cv::imread(ui->labelPicsDir->text().append(files.at(i)).toUtf8().constData());
+        rightFrame = cv::imread(ui->labelPicsDir->text().append(files.at(i+1)).toUtf8().constData());
+        emit sendLoadPicture();
+        emit sendLoadedFrames(leftFrame, rightFrame);
+    }
 }

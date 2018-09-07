@@ -28,7 +28,6 @@ private:
     cv::Mat leftMap2;
     cv::Mat rightMap1;
     cv::Mat rightMap2;
-    cv::Ptr<cv::CLAHE> clahe;
 
     void readCalibFile();
 };

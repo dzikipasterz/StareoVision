@@ -30,7 +30,6 @@ public:
     QGridLayout *gridLayout;
     QLabel *leftCamera;
     QLabel *rightCamera;
-    QPushButton *pushButtonTurnCameraOn;
     QSpacerItem *verticalSpacer;
     QGridLayout *gridLayout_2;
     QSpinBox *spinBoxRows;
@@ -43,6 +42,11 @@ public:
     QLabel *labelLastPictStatus;
     QSpinBox *spinBoxCollectedSets;
     QPushButton *pushButtonTakePicture;
+    QGridLayout *gridLayout_3;
+    QPushButton *pushButtonChooseDirToLoad;
+    QLabel *labelPicsDir;
+    QLabel *label_4;
+    QPushButton *pushButtonLoad;
     QLabel *labelCalibrationStatus;
     QPushButton *pushButtonCalibrate;
     QSpacerItem *verticalSpacer_2;
@@ -77,14 +81,7 @@ public:
 
         verticalLayout->addLayout(gridLayout);
 
-        pushButtonTurnCameraOn = new QPushButton(widgetCalibration);
-        pushButtonTurnCameraOn->setObjectName(QStringLiteral("pushButtonTurnCameraOn"));
-        pushButtonTurnCameraOn->setCheckable(true);
-        pushButtonTurnCameraOn->setChecked(false);
-
-        verticalLayout->addWidget(pushButtonTurnCameraOn);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Fixed);
+        verticalSpacer = new QSpacerItem(20, 38, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         verticalLayout->addItem(verticalSpacer);
 
@@ -170,10 +167,42 @@ public:
 
         verticalLayout->addLayout(horizontalLayout);
 
+        gridLayout_3 = new QGridLayout();
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        pushButtonChooseDirToLoad = new QPushButton(widgetCalibration);
+        pushButtonChooseDirToLoad->setObjectName(QStringLiteral("pushButtonChooseDirToLoad"));
+        pushButtonChooseDirToLoad->setMinimumSize(QSize(0, 25));
+        pushButtonChooseDirToLoad->setMaximumSize(QSize(207, 25));
+
+        gridLayout_3->addWidget(pushButtonChooseDirToLoad, 1, 1, 1, 1);
+
+        labelPicsDir = new QLabel(widgetCalibration);
+        labelPicsDir->setObjectName(QStringLiteral("labelPicsDir"));
+        labelPicsDir->setMinimumSize(QSize(0, 25));
+        labelPicsDir->setMaximumSize(QSize(16777215, 25));
+        labelPicsDir->setFrameShape(QFrame::Box);
+
+        gridLayout_3->addWidget(labelPicsDir, 1, 0, 1, 1);
+
+        label_4 = new QLabel(widgetCalibration);
+        label_4->setObjectName(QStringLiteral("label_4"));
+
+        gridLayout_3->addWidget(label_4, 0, 0, 1, 1);
+
+        pushButtonLoad = new QPushButton(widgetCalibration);
+        pushButtonLoad->setObjectName(QStringLiteral("pushButtonLoad"));
+        pushButtonLoad->setMinimumSize(QSize(0, 25));
+        pushButtonLoad->setMaximumSize(QSize(16777215, 25));
+
+        gridLayout_3->addWidget(pushButtonLoad, 2, 1, 1, 1);
+
+
+        verticalLayout->addLayout(gridLayout_3);
+
         labelCalibrationStatus = new QLabel(widgetCalibration);
         labelCalibrationStatus->setObjectName(QStringLiteral("labelCalibrationStatus"));
-        labelCalibrationStatus->setMinimumSize(QSize(0, 26));
-        labelCalibrationStatus->setMaximumSize(QSize(16777215, 26));
+        labelCalibrationStatus->setMinimumSize(QSize(0, 25));
+        labelCalibrationStatus->setMaximumSize(QSize(16777215, 25));
         labelCalibrationStatus->setFrameShape(QFrame::Box);
 
         verticalLayout->addWidget(labelCalibrationStatus);
@@ -183,7 +212,7 @@ public:
 
         verticalLayout->addWidget(pushButtonCalibrate);
 
-        verticalSpacer_2 = new QSpacerItem(20, 121, QSizePolicy::Minimum, QSizePolicy::Fixed);
+        verticalSpacer_2 = new QSpacerItem(20, 68, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         verticalLayout->addItem(verticalSpacer_2);
 
@@ -198,12 +227,15 @@ public:
         widgetCalibration->setWindowTitle(QApplication::translate("widgetCalibration", "Form", nullptr));
         leftCamera->setText(QString());
         rightCamera->setText(QString());
-        pushButtonTurnCameraOn->setText(QApplication::translate("widgetCalibration", "W\305\202\304\205cz kamer\304\231", nullptr));
         label->setText(QApplication::translate("widgetCalibration", "Liczba wierszy szachownicy", nullptr));
         label_2->setText(QApplication::translate("widgetCalibration", "Liczba kolumn szachownicy", nullptr));
         label_3->setText(QApplication::translate("widgetCalibration", "Rozmiar pola szachownicy (mm)", nullptr));
         labelLastPictStatus->setText(QString());
         pushButtonTakePicture->setText(QApplication::translate("widgetCalibration", "Zr\303\263b zdj\304\231cie", nullptr));
+        pushButtonChooseDirToLoad->setText(QApplication::translate("widgetCalibration", "Wybierz folder do wczytania", nullptr));
+        labelPicsDir->setText(QString());
+        label_4->setText(QApplication::translate("widgetCalibration", "Wczytaj zdj\304\231cia", nullptr));
+        pushButtonLoad->setText(QApplication::translate("widgetCalibration", "Wczytaj", nullptr));
         labelCalibrationStatus->setText(QString());
         pushButtonCalibrate->setText(QApplication::translate("widgetCalibration", "Kalibruj", nullptr));
     } // retranslateUi

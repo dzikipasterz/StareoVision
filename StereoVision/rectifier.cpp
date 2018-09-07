@@ -2,7 +2,6 @@
 
 Rectifier::Rectifier(QObject *parent) : QObject(parent)
 {
-    //clahe = cv::createCLAHE(40.0, cv::Size(8,8));
 }
 
 
@@ -43,9 +42,6 @@ void Rectifier::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 
     cv::remap(leftFrame, leftDst, leftMap1, leftMap2, cv::INTER_LINEAR);
     cv::remap(rightFrame, rightDst, rightMap1, rightMap2, cv::INTER_LINEAR);
-
-    cv::resize(leftDst, leftDst, cv::Size(640, 480));
-    cv::resize(rightDst, rightDst, cv::Size(640, 480));
 
     emit sendFrames(leftFrame, rightFrame, leftDst, rightDst);
 }

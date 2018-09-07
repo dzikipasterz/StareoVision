@@ -16,7 +16,7 @@ protected:
 private:
     cv::Ptr<cv::cuda::StereoBeliefPropagation> stereoBPcuda;
     cv::Ptr<cv::cuda::DisparityBilateralFilter> filter;
-    cv::cuda::GpuMat leftFrameGpu, rightFrameGpu, dispGpu, dispGpuOut;
+    cv::cuda::GpuMat leftFrameGpu, rightFrameGpu, dispGpuOut;
     cv::Mat dispOut;
     int ndisp, iters, levels;
 };

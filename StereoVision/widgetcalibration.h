@@ -2,6 +2,8 @@
 #define WIDGETCALIBRATION_H
 
 #include <QWidget>
+#include <QFileDialog>
+#include <QDir>
 #include <appwidget.h>
 #include <cornersfinder.h>
 #include <calibrator.h>
@@ -20,7 +22,9 @@ public:
 
 signals:
     void sendTakePicture();
+    void sendLoadPicture();
     void sendStartCalibration();
+    void sendLoadedFrames(cv::Mat leftFrame, cv::Mat rightMat);
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
@@ -29,11 +33,21 @@ public slots:
     void receiveCalibrationFilePath(QString path);
 
 private slots:
-    void on_pushButtonTurnCameraOn_toggled(bool checked);
+    //void on_pushButtonTurnCameraOn_toggled(bool checked);
 
     void on_pushButtonTakePicture_clicked();
 
     void on_pushButtonCalibrate_clicked();
+
+    void on_spinBoxRows_valueChanged(int arg1);
+
+    void on_spinBoxCols_valueChanged(int arg1);
+
+    void on_doubleSpinBoxSquareSize_valueChanged(double arg1);
+
+    void on_pushButtonChooseDirToLoad_clicked();
+
+    void on_pushButtonLoad_clicked();
 
 private:
     Ui::widgetCalibration *ui;

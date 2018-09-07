@@ -88,7 +88,7 @@ void widgetSettings::on_pushButtonSelectPicDir_clicked()
 
 void widgetSettings::on_pushButtonSelectCalibFile_clicked()
 {
-    QString calibFile = QFileDialog::getOpenFileName(this,"Wybierz plik kalibracyjny",settings->readCalibFilePath(),tr("Plik kalibracyjny (*.calib)"));
+    QString calibFile = QFileDialog::getOpenFileName(this,"Wybierz plik kalibracyjny",settings->readCalibFilePath(),tr("Plik kalibracyjny (*.xml)"));
 
     if(!calibFile.isNull())
     {
