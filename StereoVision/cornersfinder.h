@@ -24,6 +24,7 @@ public:
 
 public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+    void receiveEnableCornersDrawing(bool enabled);
 
 signals:
     void sendProcessedFrames(cv::Mat leftFrame, cv::Mat rightFrame);
@@ -32,6 +33,7 @@ signals:
 private:
     cv::Size patternSize;
     std::vector<cv::Point2f> centers;
+    bool drawingEnabled;
 
 };
 

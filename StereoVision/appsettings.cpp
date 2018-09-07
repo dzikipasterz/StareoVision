@@ -8,12 +8,14 @@ AppSettings::AppSettings() :
 
 AppSettings::~AppSettings()
 {
+    config->sync();
     delete config;
 }
 
 void AppSettings::setLeftCameraId(int cameraId)
 {
     config->setValue("app_settings/left_camera_id", cameraId);
+    config->sync();
 }
 
 int AppSettings::readLeftCameraId()
@@ -24,6 +26,7 @@ int AppSettings::readLeftCameraId()
 void AppSettings::setRightCameraId(int cameraId)
 {
     config->setValue("app_settings/right_camera_id", cameraId);
+    config->sync();
 }
 
 int AppSettings::readRightCameraId()
@@ -34,6 +37,7 @@ int AppSettings::readRightCameraId()
 void AppSettings::setPictsSavePath(QString path)
 {
     config->setValue("app_settings/pictures_dir", path);
+    config->sync();
 }
 
 QString AppSettings::readPictSavePath()
@@ -44,6 +48,7 @@ QString AppSettings::readPictSavePath()
 void AppSettings::setCalibFilesDir(QString path)
 {
     config->setValue("app_settings/calibration_dir", path);
+    config->sync();
 }
 
 QString AppSettings::readCalibFilesDir()
@@ -54,6 +59,7 @@ QString AppSettings::readCalibFilesDir()
 void AppSettings::setCalibFilePath(QString path)
 {
     config->setValue("app_settings/calibration_file", path);
+    config->sync();
 }
 
 QString AppSettings::readCalibFilePath()
@@ -64,6 +70,7 @@ QString AppSettings::readCalibFilePath()
 void AppSettings::setMovFilesDir(QString path)
 {
     config->setValue("app_settings/movies_dir", path);
+    config->sync();
 }
 
 QString AppSettings::readMovFilesDir()
@@ -74,6 +81,7 @@ QString AppSettings::readMovFilesDir()
 void AppSettings::setChessboardRows(int rows)
 {
     config->setValue("app_settings/chessboard_rows", rows);
+    config->sync();
 }
 
 int AppSettings::readChessboardRows()
@@ -84,6 +92,7 @@ int AppSettings::readChessboardRows()
 void AppSettings::setChessboardCols(int cols)
 {
     config->setValue("app_settings/chessboard_cols", cols);
+    config->sync();
 }
 
 int AppSettings::readChessboardCols()
@@ -94,6 +103,7 @@ int AppSettings::readChessboardCols()
 void AppSettings::setChessboardSquareSize(double size)
 {
     config->setValue("app_settings/square_size", size);
+    config->sync();
 }
 
 double AppSettings::readChessboardSquareSize()
@@ -117,6 +127,7 @@ cv::Mat AppSettings::readDispToDepthMap()
     return Map;
 }
 
+/*
 void AppSettings::readConfigFile()
 {
     config->sync();
@@ -130,4 +141,4 @@ void AppSettings::readConfigFile()
     this->setChessboardCols(config->value("app_settings/chessboard_cols", 8).toInt());
     this->setChessboardSquareSize(config->value("app_settings/square_size", 36.33).toDouble());
 }
-
+*/

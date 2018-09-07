@@ -1,7 +1,6 @@
 #include "picturetaker.h"
 
-PictureTaker::PictureTaker(QObject *parent, QString path) :
-    QObject(parent),
+PictureTaker::PictureTaker(QString path) :
     takePictureFlag(false)
 {
     savePath = path;

@@ -37,14 +37,12 @@ private:
     bool capture;
     int capturedSetsCounter;
     float squareSideSize;
-    QString CalibrationSavePath;
+    QString calibrationSavePath;
     double leftErr, rightErr, stereoErr;
     cv::Size patternSize;
     cv::Size imgSize;
-    std::vector<std::vector<cv::Point2f>> leftCorners;
-    std::vector<std::vector<cv::Point2f>> rightCorners;
-    std::vector<cv::Point2f> leftCenters;
-    std::vector<cv::Point2f> rightCenters;   
+    std::vector<std::vector<cv::Point2f>> leftCorners, rightCorners;
+    std::vector<cv::Point2f> leftCenters, rightCenters;
     std::vector<std::vector<cv::Point3f>> chessboardKnownPosition;
     cv::Mat leftCamMat, rightCamMat, leftDistCoeff, rightDistCoeff;
     std::vector<cv::Mat> leftRvecs, rightRvecs, leftTvecs, rightTvecs;

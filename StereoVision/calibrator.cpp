@@ -20,7 +20,7 @@ void Calibrator::setSquareSideSize(float size)
 
 void Calibrator::setSaveCalibrationDir(QString dir)
 {
-    CalibrationSavePath = dir;
+    calibrationSavePath = dir;
 }
 
 void Calibrator::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
@@ -117,7 +117,7 @@ void Calibrator::receiveStartCalibration()
     emit sendCalibrationStatus("Zapis do pliku kalibracyjnego rozpoczęty");
 
     QDateTime currentTime = QDateTime::currentDateTime();
-    QString filename = CalibrationSavePath.append(currentTime.toString(Qt::ISODate)).append("_calib.xml");
+    QString filename = calibrationSavePath.append(currentTime.toString(Qt::ISODate)).append("_calib.xml");
     cv::FileStorage file(filename.toUtf8().constData(), cv::FileStorage::WRITE);
 
     file << "leftErr" << leftErr;

@@ -34,7 +34,7 @@ public:
 
 private:
     QSettings *config;
-    void readConfigFile();
+    //void readConfigFile();
 };
 
 #endif // APPSETTINGS_H

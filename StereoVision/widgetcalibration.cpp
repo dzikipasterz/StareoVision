@@ -15,8 +15,6 @@ widgetCalibration::widgetCalibration(AppSettings *sett) :
     ui->setupUi(this);
     ui->leftCamera->setScaledContents(true);
     ui->rightCamera->setScaledContents(true);
-    //ui->pushButtonTurnCameraOn->setText("Włącz kamerę");
-    //ui->pushButtonTurnCameraOn->toggled(false);
     ui->spinBoxCollectedSets->setValue(0);
     ui->labelLastPictStatus->setText("");
     ui->spinBoxRows->setValue(settings->readChessboardRows());
@@ -109,28 +107,6 @@ void widgetCalibration::receiveCalibrationFilePath(QString path)
     settings->setCalibFilePath(path);
 }
 
-/*
-void widgetCalibration::on_pushButtonTurnCameraOn_toggled(bool checked)
-{
-    if(checked)
-    {
-        ui->pushButtonTurnCameraOn->setText("Zatrzymaj kamerę");
-
-        if(!cameraInitialized)
-        {
-            openCamera();
-            cameraInitialized=true;
-        }
-        else resumeTimer();
-    }
-
-    else
-    {
-        ui->pushButtonTurnCameraOn->setText("Włącz kamerę");
-        pauseTimer();
-    }
-}
-*/
 
 void widgetCalibration::on_pushButtonTakePicture_clicked()
 {

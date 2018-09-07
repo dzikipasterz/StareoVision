@@ -12,7 +12,7 @@ class PictureTaker : public QObject
 {
     Q_OBJECT
 public:
-    explicit PictureTaker(QObject *parent = nullptr, QString path = "/home/");
+    explicit PictureTaker(QString path = "/home/");
 
 signals:
     void sendImagesPaths(QString leftPath, QString rightPath);

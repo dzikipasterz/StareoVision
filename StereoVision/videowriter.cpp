@@ -21,11 +21,7 @@ void VideoWriter::receiveStartRecording()
     QDateTime currentTime = QDateTime::currentDateTime();
     QString L = ((currentTime.toString("yyyyMMdd_hhmmss")).append("_L.avi").prepend(savePath));
     QString R = ((currentTime.toString("yyyyMMdd_hhmmss")).append("_R.avi").prepend(savePath));
-    //QString L = "left.avi";
-    //QString R  = "right.avi";
 
-    //leftCap = new cv::VideoWriter(L.toUtf8().constData(), -1, CV_FOURCC('P','I','M','1'), 24, frameSize);
-    //rightCap = new cv::VideoWriter(R.toUtf8().constData(), -1, CV_FOURCC('P','I','M','1'), 24, frameSize);
     leftCap = new cv::VideoWriter();
     rightCap = new cv::VideoWriter();
     leftCap->open(L.toUtf8().constData(), CV_FOURCC( 'D','I','V','X'), 24.0, frameSize, true);
@@ -41,7 +37,7 @@ void VideoWriter::receiveStopRecording()
 
 void VideoWriter::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
-    if(recordFlag && leftCap->isOpened())
+    if(recordFlag && leftCap->isOpened() && rightCap->isOpened())
     {
         leftCap->write(leftFrame);
         rightCap->write(rightFrame);
