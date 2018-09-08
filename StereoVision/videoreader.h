@@ -17,7 +17,8 @@ public slots:
 
 protected:
     void executeStart() override;
-    void executeStop() override;
+    void executePause() override;
+    void executeResume() override;
     void executeJobDone() override;
 
 private:
@@ -26,7 +27,7 @@ private:
     bool end;
 
     void startTimer();
-    void grabFrame();
+    void grabFrames();
 };
 
 #endif // VIDEOREADER_H

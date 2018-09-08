@@ -26,9 +26,15 @@ void VideoReader::executeStart()
     startTimer();
 }
 
-void VideoReader::executeStop()
-{
 
+void VideoReader::executePause()
+{
+    timer->receivePause();
+}
+
+void VideoReader::executeResume()
+{
+    timer->receiveResume();
 }
 
 void VideoReader::executeJobDone()
@@ -44,7 +50,7 @@ void VideoReader::startTimer()
     timer->receiveStart();
 }
 
-void VideoReader::grabFrame()
+void VideoReader::grabFrames()
 {
     cv::Mat leftFrame, rightFrame, leftGray, rightGray;
     (*leftCap) >> leftFrame;

@@ -25,6 +25,16 @@ void SourceReader::receiveStop()
     executeStop();
 }
 
+void SourceReader::receivePause()
+{
+    executePause();
+}
+
+void SourceReader::receiveResume()
+{
+    executeResume();
+}
+
 void SourceReader::receiveJobDone()
 {
     executeJobDone();

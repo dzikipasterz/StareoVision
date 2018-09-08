@@ -21,11 +21,15 @@ signals:
 public slots:
     void receiveStart();
     void receiveStop();
+    void receivePause();
+    void receiveResume();
     void receiveJobDone();
 
 protected:
     void virtual executeStart()=0;
     void virtual executeStop();
+    void virtual executePause();
+    void virtual executeResume();
     void virtual executeJobDone();
 
 protected:
