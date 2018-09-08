@@ -15,8 +15,6 @@ class StereoMatcher : public QObject
 public:
     explicit StereoMatcher(QObject *parent = nullptr);
 
-    void setCalibFile(QString file);
-
 signals:
     void sendDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
     void sendJobDone();
@@ -25,14 +23,8 @@ public slots:
     void receiveFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified);
 
 protected:
-    QString calibrationFile;
-    cv::Rect roi1, roi2;
-
-    void virtual processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified);
-    void virtual setup();
-
-private:
-    void readCalibFile();
+    cv::Mat dispOut;
+    void virtual process(cv::Mat lRect, cv::Mat rRect) = 0;
 
 };
 

@@ -20,9 +20,13 @@ signals:
 
 public slots:
     void receiveStart();
+    void receiveStop();
+    void receiveJobDone();
 
 protected:
-    void virtual executeStart();
+    void virtual executeStart()=0;
+    void virtual executeStop();
+    void virtual executeJobDone();
 
 protected:
     QString leftSourcePath;

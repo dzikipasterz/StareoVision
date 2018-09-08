@@ -19,7 +19,7 @@ widgetRecord::widgetRecord(AppSettings *sett) :
     AppWidget::initTimer();
     AppWidget::initCamera(settings->readLeftCameraId(), settings->readRightCameraId());
     threadRecord = new QThread();
-    pictureTaker = new PictureTaker(nullptr, settings->readPictSavePath());
+    pictureTaker = new PictureTaker(settings->readPictSavePath());
     videoWriter = new VideoWriter(settings->readMovFilesDir());
 
     connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)),this, SLOT(receiveFrames(cv::Mat, cv::Mat)));

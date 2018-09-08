@@ -31,3 +31,8 @@ void CornersFinder::receiveFrames(Mat leftFrame, Mat rightFrame)
     emit sendProcessedFrames(leftFrame, rightFrame);
     emit sendJobDone();
 }
+
+void CornersFinder::receiveEnableCornersDrawing(bool enabled)
+{
+    drawingEnabled = enabled;
+}

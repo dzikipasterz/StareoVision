@@ -18,16 +18,14 @@ StereoBMcuda::StereoBMcuda()
 }
 
 
-void StereoBMcuda::processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
+void StereoBMcuda::process(cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
 {
-    //leftFrameGpu.upload(leftFrameRectified);
-    //rightFrameGpu.upload(rightFrameRectified);
+    leftFrameGpu.upload(leftFrameRectified);
+    rightFrameGpu.upload(rightFrameRectified);
 
-    //stereoBM->compute(leftFrameGpu, rightFrameGpu, dispGpu);
-    //filter->apply(dispGpu,leftFrameGpu, dispGpuOut);
+    stereoBM->compute(leftFrameGpu, rightFrameGpu, dispGpu);
+    filter->apply(dispGpu,leftFrameGpu, dispGpuOut);
 
-    //leftFrameGpu.download(dispOut);
-    //dispOut.convertTo(dispOut, CV_8UC1);
-
-    emit sendDisparity(leftFrameRaw, rightFrameRaw, leftFrameRectified);
+    leftFrameGpu.download(dispOut);
+    dispOut.convertTo(dispOut, CV_8UC1);
 }

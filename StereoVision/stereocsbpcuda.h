@@ -1,4 +1,4 @@
-#ifndef STEREOCSBPCUDA_H
+﻿#ifndef STEREOCSBPCUDA_H
 #define STEREOCSBPCUDA_H
 
 #include <stereomatcher.h>
@@ -10,13 +10,12 @@ public:
     StereoCSBPcuda();
 
 protected:
-    void processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified) override;
+    void process(cv::Mat leftFrameRectified, cv::Mat rightFrameRectified) override;
 
 private:
     cv::Ptr<cv::cuda::StereoConstantSpaceBP> stereoCSBP;
     cv::Ptr<cv::cuda::DisparityBilateralFilter> filter;
-    cv::cuda::GpuMat leftFrameGpu, rightFrameGpu, dispGpu, dispGpuFiltered;
-    cv::Mat dispOut;
+    cv::cuda::GpuMat leftFrameGpu, rightFrameGpu, dispGpu, dispGpuOut;
     int ndisp, iters, levels, nrPlane;
 };
 

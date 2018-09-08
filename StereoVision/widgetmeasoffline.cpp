@@ -32,11 +32,13 @@ widgetMeasOffline::~widgetMeasOffline()
 
 void widgetMeasOffline::setupMeasurement()
 {
+    stopThreads();
+
     threadSourceReader = new QThread();
     threadRectifier = new QThread();
     threadStereoMatcher = new QThread();
 
-    sourceReader = new ImageReader(); //#todo: zaleznie od formatu
+    sourceReader = new VideoReader(); //#todo: zaleznie od formatu
     sourceReader->setSourcePaths(ui->labelSourceLeft->text(), ui->labelSourceRight->text());
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
@@ -46,11 +48,11 @@ void widgetMeasOffline::setupMeasurement()
     connect(threadRectifier, SIGNAL(finished()), rectifier, SLOT(deleteLater()));
     connect(threadStereoMatcher, SIGNAL(finished()), stereoMatcher, SLOT(deleteLater()));
 
-
     connect(this, SIGNAL(SendStartMeas()), sourceReader, SLOT(receiveStart()));
     connect(sourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), rectifier, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
     connect(stereoMatcher, SIGNAL(sendDisparity(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparity(cv::Mat, cv::Mat, cv::Mat)));
+    connect(stereoMatcher, SIGNAL(sendJobDone()), sourceReader, SLOT(receiveJobDone()));
 
     sourceReader->moveToThread(threadSourceReader);
     rectifier->moveToThread(threadRectifier);

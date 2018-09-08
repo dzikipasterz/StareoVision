@@ -13,16 +13,14 @@ StereoCSBPcuda::StereoCSBPcuda()
 
 
 
-void StereoCSBPcuda::processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
+void StereoCSBPcuda::process(cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
 {
     leftFrameGpu.upload(leftFrameRectified);
     rightFrameGpu.upload(rightFrameRectified);
 
     stereoCSBP->compute(leftFrameGpu, rightFrameGpu, dispGpu);
-    filter->apply(dispGpu,leftFrameGpu, dispGpuFiltered);
+    filter->apply(dispGpu,leftFrameGpu, dispGpuOut);
 
-    dispGpuFiltered.download(dispOut);
+    dispGpuOut.download(dispOut);
     dispOut.convertTo(dispOut, CV_8UC1);
-
-    emit sendDisparity(leftFrameRaw, rightFrameRaw, dispOut);
 }

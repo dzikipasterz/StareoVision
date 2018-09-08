@@ -11,22 +11,11 @@ StereoBMcpu::StereoBMcpu() :
     rightMatcher = cv::ximgproc::createRightMatcher(leftMatcher);
 }
 
-StereoBMcpu::~StereoBMcpu()
-{
-}
 
-void StereoBMcpu::setup()
-{
-    //bm = cv::StereoBM::create(numOfDisparities, 9);
-}
-
-
-void StereoBMcpu::processFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
+void StereoBMcpu::process(cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
 {
     leftMatcher->compute(leftFrameRectified, rightFrameRectified, leftDisp);
     rightMatcher->compute(rightFrameRectified, leftFrameRectified, rightDisp);
     filter->filter(leftDisp, leftFrameRectified, filteredDisp, rightDisp);
-    cv::ximgproc::getDisparityVis(filteredDisp, filteredDispVis);
-
-    emit sendDisparity(leftFrameRaw, rightFrameRaw, filteredDispVis);
+    cv::ximgproc::getDisparityVis(filteredDisp, dispOut);
 }

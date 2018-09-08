@@ -7,8 +7,8 @@
 #include <appwidget.h>
 #include <appsettings.h>
 #include <depthdisplay.h>
-#include <sourcereader.h>
 #include <imagereader.h>
+#include <videoreader.h>
 #include <rectifier.h>
 #include <stereomatcher.h>
 #include <stereobmcpu.h>

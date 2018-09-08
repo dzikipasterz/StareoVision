@@ -54,7 +54,8 @@ SOURCES += \
     stereobmcpu.cpp \
     stereosgbmcpu.cpp \
     stereobmcuda.cpp \
-    stereocsbpcuda.cpp
+    stereocsbpcuda.cpp \
+    videoreader.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -87,7 +88,8 @@ HEADERS += \
     stereobmcpu.h \
     stereosgbmcpu.h \
     stereobmcuda.h \
-    stereocsbpcuda.h
+    stereocsbpcuda.h \
+    videoreader.h
 
 FORMS += \
         mainwindow.ui \
