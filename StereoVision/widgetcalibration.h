@@ -49,6 +49,7 @@ private slots:
 
     void on_pushButtonLoad_clicked();
 
+
 private:
     Ui::widgetCalibration *ui;
     QThread * threadCornersFinder;

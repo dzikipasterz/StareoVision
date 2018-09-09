@@ -165,3 +165,4 @@ void widgetCalibration::on_pushButtonLoad_clicked()
         emit sendLoadedFrames(leftFrame, rightFrame);
     }
 }
+

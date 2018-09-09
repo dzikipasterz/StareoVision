@@ -16,7 +16,7 @@ VideoReader::~VideoReader()
 
 void VideoReader::receiveTimeout()
 {
-    grabFrame();
+    grabFrames();
 }
 
 void VideoReader::executeStart()
