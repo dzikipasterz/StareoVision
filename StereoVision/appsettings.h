@@ -23,6 +23,8 @@ public:
     QString readCalibFilePath();
     void setMovFilesDir(QString path);
     QString readMovFilesDir();
+    void setResultsDir(QString path);
+    QString readResultsDir();
     void setChessboardRows(int rows);
     int readChessboardRows();
     void setChessboardCols(int cols);
@@ -32,9 +34,9 @@ public:
     cv::Size readPatternSize();
     cv::Mat readDispToDepthMap();
 
+
 private:
     QSettings *config;
-    //void readConfigFile();
 };
 
 #endif // APPSETTINGS_H

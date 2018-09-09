@@ -22,6 +22,19 @@
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="3" column="1">
+      <widget class="QPushButton" name="pushButtonRightSource">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>24</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Lewy Obraz</string>
+       </property>
+      </widget>
+     </item>
      <item row="3" column="0">
       <widget class="QLabel" name="labelSourceRight">
        <property name="minimumSize">
@@ -72,21 +85,21 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QPushButton" name="pushButtonRightSource">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>24</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Select right source</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="1">
       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>17</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Lewy obraz</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QLabel" name="labelLeftDisplay">
          <property name="sizePolicy">
@@ -96,6 +109,12 @@
           </sizepolicy>
          </property>
          <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>150</height>
+          </size>
+         </property>
+         <property name="maximumSize">
           <size>
            <width>200</width>
            <height>150</height>
@@ -118,6 +137,19 @@
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>17</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Prawy obraz</string>
          </property>
         </widget>
        </item>
@@ -135,6 +167,12 @@
            <height>150</height>
           </size>
          </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>150</height>
+          </size>
+         </property>
          <property name="sizeIncrement">
           <size>
            <width>4</width>
@@ -156,9 +194,83 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="label_3">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>17</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Dystans</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QDoubleSpinBox" name="doubleSpinBoxDistance">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
          <property name="maximum">
-          <double>1000.000000000000000</double>
+          <double>100000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>17</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>x</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinBoxX">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>17</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>y</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinBoxY">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="maximum">
+          <number>10000</number>
          </property>
         </widget>
        </item>
@@ -186,11 +298,11 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Select left source</string>
+        <string>Prawy obraz</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="5" column="1">
       <widget class="QPushButton" name="pushButtonStart">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -200,6 +312,26 @@
        </property>
        <property name="text">
         <string>Start</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Zapis do pliku</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="labelResultsPath">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </item>

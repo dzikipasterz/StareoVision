@@ -18,7 +18,7 @@ QSize DepthDisplay::minimumSizeHint() const
 
 void DepthDisplay::mousePressEvent(QMouseEvent *event)
 {
-    if((event->button() == Qt::LeftButton))
+    if((event->button() == Qt::LeftButton) && (pixmapTemp.size() != QSize(0,0)))
     {
         double x = event->x();
         double y = event->y();
@@ -32,6 +32,7 @@ void DepthDisplay::mousePressEvent(QMouseEvent *event)
         xPixelSelect = int (pixmapWidth*(x/labelWidth));
         yPixelSelect = int (pixmapHeight*(y/labelHeight));
 
+        emit sendCoords(xPixelSelect, yPixelSelect);
         this->setImage(imageRaw);
     }
 
@@ -69,3 +70,9 @@ void DepthDisplay::dispToDepth()
     distance = sqrt(double((coords.x)*(coords.x)+(coords.y)*(coords.y)+(coords.z)*(coords.z)));
 }
 
+void DepthDisplay::receiveCoords(int x, int y)
+{
+    xPixelSelect = x;
+    yPixelSelect = y;
+    this->setImage(imageRaw);
+}

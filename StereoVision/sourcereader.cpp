@@ -13,6 +13,8 @@ void SourceReader::setSourcePaths(QString leftPath, QString rightPath)
 
 void SourceReader::executeStart(){}
 void SourceReader::executeStop(){}
+void SourceReader::executePause(){}
+void SourceReader::executeResume(){}
 void SourceReader::executeJobDone(){}
 
 void SourceReader::receiveStart()

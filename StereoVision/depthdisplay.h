@@ -20,9 +20,12 @@ public:
     void setImage(QImage disparity);
     void setDispToDistMat(cv::Mat map);
 
-
 signals:
     void sendDistance(double distance);
+    void sendCoords(int x, int y);
+
+public slots:
+    void receiveCoords(int x, int y);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

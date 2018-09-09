@@ -78,6 +78,17 @@ QString AppSettings::readMovFilesDir()
     return config->value("app_settings/movies_dir", "/home/").toString();
 }
 
+void AppSettings::setResultsDir(QString path)
+{
+    config->setValue("app_settings/results_dir", path);
+    config->sync();
+}
+
+QString AppSettings::readResultsDir()
+{
+    return config->value("app_settings/results_dir", "/home/").toString();
+}
+
 void AppSettings::setChessboardRows(int rows)
 {
     config->setValue("app_settings/chessboard_rows", rows);

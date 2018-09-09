@@ -4,6 +4,7 @@
 widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     ui(new Ui::widgetMeasOffline),
     depthDisplay(new DepthDisplay()),
+    writeToFile(false),
     rectifier(nullptr),
     stereoMatcher(nullptr),
     threadSourceReader(nullptr),
@@ -14,6 +15,8 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     settings = sett;
 
     connect(depthDisplay, SIGNAL(sendDistance(double)), this, SLOT(receiveDistance(double)));
+    connect(depthDisplay, SIGNAL(sendCoords(int, int)), this, SLOT(receiveCoords(int,int)));
+    connect(this, SIGNAL(sendCoords(int, int)), depthDisplay, SLOT(receiveCoords(int, int)));
     ui->gridLayout->addWidget(depthDisplay,0,0);
     depthDisplay->setFrameShape(QFrame::Box);
     depthDisplay->setScaledContents(true);
@@ -28,6 +31,7 @@ widgetMeasOffline::~widgetMeasOffline()
     stopThreads();
     delete ui;
     delete depthDisplay;
+    closeFile();
 }
 
 void widgetMeasOffline::setupMeasurement()
@@ -48,7 +52,7 @@ void widgetMeasOffline::setupMeasurement()
     connect(threadRectifier, SIGNAL(finished()), rectifier, SLOT(deleteLater()));
     connect(threadStereoMatcher, SIGNAL(finished()), stereoMatcher, SLOT(deleteLater()));
 
-    connect(this, SIGNAL(SendStartMeas()), sourceReader, SLOT(receiveStart()));
+    connect(this, SIGNAL(sendStartMeas()), sourceReader, SLOT(receiveStart()));
     connect(sourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), rectifier, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
     connect(stereoMatcher, SIGNAL(sendDisparity(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparity(cv::Mat, cv::Mat, cv::Mat)));
@@ -62,7 +66,7 @@ void widgetMeasOffline::setupMeasurement()
     threadRectifier->start();
     threadSourceReader->start();
 
-    emit SendStartMeas();
+    emit sendStartMeas();
 }
 
 void widgetMeasOffline::stopThreads()
@@ -89,6 +93,32 @@ void widgetMeasOffline::stopThreads()
     }
 }
 
+void widgetMeasOffline::openFile()
+{
+    closeFile();
+    writeToFile = true;
+
+    QDateTime currentTime = QDateTime::currentDateTime();
+    QString filename = settings->readResultsDir().append(currentTime.toString("yyyyMMdd_hhmmss").append("_distance.csv"));
+    results.setFileName(filename);
+    results.open(QFile::WriteOnly | QIODevice::Append);
+    if(results.isOpen())
+    {
+        output.setDevice(&results);
+        ui->labelResultsPath->setText(filename);
+    }
+}
+
+void widgetMeasOffline::closeFile()
+{
+    if(results.isOpen())
+    {
+        output.flush();
+        results.close();
+        writeToFile = false;
+    }
+}
+
 void widgetMeasOffline::receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity)
 {
     displayDisparity(disparity, depthDisplay);
@@ -99,6 +129,16 @@ void widgetMeasOffline::receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFram
 void widgetMeasOffline::receiveDistance(double distance)
 {
     ui->doubleSpinBoxDistance->setValue(distance);
+    if(writeToFile)
+    {
+        output << QString::number(distance).append(";") << endl;
+    }
+}
+
+void widgetMeasOffline::receiveCoords(int x, int y)
+{
+    ui->spinBoxX->setValue(x);
+    ui->spinBoxY->setValue(y);
 }
 
 void widgetMeasOffline::on_pushButtonLeftSource_clicked()
@@ -116,4 +156,24 @@ void widgetMeasOffline::on_pushButtonRightSource_clicked()
 void widgetMeasOffline::on_pushButtonStart_clicked()
 {
     setupMeasurement();
+}
+
+void widgetMeasOffline::on_spinBoxX_valueChanged(int arg1)
+{
+    emit sendCoords(arg1, ui->spinBoxY->value());
+}
+
+void widgetMeasOffline::on_spinBoxY_valueChanged(int arg1)
+{
+    emit sendCoords(ui->spinBoxX->value(), arg1);
+}
+
+void widgetMeasOffline::on_pushButton_toggled(bool checked)
+{
+    if(checked)
+    {
+        openFile();
+    }
+    else closeFile();
+
 }
