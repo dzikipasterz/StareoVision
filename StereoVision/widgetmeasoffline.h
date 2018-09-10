@@ -46,11 +46,11 @@ private slots:
 
     void on_pushButtonStart_clicked();
 
-    void on_spinBoxX_valueChanged(int arg1);
+    void on_spinBoxX_valueChanged(int x);
 
-    void on_spinBoxY_valueChanged(int arg1);
+    void on_spinBoxY_valueChanged(int y);
 
-    void on_pushButton_toggled(bool checked);
+    void on_pushButtonWrite_toggled(bool write);
 
 private:
     Ui::widgetMeasOffline *ui;

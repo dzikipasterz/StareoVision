@@ -2,6 +2,8 @@
 #define WIDGETMEASONLINE_H
 
 #include <QWidget>
+#include <QTextStream>
+#include <QDateTime>
 #include <appsettings.h>
 #include <appwidget.h>
 #include <rectifier.h>
@@ -24,17 +26,33 @@ public:
     explicit widgetMeasOnline(AppSettings *sett);
     ~widgetMeasOnline();
 
+signals:
+    void sendCoords(int x, int y);
+
 public slots:
-    void receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
+    void receiveDisparity(cv::Mat lFrameRaw, cv::Mat rFrameRaw, cv::Mat disp);
     void receiveDistance(double distance);
+    void receiveCoords(int x, int y);
+
+private slots:
+    void on_spinBoxX_valueChanged(int arg1);
+
+    void on_spinBoxY_valueChanged(int arg1);
+
+    void on_pushButtonWrite_toggled(bool write);
 
 private:
     Ui::widgetMeasOnline *ui;
     QThread *threadRectifier, *threadStereoMatcher;
+    QFile results;
+    QTextStream output;
+    bool writeToFile;
     Rectifier *rectifier;
     StereoMatcher *stereoMatcher;
     DepthDisplay *disparityDisplay;
 
+    void openFile();
+    void closeFile();
 };
 
 #endif // WIDGETMEASONLINE_H

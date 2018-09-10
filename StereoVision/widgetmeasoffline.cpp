@@ -158,19 +158,19 @@ void widgetMeasOffline::on_pushButtonStart_clicked()
     setupMeasurement();
 }
 
-void widgetMeasOffline::on_spinBoxX_valueChanged(int arg1)
+void widgetMeasOffline::on_spinBoxX_valueChanged(int x)
 {
-    emit sendCoords(arg1, ui->spinBoxY->value());
+    emit sendCoords(x, ui->spinBoxY->value());
 }
 
-void widgetMeasOffline::on_spinBoxY_valueChanged(int arg1)
+void widgetMeasOffline::on_spinBoxY_valueChanged(int y)
 {
-    emit sendCoords(ui->spinBoxX->value(), arg1);
+    emit sendCoords(ui->spinBoxX->value(), y);
 }
 
-void widgetMeasOffline::on_pushButton_toggled(bool checked)
+void widgetMeasOffline::on_pushButtonWrite_toggled(bool write)
 {
-    if(checked)
+    if(write)
     {
         openFile();
     }
