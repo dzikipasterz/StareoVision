@@ -8,6 +8,7 @@ DepthDisplay::DepthDisplay(QWidget *parent) :
     yPixelSelect = int (this->height()/2);
     penline.setColor(Qt::green);
     penline.setWidth(5);
+    timer.start();
 }
 
 
@@ -44,6 +45,9 @@ void DepthDisplay::mousePressEvent(QMouseEvent *event)
 
 void DepthDisplay::setImage(QImage disparity)
 {
+    fps = 1000000000/(double(timer.nsecsElapsed()));
+    timer.restart();
+
     imageRaw = disparity;
     pixmapTemp = QPixmap::fromImage(imageRaw);
     painter = new QPainter(&pixmapTemp);
@@ -51,6 +55,7 @@ void DepthDisplay::setImage(QImage disparity)
     painter->drawPoint(xPixelSelect, yPixelSelect);
 
     dispToDepth();
+    emit sendFPS(fps);
     emit sendDistance(distance);
     QLabel::setPixmap(pixmapTemp);
     delete painter;

@@ -45,7 +45,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QPushButton" name="pushButtonPomiarOnline">
+       <widget class="QPushButton" name="pushButtonMeasOnline">
         <property name="minimumSize">
          <size>
           <width>131</width>
@@ -64,7 +64,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButtonPomiarOffline">
+       <widget class="QPushButton" name="pushButtonMeasOffline">
         <property name="minimumSize">
          <size>
           <width>131</width>
@@ -83,7 +83,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButtonNagrywanie">
+       <widget class="QPushButton" name="pushButtonRecord">
         <property name="minimumSize">
          <size>
           <width>131</width>
@@ -102,7 +102,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButtonKalibracja">
+       <widget class="QPushButton" name="pushButtonCalibration">
         <property name="minimumSize">
          <size>
           <width>131</width>
@@ -121,7 +121,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButtonUstawienia">
+       <widget class="QPushButton" name="pushButtonSettings">
         <property name="minimumSize">
          <size>
           <width>131</width>
@@ -179,7 +179,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButtonWyjscie">
+       <widget class="QPushButton" name="pushButtonExit">
         <property name="minimumSize">
          <size>
           <width>131</width>
@@ -215,13 +215,13 @@
      <string>Plik</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="actionZako_cz"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuPomoc">
     <property name="title">
      <string>Pomoc</string>
     </property>
-    <addaction name="actionO_programie"/>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuPlik"/>
    <addaction name="menuPomoc"/>
@@ -235,12 +235,12 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionO_programie">
+  <action name="actionAbout">
    <property name="text">
     <string>O programie</string>
    </property>
   </action>
-  <action name="actionZako_cz">
+  <action name="actionExit">
    <property name="text">
     <string>Zakończ</string>
    </property>

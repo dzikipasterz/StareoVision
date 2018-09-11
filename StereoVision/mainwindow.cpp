@@ -46,13 +46,6 @@ void MainWindow::initPanelWidget()
 }
 
 
-void MainWindow::showMeasurementWidget()
-{
-    initPanelWidget();
-    widgetPanel = new widgetMeasurement(&settings);
-    ui->centralWidget->layout()->addWidget(widgetPanel);
-}
-
 void MainWindow::showMeasurementOfflineWidget()
 {
     initPanelWidget();
@@ -93,42 +86,42 @@ void MainWindow::on_pushButtonInfo_clicked()
    showAppInfo();
 }
 
-void MainWindow::on_actionO_programie_triggered()
+void MainWindow::on_actionAbout_triggered()
 {
     showAppInfo();
 }
 
-void MainWindow::on_pushButtonWyjscie_clicked()
+void MainWindow::on_pushButtonExit_clicked()
 {
     showCloseConfirmation();
 }
 
-void MainWindow::on_actionZako_cz_triggered()
+void MainWindow::on_actionExit_triggered()
 {
     showCloseConfirmation();
 }
 
-void MainWindow::on_pushButtonPomiarOnline_clicked()
+void MainWindow::on_pushButtonMeasOnline_clicked()
 {
     showMeasurementOnlineWidget();
 }
 
-void MainWindow::on_pushButtonUstawienia_clicked()
+void MainWindow::on_pushButtonSettings_clicked()
 {
     showSettingsWidget();
 }
 
-void MainWindow::on_pushButtonKalibracja_clicked()
+void MainWindow::on_pushButtonCalibration_clicked()
 {
     showCalibrationWidget();
 }
 
-void MainWindow::on_pushButtonNagrywanie_clicked()
+void MainWindow::on_pushButtonRecord_clicked()
 {
     showRecordWidget();
 }
 
-void MainWindow::on_pushButtonPomiarOffline_clicked()
+void MainWindow::on_pushButtonMeasOffline_clicked()
 {
     showMeasurementOfflineWidget();
 }

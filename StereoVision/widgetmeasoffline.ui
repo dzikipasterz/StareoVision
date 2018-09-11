@@ -35,6 +35,16 @@
        </property>
       </widget>
      </item>
+     <item row="4" column="1">
+      <widget class="QPushButton" name="pushButtonWrite">
+       <property name="text">
+        <string>Zapis do pliku</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
      <item row="3" column="0">
       <widget class="QLabel" name="labelSourceRight">
        <property name="minimumSize">
@@ -77,6 +87,42 @@
          <height>25</height>
         </size>
        </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="pushButtonLeftSource">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>24</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Prawy obraz</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QPushButton" name="pushButtonStart">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>24</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Start</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="labelResultsPath">
        <property name="frameShape">
         <enum>QFrame::Box</enum>
        </property>
@@ -194,6 +240,49 @@
         </widget>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="maximumSize">
+            <size>
+             <width>38</width>
+             <height>17</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>(x, y)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBoxX">
+           <property name="maximumSize">
+            <size>
+             <width>74</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximum">
+            <number>10000</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBoxY">
+           <property name="maximumSize">
+            <size>
+             <width>74</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximum">
+            <number>10000</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QLabel" name="label_3">
          <property name="maximumSize">
           <size>
@@ -223,7 +312,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="label_6">
          <property name="maximumSize">
           <size>
            <width>200</width>
@@ -231,46 +320,20 @@
           </size>
          </property>
          <property name="text">
-          <string>x</string>
+          <string>FPS</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBoxX">
+        <widget class="QDoubleSpinBox" name="doubleSpinBoxFPS">
          <property name="maximumSize">
           <size>
            <width>200</width>
            <height>26</height>
           </size>
          </property>
-         <property name="maximum">
-          <number>10000</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_5">
-         <property name="maximumSize">
-          <size>
-           <width>200</width>
-           <height>17</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>y</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="spinBoxY">
-         <property name="maximumSize">
-          <size>
-           <width>200</width>
-           <height>26</height>
-          </size>
-         </property>
-         <property name="maximum">
-          <number>10000</number>
+         <property name="readOnly">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -288,52 +351,6 @@
         </spacer>
        </item>
       </layout>
-     </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="pushButtonLeftSource">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>24</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Prawy obraz</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QPushButton" name="pushButtonStart">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>24</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Start</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QPushButton" name="pushButtonWrite">
-       <property name="text">
-        <string>Zapis do pliku</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="labelResultsPath">
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
      </item>
     </layout>
    </item>

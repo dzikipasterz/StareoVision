@@ -33,6 +33,7 @@ public slots:
     void receiveDisparity(cv::Mat lFrameRaw, cv::Mat rFrameRaw, cv::Mat disp);
     void receiveDistance(double distance);
     void receiveCoords(int x, int y);
+    void receiveFPS(double fps);
 
 private slots:
     void on_spinBoxX_valueChanged(int arg1);
@@ -46,6 +47,7 @@ private:
     QThread *threadRectifier, *threadStereoMatcher;
     QFile results;
     QTextStream output;
+    double FPS;
     bool writeToFile;
     Rectifier *rectifier;
     StereoMatcher *stereoMatcher;

@@ -9,6 +9,8 @@
 #include <QEvent>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QDateTime>
+#include <QElapsedTimer>
 
 class DepthDisplay : public QLabel
 {
@@ -23,6 +25,7 @@ public:
 signals:
     void sendDistance(double distance);
     void sendCoords(int x, int y);
+    void sendFPS(double fps);
 
 public slots:
     void receiveCoords(int x, int y);
@@ -38,7 +41,10 @@ private:
     QPen penline;
     QPixmap pixmapTemp;
     QImage imageRaw;
+    QElapsedTimer timer;
+
     double distance;
+    double fps;
     cv::Mat dispDistMap;
 
     void dispToDepth();

@@ -4,7 +4,8 @@
 widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
     ui(new Ui::widgetMeasOnline),
     threadRectifier(nullptr),
-    threadStereoMatcher(nullptr)
+    threadStereoMatcher(nullptr),
+    writeToFile(false)
 {
     ui->setupUi(this);
     settings = sett;
@@ -17,6 +18,7 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
 
     connect(disparityDisplay, SIGNAL(sendDistance(double)), this, SLOT(receiveDistance(double)));
     connect(disparityDisplay, SIGNAL(sendCoords(int, int)), this, SLOT(receiveCoords(int, int)));
+    connect(disparityDisplay, SIGNAL(sendFPS(double)), this, SLOT(receiveFPS(double)));
     connect(this, SIGNAL(sendCoords(int, int)), disparityDisplay, SLOT(receiveCoords(int, int)));
 
     ui->gridLayoutMain->addWidget(disparityDisplay,0,0);
@@ -106,7 +108,7 @@ void widgetMeasOnline::receiveDistance(double distance)
     ui->doubleSpinBoxDistance->setValue(distance);
     if(writeToFile)
     {
-        output << QString::number(distance).append(";") << endl;
+        output << QString::number(distance).append(";").append(QString::number(FPS).append(";")) << endl;
     }
 }
 
@@ -114,6 +116,12 @@ void widgetMeasOnline::receiveCoords(int x, int y)
 {
     ui->spinBoxX->setValue(x);
     ui->spinBoxY->setValue(y);
+}
+
+void widgetMeasOnline::receiveFPS(double fps)
+{
+    ui->doubleSpinBoxFPS->setValue(fps);
+    FPS = fps;
 }
 
 void widgetMeasOnline::on_spinBoxX_valueChanged(int arg1)

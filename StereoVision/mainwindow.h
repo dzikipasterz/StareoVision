@@ -14,7 +14,6 @@
 #include <appwidget.h>
 #include "info.h"
 #include "closeconfirm.h"
-#include "widgetmeasurement.h"
 #include "widgetmeasonline.h"
 #include "widgetmeasoffline.h"
 #include "widgetsettings.h"
@@ -27,8 +26,6 @@ namespace Ui {
 class MainWindow;
 }
 
-static AppWidget *widgetPanel;
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -37,7 +34,6 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void showMeasurementWidget();
     void showMeasurementOnlineWidget();
     void showMeasurementOfflineWidget();
     void showSettingsWidget();
@@ -49,21 +45,21 @@ public slots:
 
 private slots:
     void on_pushButtonInfo_clicked();
-    void on_actionO_programie_triggered();
-    void on_pushButtonWyjscie_clicked();
-    void on_actionZako_cz_triggered();
-    void on_pushButtonPomiarOnline_clicked();
-    void on_pushButtonUstawienia_clicked();
-    void on_pushButtonKalibracja_clicked();
+    void on_actionAbout_triggered();
+    void on_pushButtonExit_clicked();
+    void on_actionExit_triggered();
+    void on_pushButtonMeasOnline_clicked();
+    void on_pushButtonMeasOffline_clicked();
+    void on_pushButtonSettings_clicked();
+    void on_pushButtonCalibration_clicked();
 
-    void on_pushButtonNagrywanie_clicked();
-
-    void on_pushButtonPomiarOffline_clicked();
+    void on_pushButtonRecord_clicked();
 
 private:
     Ui::MainWindow *ui;
     QSize baseSize;
     AppSettings settings;
+    AppWidget *widgetPanel;
 
     void showAppInfo();
     void showCloseConfirmation();
