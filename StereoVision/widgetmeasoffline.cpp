@@ -4,6 +4,7 @@
 widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     ui(new Ui::widgetMeasOffline),
     depthDisplay(new DepthDisplay()),
+    lastPath("/home"),
     writeToFile(false),
     rectifier(nullptr),
     stereoMatcher(nullptr),
@@ -16,6 +17,7 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
 
     connect(depthDisplay, SIGNAL(sendDistance(double)), this, SLOT(receiveDistance(double)));
     connect(depthDisplay, SIGNAL(sendCoords(int, int)), this, SLOT(receiveCoords(int,int)));
+    connect(depthDisplay, SIGNAL(sendFPS(double)), this, SLOT(receiveFPS(double)));
     connect(this, SIGNAL(sendCoords(int, int)), depthDisplay, SLOT(receiveCoords(int, int)));
     ui->gridLayout->addWidget(depthDisplay,0,0);
     depthDisplay->setFrameShape(QFrame::Box);
@@ -46,7 +48,7 @@ void widgetMeasOffline::setupMeasurement()
     sourceReader->setSourcePaths(ui->labelSourceLeft->text(), ui->labelSourceRight->text());
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
-    stereoMatcher = new StereoSGBMcpu(); //#todo: zaleznie od wybranego algorytmu
+    stereoMatcher = new StereoBPcuda(); //#todo: zaleznie od wybranego algorytmu
 
     connect(threadSourceReader, SIGNAL(finished()), sourceReader, SLOT(deleteLater()));
     connect(threadRectifier, SIGNAL(finished()), rectifier, SLOT(deleteLater()));
@@ -131,10 +133,15 @@ void widgetMeasOffline::receiveDistance(double distance)
     ui->doubleSpinBoxDistance->setValue(distance);
     if(writeToFile)
     {
-        output << QString::number(distance).append(";") << endl;
+        output << QString::number(distance).append(";").append(QString::number(FPS).append(";")) << endl;
     }
 }
 
+void widgetMeasOffline::receiveFPS(double fps)
+{
+    FPS = fps;
+    ui->doubleSpinBoxFPS->setValue(fps);
+}
 void widgetMeasOffline::receiveCoords(int x, int y)
 {
     ui->spinBoxX->setValue(x);
@@ -143,14 +150,16 @@ void widgetMeasOffline::receiveCoords(int x, int y)
 
 void widgetMeasOffline::on_pushButtonLeftSource_clicked()
 {
-    leftSourcePath = QFileDialog::getOpenFileName(nullptr, "Wybierz źródło lewego obrazu", settings->readPictSavePath());
+    leftSourcePath = QFileDialog::getOpenFileName(nullptr, "Wybierz źródło lewego obrazu", lastPath);
     ui->labelSourceLeft->setText(leftSourcePath);
+    lastPath = leftSourcePath;
 }
 
 void widgetMeasOffline::on_pushButtonRightSource_clicked()
 {
-    rightSourcePath = QFileDialog::getOpenFileName(nullptr, "Wybierz źródło prawego obrazu", settings->readPictSavePath());
+    rightSourcePath = QFileDialog::getOpenFileName(nullptr, "Wybierz źródło prawego obrazu", lastPath);
     ui->labelSourceRight->setText(rightSourcePath);
+    lastPath = rightSourcePath;
 }
 
 void widgetMeasOffline::on_pushButtonStart_clicked()

@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
     QByteArrayData data[12];
-    char stringdata0[307];
+    char stringdata0[286];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,26 +35,26 @@ QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
 QT_MOC_LITERAL(1, 11, 16), // "closeApplication"
 QT_MOC_LITERAL(2, 28, 0), // ""
 QT_MOC_LITERAL(3, 29, 25), // "on_pushButtonInfo_clicked"
-QT_MOC_LITERAL(4, 55, 30), // "on_actionO_programie_triggered"
-QT_MOC_LITERAL(5, 86, 28), // "on_pushButtonWyjscie_clicked"
-QT_MOC_LITERAL(6, 115, 26), // "on_actionZako_cz_triggered"
-QT_MOC_LITERAL(7, 142, 33), // "on_pushButtonPomiarOnline_cli..."
-QT_MOC_LITERAL(8, 176, 31), // "on_pushButtonUstawienia_clicked"
-QT_MOC_LITERAL(9, 208, 31), // "on_pushButtonKalibracja_clicked"
-QT_MOC_LITERAL(10, 240, 31), // "on_pushButtonNagrywanie_clicked"
-QT_MOC_LITERAL(11, 272, 34) // "on_pushButtonPomiarOffline_cl..."
+QT_MOC_LITERAL(4, 55, 24), // "on_actionAbout_triggered"
+QT_MOC_LITERAL(5, 80, 25), // "on_pushButtonExit_clicked"
+QT_MOC_LITERAL(6, 106, 23), // "on_actionExit_triggered"
+QT_MOC_LITERAL(7, 130, 31), // "on_pushButtonMeasOnline_clicked"
+QT_MOC_LITERAL(8, 162, 32), // "on_pushButtonMeasOffline_clicked"
+QT_MOC_LITERAL(9, 195, 29), // "on_pushButtonSettings_clicked"
+QT_MOC_LITERAL(10, 225, 32), // "on_pushButtonCalibration_clicked"
+QT_MOC_LITERAL(11, 258, 27) // "on_pushButtonRecord_clicked"
 
     },
     "MainWindow\0closeApplication\0\0"
     "on_pushButtonInfo_clicked\0"
-    "on_actionO_programie_triggered\0"
-    "on_pushButtonWyjscie_clicked\0"
-    "on_actionZako_cz_triggered\0"
-    "on_pushButtonPomiarOnline_clicked\0"
-    "on_pushButtonUstawienia_clicked\0"
-    "on_pushButtonKalibracja_clicked\0"
-    "on_pushButtonNagrywanie_clicked\0"
-    "on_pushButtonPomiarOffline_clicked"
+    "on_actionAbout_triggered\0"
+    "on_pushButtonExit_clicked\0"
+    "on_actionExit_triggered\0"
+    "on_pushButtonMeasOnline_clicked\0"
+    "on_pushButtonMeasOffline_clicked\0"
+    "on_pushButtonSettings_clicked\0"
+    "on_pushButtonCalibration_clicked\0"
+    "on_pushButtonRecord_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -106,14 +106,14 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->closeApplication(); break;
         case 1: _t->on_pushButtonInfo_clicked(); break;
-        case 2: _t->on_actionO_programie_triggered(); break;
-        case 3: _t->on_pushButtonWyjscie_clicked(); break;
-        case 4: _t->on_actionZako_cz_triggered(); break;
-        case 5: _t->on_pushButtonPomiarOnline_clicked(); break;
-        case 6: _t->on_pushButtonUstawienia_clicked(); break;
-        case 7: _t->on_pushButtonKalibracja_clicked(); break;
-        case 8: _t->on_pushButtonNagrywanie_clicked(); break;
-        case 9: _t->on_pushButtonPomiarOffline_clicked(); break;
+        case 2: _t->on_actionAbout_triggered(); break;
+        case 3: _t->on_pushButtonExit_clicked(); break;
+        case 4: _t->on_actionExit_triggered(); break;
+        case 5: _t->on_pushButtonMeasOnline_clicked(); break;
+        case 6: _t->on_pushButtonMeasOffline_clicked(); break;
+        case 7: _t->on_pushButtonSettings_clicked(); break;
+        case 8: _t->on_pushButtonCalibration_clicked(); break;
+        case 9: _t->on_pushButtonRecord_clicked(); break;
         default: ;
         }
     }

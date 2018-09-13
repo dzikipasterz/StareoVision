@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
             )
     );
 
-    w.showCalibrationWidget();
+    w.showMeasurementOfflineWidget();
     w.show();
 
     return a.exec();

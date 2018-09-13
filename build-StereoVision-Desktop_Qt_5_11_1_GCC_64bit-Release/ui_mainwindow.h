@@ -29,20 +29,20 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
-    QAction *actionO_programie;
-    QAction *actionZako_cz;
+    QAction *actionAbout;
+    QAction *actionExit;
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayoutMenu;
-    QPushButton *pushButtonPomiarOnline;
-    QPushButton *pushButtonPomiarOffline;
-    QPushButton *pushButtonNagrywanie;
-    QPushButton *pushButtonKalibracja;
-    QPushButton *pushButtonUstawienia;
+    QPushButton *pushButtonMeasOnline;
+    QPushButton *pushButtonMeasOffline;
+    QPushButton *pushButtonRecord;
+    QPushButton *pushButtonCalibration;
+    QPushButton *pushButtonSettings;
     QSpacerItem *verticalSpacer;
     QLabel *label;
     QPushButton *pushButtonInfo;
-    QPushButton *pushButtonWyjscie;
+    QPushButton *pushButtonExit;
     QMenuBar *menuBar;
     QMenu *menuPlik;
     QMenu *menuPomoc;
@@ -57,10 +57,10 @@ public:
         MainWindow->resize(1024, 768);
         MainWindow->setMinimumSize(QSize(1024, 768));
         MainWindow->setMaximumSize(QSize(1920, 1080));
-        actionO_programie = new QAction(MainWindow);
-        actionO_programie->setObjectName(QStringLiteral("actionO_programie"));
-        actionZako_cz = new QAction(MainWindow);
-        actionZako_cz->setObjectName(QStringLiteral("actionZako_cz"));
+        actionAbout = new QAction(MainWindow);
+        actionAbout->setObjectName(QStringLiteral("actionAbout"));
+        actionExit = new QAction(MainWindow);
+        actionExit->setObjectName(QStringLiteral("actionExit"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         horizontalLayout = new QHBoxLayout(centralWidget);
@@ -72,40 +72,40 @@ public:
         verticalLayoutMenu->setObjectName(QStringLiteral("verticalLayoutMenu"));
         verticalLayoutMenu->setSizeConstraint(QLayout::SetDefaultConstraint);
         verticalLayoutMenu->setContentsMargins(0, -1, 0, 0);
-        pushButtonPomiarOnline = new QPushButton(centralWidget);
-        pushButtonPomiarOnline->setObjectName(QStringLiteral("pushButtonPomiarOnline"));
-        pushButtonPomiarOnline->setMinimumSize(QSize(131, 31));
-        pushButtonPomiarOnline->setMaximumSize(QSize(131, 31));
+        pushButtonMeasOnline = new QPushButton(centralWidget);
+        pushButtonMeasOnline->setObjectName(QStringLiteral("pushButtonMeasOnline"));
+        pushButtonMeasOnline->setMinimumSize(QSize(131, 31));
+        pushButtonMeasOnline->setMaximumSize(QSize(131, 31));
 
-        verticalLayoutMenu->addWidget(pushButtonPomiarOnline);
+        verticalLayoutMenu->addWidget(pushButtonMeasOnline);
 
-        pushButtonPomiarOffline = new QPushButton(centralWidget);
-        pushButtonPomiarOffline->setObjectName(QStringLiteral("pushButtonPomiarOffline"));
-        pushButtonPomiarOffline->setMinimumSize(QSize(131, 31));
-        pushButtonPomiarOffline->setMaximumSize(QSize(131, 31));
+        pushButtonMeasOffline = new QPushButton(centralWidget);
+        pushButtonMeasOffline->setObjectName(QStringLiteral("pushButtonMeasOffline"));
+        pushButtonMeasOffline->setMinimumSize(QSize(131, 31));
+        pushButtonMeasOffline->setMaximumSize(QSize(131, 31));
 
-        verticalLayoutMenu->addWidget(pushButtonPomiarOffline);
+        verticalLayoutMenu->addWidget(pushButtonMeasOffline);
 
-        pushButtonNagrywanie = new QPushButton(centralWidget);
-        pushButtonNagrywanie->setObjectName(QStringLiteral("pushButtonNagrywanie"));
-        pushButtonNagrywanie->setMinimumSize(QSize(131, 31));
-        pushButtonNagrywanie->setMaximumSize(QSize(131, 31));
+        pushButtonRecord = new QPushButton(centralWidget);
+        pushButtonRecord->setObjectName(QStringLiteral("pushButtonRecord"));
+        pushButtonRecord->setMinimumSize(QSize(131, 31));
+        pushButtonRecord->setMaximumSize(QSize(131, 31));
 
-        verticalLayoutMenu->addWidget(pushButtonNagrywanie);
+        verticalLayoutMenu->addWidget(pushButtonRecord);
 
-        pushButtonKalibracja = new QPushButton(centralWidget);
-        pushButtonKalibracja->setObjectName(QStringLiteral("pushButtonKalibracja"));
-        pushButtonKalibracja->setMinimumSize(QSize(131, 31));
-        pushButtonKalibracja->setMaximumSize(QSize(131, 31));
+        pushButtonCalibration = new QPushButton(centralWidget);
+        pushButtonCalibration->setObjectName(QStringLiteral("pushButtonCalibration"));
+        pushButtonCalibration->setMinimumSize(QSize(131, 31));
+        pushButtonCalibration->setMaximumSize(QSize(131, 31));
 
-        verticalLayoutMenu->addWidget(pushButtonKalibracja);
+        verticalLayoutMenu->addWidget(pushButtonCalibration);
 
-        pushButtonUstawienia = new QPushButton(centralWidget);
-        pushButtonUstawienia->setObjectName(QStringLiteral("pushButtonUstawienia"));
-        pushButtonUstawienia->setMinimumSize(QSize(131, 31));
-        pushButtonUstawienia->setMaximumSize(QSize(131, 31));
+        pushButtonSettings = new QPushButton(centralWidget);
+        pushButtonSettings->setObjectName(QStringLiteral("pushButtonSettings"));
+        pushButtonSettings->setMinimumSize(QSize(131, 31));
+        pushButtonSettings->setMaximumSize(QSize(131, 31));
 
-        verticalLayoutMenu->addWidget(pushButtonUstawienia);
+        verticalLayoutMenu->addWidget(pushButtonSettings);
 
         verticalSpacer = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -123,12 +123,12 @@ public:
 
         verticalLayoutMenu->addWidget(pushButtonInfo);
 
-        pushButtonWyjscie = new QPushButton(centralWidget);
-        pushButtonWyjscie->setObjectName(QStringLiteral("pushButtonWyjscie"));
-        pushButtonWyjscie->setMinimumSize(QSize(131, 31));
-        pushButtonWyjscie->setMaximumSize(QSize(131, 31));
+        pushButtonExit = new QPushButton(centralWidget);
+        pushButtonExit->setObjectName(QStringLiteral("pushButtonExit"));
+        pushButtonExit->setMinimumSize(QSize(131, 31));
+        pushButtonExit->setMaximumSize(QSize(131, 31));
 
-        verticalLayoutMenu->addWidget(pushButtonWyjscie);
+        verticalLayoutMenu->addWidget(pushButtonExit);
 
 
         horizontalLayout->addLayout(verticalLayoutMenu);
@@ -152,8 +152,8 @@ public:
         menuBar->addAction(menuPlik->menuAction());
         menuBar->addAction(menuPomoc->menuAction());
         menuPlik->addSeparator();
-        menuPlik->addAction(actionZako_cz);
-        menuPomoc->addAction(actionO_programie);
+        menuPlik->addAction(actionExit);
+        menuPomoc->addAction(actionAbout);
 
         retranslateUi(MainWindow);
 
@@ -163,16 +163,16 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        actionO_programie->setText(QApplication::translate("MainWindow", "O programie", nullptr));
-        actionZako_cz->setText(QApplication::translate("MainWindow", "Zako\305\204cz", nullptr));
-        pushButtonPomiarOnline->setText(QApplication::translate("MainWindow", "Pomiar online", nullptr));
-        pushButtonPomiarOffline->setText(QApplication::translate("MainWindow", "Pomiar offline", nullptr));
-        pushButtonNagrywanie->setText(QApplication::translate("MainWindow", "Nagrywanie", nullptr));
-        pushButtonKalibracja->setText(QApplication::translate("MainWindow", "Kalibracja", nullptr));
-        pushButtonUstawienia->setText(QApplication::translate("MainWindow", "Ustawienia", nullptr));
+        actionAbout->setText(QApplication::translate("MainWindow", "O programie", nullptr));
+        actionExit->setText(QApplication::translate("MainWindow", "Zako\305\204cz", nullptr));
+        pushButtonMeasOnline->setText(QApplication::translate("MainWindow", "Pomiar online", nullptr));
+        pushButtonMeasOffline->setText(QApplication::translate("MainWindow", "Pomiar offline", nullptr));
+        pushButtonRecord->setText(QApplication::translate("MainWindow", "Nagrywanie", nullptr));
+        pushButtonCalibration->setText(QApplication::translate("MainWindow", "Kalibracja", nullptr));
+        pushButtonSettings->setText(QApplication::translate("MainWindow", "Ustawienia", nullptr));
         label->setText(QString());
         pushButtonInfo->setText(QApplication::translate("MainWindow", "O programie", nullptr));
-        pushButtonWyjscie->setText(QApplication::translate("MainWindow", "Wyj\305\233cie", nullptr));
+        pushButtonExit->setText(QApplication::translate("MainWindow", "Wyj\305\233cie", nullptr));
         menuPlik->setTitle(QApplication::translate("MainWindow", "Plik", nullptr));
         menuPomoc->setTitle(QApplication::translate("MainWindow", "Pomoc", nullptr));
     } // retranslateUi

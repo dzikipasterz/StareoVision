@@ -55,7 +55,8 @@ SOURCES += \
     stereosgbmcpu.cpp \
     stereobmcuda.cpp \
     stereocsbpcuda.cpp \
-    videoreader.cpp
+    videoreader.cpp \
+    widgetdisparity.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -89,7 +90,8 @@ HEADERS += \
     stereosgbmcpu.h \
     stereobmcuda.h \
     stereocsbpcuda.h \
-    videoreader.h
+    videoreader.h \
+    widgetdisparity.h
 
 FORMS += \
         mainwindow.ui \
@@ -100,7 +102,8 @@ FORMS += \
     widgetcalibration.ui \
     widgetrecord.ui \
     widgetmeasoffline.ui \
-    widgetmeasonline.ui
+    widgetmeasonline.ui \
+    widgetdisparity.ui
 
 
 LIBS += -lopencv_photo -lopencv_cudaarithm -lopencv_cudabgsegm -lopencv_cudacodec -lopencv_cudafeatures2d -lopencv_cudafilters -lopencv_cudaimgproc -lopencv_cudalegacy -lopencv_cudaobjdetect -lopencv_cudaoptflow -lopencv_cudawarping -lopencv_cudev -lopencv_cudastereo -lopencv_highgui -lopencv_core -lopencv_imgproc -lopencv_videoio -lopencv_calib3d -lopencv_imgcodecs -lopencv_ximgproc

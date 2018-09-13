@@ -3,7 +3,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    widgetPanel(nullptr)
 {
     ui->setupUi(this);
     baseSize = this->size();
@@ -41,8 +42,10 @@ void MainWindow::showCloseConfirmation()
 void MainWindow::initPanelWidget()
 {
     if(widgetPanel != nullptr)
-    ui->centralWidget->layout()->removeWidget(widgetPanel);
-    widgetPanel->deleteLater();
+    {
+        ui->centralWidget->layout()->removeWidget(widgetPanel);
+        widgetPanel->deleteLater();
+    }
 }
 
 

@@ -16,6 +16,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
@@ -38,6 +39,7 @@ public:
     QLabel *label;
     QLabel *label_2;
     QLabel *label_3;
+    QRadioButton *radioButton;
     QHBoxLayout *horizontalLayout;
     QLabel *labelLastPictStatus;
     QSpinBox *spinBoxCollectedSets;
@@ -129,6 +131,11 @@ public:
 
         verticalLayout->addLayout(gridLayout_2);
 
+        radioButton = new QRadioButton(widgetCalibration);
+        radioButton->setObjectName(QStringLiteral("radioButton"));
+
+        verticalLayout->addWidget(radioButton);
+
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         labelLastPictStatus = new QLabel(widgetCalibration);
@@ -212,7 +219,7 @@ public:
 
         verticalLayout->addWidget(pushButtonCalibrate);
 
-        verticalSpacer_2 = new QSpacerItem(20, 68, QSizePolicy::Minimum, QSizePolicy::Fixed);
+        verticalSpacer_2 = new QSpacerItem(20, 37, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         verticalLayout->addItem(verticalSpacer_2);
 
@@ -230,6 +237,7 @@ public:
         label->setText(QApplication::translate("widgetCalibration", "Liczba wierszy szachownicy", nullptr));
         label_2->setText(QApplication::translate("widgetCalibration", "Liczba kolumn szachownicy", nullptr));
         label_3->setText(QApplication::translate("widgetCalibration", "Rozmiar pola szachownicy (mm)", nullptr));
+        radioButton->setText(QApplication::translate("widgetCalibration", "Poka\305\274 znalezione punkty", nullptr));
         labelLastPictStatus->setText(QString());
         pushButtonTakePicture->setText(QApplication::translate("widgetCalibration", "Zr\303\263b zdj\304\231cie", nullptr));
         pushButtonChooseDirToLoad->setText(QApplication::translate("widgetCalibration", "Wybierz folder do wczytania", nullptr));

@@ -81,7 +81,9 @@ SOURCES       = ../StereoVision/main.cpp \
 		../StereoVision/stereobmcpu.cpp \
 		../StereoVision/stereosgbmcpu.cpp \
 		../StereoVision/stereobmcuda.cpp \
-		../StereoVision/stereocsbpcuda.cpp moc_mainwindow.cpp \
+		../StereoVision/stereocsbpcuda.cpp \
+		../StereoVision/videoreader.cpp \
+		../StereoVision/widgetdisparity.cpp moc_mainwindow.cpp \
 		moc_info.cpp \
 		moc_closeconfirm.cpp \
 		moc_widgetmeasurement.cpp \
@@ -103,7 +105,9 @@ SOURCES       = ../StereoVision/main.cpp \
 		moc_sourcereader.cpp \
 		moc_rectifier.cpp \
 		moc_disparityconverter.cpp \
-		moc_postfilter.cpp
+		moc_postfilter.cpp \
+		moc_videoreader.cpp \
+		moc_widgetdisparity.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		info.o \
@@ -136,6 +140,8 @@ OBJECTS       = main.o \
 		stereosgbmcpu.o \
 		stereobmcuda.o \
 		stereocsbpcuda.o \
+		videoreader.o \
+		widgetdisparity.o \
 		moc_mainwindow.o \
 		moc_info.o \
 		moc_closeconfirm.o \
@@ -158,7 +164,9 @@ OBJECTS       = main.o \
 		moc_sourcereader.o \
 		moc_rectifier.o \
 		moc_disparityconverter.o \
-		moc_postfilter.o
+		moc_postfilter.o \
+		moc_videoreader.o \
+		moc_widgetdisparity.o
 DIST          = ../../Qt/5.11.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.11.1/gcc_64/mkspecs/common/unix.conf \
 		../../Qt/5.11.1/gcc_64/mkspecs/common/linux.conf \
@@ -309,7 +317,6 @@ DIST          = ../../Qt/5.11.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.11.1/gcc_64/mkspecs/features/qt_config.prf \
 		../../Qt/5.11.1/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../Qt/5.11.1/gcc_64/mkspecs/features/spec_post.prf \
-		../StereoVision/.qmake.stash \
 		../../Qt/5.11.1/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../Qt/5.11.1/gcc_64/mkspecs/features/toolchain.prf \
 		../../Qt/5.11.1/gcc_64/mkspecs/features/default_pre.prf \
@@ -359,7 +366,9 @@ DIST          = ../../Qt/5.11.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../StereoVision/stereobmcpu.h \
 		../StereoVision/stereosgbmcpu.h \
 		../StereoVision/stereobmcuda.h \
-		../StereoVision/stereocsbpcuda.h ../StereoVision/main.cpp \
+		../StereoVision/stereocsbpcuda.h \
+		../StereoVision/videoreader.h \
+		../StereoVision/widgetdisparity.h ../StereoVision/main.cpp \
 		../StereoVision/mainwindow.cpp \
 		../StereoVision/info.cpp \
 		../StereoVision/window_geometry.cpp \
@@ -390,7 +399,9 @@ DIST          = ../../Qt/5.11.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../StereoVision/stereobmcpu.cpp \
 		../StereoVision/stereosgbmcpu.cpp \
 		../StereoVision/stereobmcuda.cpp \
-		../StereoVision/stereocsbpcuda.cpp
+		../StereoVision/stereocsbpcuda.cpp \
+		../StereoVision/videoreader.cpp \
+		../StereoVision/widgetdisparity.cpp
 QMAKE_TARGET  = StereoVision
 DESTDIR       = 
 TARGET        = StereoVision
@@ -399,7 +410,7 @@ TARGET        = StereoVision
 first: all
 ####### Build rules
 
-$(TARGET): ui_mainwindow.h ui_info.h ui_closeconfirm.h ui_widgetmeasurement.h ui_widgetsettings.h ui_widgetcalibration.h ui_widgetrecord.h ui_widgetmeasoffline.h ui_widgetmeasonline.h $(OBJECTS)  
+$(TARGET): ui_mainwindow.h ui_info.h ui_closeconfirm.h ui_widgetmeasurement.h ui_widgetsettings.h ui_widgetcalibration.h ui_widgetrecord.h ui_widgetmeasoffline.h ui_widgetmeasonline.h ui_widgetdisparity.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../StereoVision/StereoVision.pro ../../Qt/5.11.1/gcc_64/mkspecs/linux-g++/qmake.conf ../../Qt/5.11.1/gcc_64/mkspecs/features/spec_pre.prf \
@@ -552,7 +563,6 @@ Makefile: ../StereoVision/StereoVision.pro ../../Qt/5.11.1/gcc_64/mkspecs/linux-
 		../../Qt/5.11.1/gcc_64/mkspecs/features/qt_config.prf \
 		../../Qt/5.11.1/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../Qt/5.11.1/gcc_64/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		../../Qt/5.11.1/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../Qt/5.11.1/gcc_64/mkspecs/features/toolchain.prf \
 		../../Qt/5.11.1/gcc_64/mkspecs/features/default_pre.prf \
@@ -727,7 +737,6 @@ Makefile: ../StereoVision/StereoVision.pro ../../Qt/5.11.1/gcc_64/mkspecs/linux-
 ../../Qt/5.11.1/gcc_64/mkspecs/features/qt_config.prf:
 ../../Qt/5.11.1/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../../Qt/5.11.1/gcc_64/mkspecs/features/spec_post.prf:
-.qmake.stash:
 ../../Qt/5.11.1/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../Qt/5.11.1/gcc_64/mkspecs/features/toolchain.prf:
 ../../Qt/5.11.1/gcc_64/mkspecs/features/default_pre.prf:
@@ -766,9 +775,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../Qt/5.11.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../StereoVision/mainwindow.h ../StereoVision/info.h ../StereoVision/window_geometry.h ../StereoVision/closeconfirm.h ../StereoVision/widgetmeasurement.h ../StereoVision/widgetsettings.h ../StereoVision/widgetcalibration.h ../StereoVision/timerregulator.h ../StereoVision/stereocamera.h ../StereoVision/camera.h ../StereoVision/appsettings.h ../StereoVision/appwidget.h ../StereoVision/cornersfinder.h ../StereoVision/picturetaker.h ../StereoVision/calibrator.h ../StereoVision/widgetrecord.h ../StereoVision/videowriter.h ../StereoVision/widgetmeasoffline.h ../StereoVision/widgetmeasonline.h ../StereoVision/depthdisplay.h ../StereoVision/stereomatcher.h ../StereoVision/sourcereader.h ../StereoVision/imagereader.h ../StereoVision/rectifier.h ../StereoVision/disparityconverter.h ../StereoVision/postfilter.h ../StereoVision/stereobpcuda.h ../StereoVision/stereobmcpu.h ../StereoVision/stereosgbmcpu.h ../StereoVision/stereobmcuda.h ../StereoVision/stereocsbpcuda.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../StereoVision/main.cpp ../StereoVision/mainwindow.cpp ../StereoVision/info.cpp ../StereoVision/window_geometry.cpp ../StereoVision/closeconfirm.cpp ../StereoVision/widgetmeasurement.cpp ../StereoVision/widgetsettings.cpp ../StereoVision/widgetcalibration.cpp ../StereoVision/timerregulator.cpp ../StereoVision/stereocamera.cpp ../StereoVision/camera.cpp ../StereoVision/appsettings.cpp ../StereoVision/appwidget.cpp ../StereoVision/cornersfinder.cpp ../StereoVision/picturetaker.cpp ../StereoVision/calibrator.cpp ../StereoVision/widgetrecord.cpp ../StereoVision/videowriter.cpp ../StereoVision/widgetmeasoffline.cpp ../StereoVision/widgetmeasonline.cpp ../StereoVision/depthdisplay.cpp ../StereoVision/stereomatcher.cpp ../StereoVision/sourcereader.cpp ../StereoVision/imagereader.cpp ../StereoVision/rectifier.cpp ../StereoVision/disparityconverter.cpp ../StereoVision/postfilter.cpp ../StereoVision/stereobpcuda.cpp ../StereoVision/stereobmcpu.cpp ../StereoVision/stereosgbmcpu.cpp ../StereoVision/stereobmcuda.cpp ../StereoVision/stereocsbpcuda.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../StereoVision/mainwindow.ui ../StereoVision/info.ui ../StereoVision/closeconfirm.ui ../StereoVision/widgetmeasurement.ui ../StereoVision/widgetsettings.ui ../StereoVision/widgetcalibration.ui ../StereoVision/widgetrecord.ui ../StereoVision/widgetmeasoffline.ui ../StereoVision/widgetmeasonline.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../StereoVision/mainwindow.h ../StereoVision/info.h ../StereoVision/window_geometry.h ../StereoVision/closeconfirm.h ../StereoVision/widgetmeasurement.h ../StereoVision/widgetsettings.h ../StereoVision/widgetcalibration.h ../StereoVision/timerregulator.h ../StereoVision/stereocamera.h ../StereoVision/camera.h ../StereoVision/appsettings.h ../StereoVision/appwidget.h ../StereoVision/cornersfinder.h ../StereoVision/picturetaker.h ../StereoVision/calibrator.h ../StereoVision/widgetrecord.h ../StereoVision/videowriter.h ../StereoVision/widgetmeasoffline.h ../StereoVision/widgetmeasonline.h ../StereoVision/depthdisplay.h ../StereoVision/stereomatcher.h ../StereoVision/sourcereader.h ../StereoVision/imagereader.h ../StereoVision/rectifier.h ../StereoVision/disparityconverter.h ../StereoVision/postfilter.h ../StereoVision/stereobpcuda.h ../StereoVision/stereobmcpu.h ../StereoVision/stereosgbmcpu.h ../StereoVision/stereobmcuda.h ../StereoVision/stereocsbpcuda.h ../StereoVision/videoreader.h ../StereoVision/widgetdisparity.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../StereoVision/main.cpp ../StereoVision/mainwindow.cpp ../StereoVision/info.cpp ../StereoVision/window_geometry.cpp ../StereoVision/closeconfirm.cpp ../StereoVision/widgetmeasurement.cpp ../StereoVision/widgetsettings.cpp ../StereoVision/widgetcalibration.cpp ../StereoVision/timerregulator.cpp ../StereoVision/stereocamera.cpp ../StereoVision/camera.cpp ../StereoVision/appsettings.cpp ../StereoVision/appwidget.cpp ../StereoVision/cornersfinder.cpp ../StereoVision/picturetaker.cpp ../StereoVision/calibrator.cpp ../StereoVision/widgetrecord.cpp ../StereoVision/videowriter.cpp ../StereoVision/widgetmeasoffline.cpp ../StereoVision/widgetmeasonline.cpp ../StereoVision/depthdisplay.cpp ../StereoVision/stereomatcher.cpp ../StereoVision/sourcereader.cpp ../StereoVision/imagereader.cpp ../StereoVision/rectifier.cpp ../StereoVision/disparityconverter.cpp ../StereoVision/postfilter.cpp ../StereoVision/stereobpcuda.cpp ../StereoVision/stereobmcpu.cpp ../StereoVision/stereosgbmcpu.cpp ../StereoVision/stereobmcuda.cpp ../StereoVision/stereocsbpcuda.cpp ../StereoVision/videoreader.cpp ../StereoVision/widgetdisparity.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../StereoVision/mainwindow.ui ../StereoVision/info.ui ../StereoVision/closeconfirm.ui ../StereoVision/widgetmeasurement.ui ../StereoVision/widgetsettings.ui ../StereoVision/widgetcalibration.ui ../StereoVision/widgetrecord.ui ../StereoVision/widgetmeasoffline.ui ../StereoVision/widgetmeasonline.ui ../StereoVision/widgetdisparity.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -805,9 +814,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../Qt/5.11.1/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h ../../Qt/5.11.1/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_info.cpp moc_closeconfirm.cpp moc_widgetmeasurement.cpp moc_widgetsettings.cpp moc_widgetcalibration.cpp moc_timerregulator.cpp moc_stereocamera.cpp moc_camera.cpp moc_appwidget.cpp moc_cornersfinder.cpp moc_picturetaker.cpp moc_calibrator.cpp moc_widgetrecord.cpp moc_videowriter.cpp moc_widgetmeasoffline.cpp moc_widgetmeasonline.cpp moc_depthdisplay.cpp moc_stereomatcher.cpp moc_sourcereader.cpp moc_rectifier.cpp moc_disparityconverter.cpp moc_postfilter.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_info.cpp moc_closeconfirm.cpp moc_widgetmeasurement.cpp moc_widgetsettings.cpp moc_widgetcalibration.cpp moc_timerregulator.cpp moc_stereocamera.cpp moc_camera.cpp moc_appwidget.cpp moc_cornersfinder.cpp moc_picturetaker.cpp moc_calibrator.cpp moc_widgetrecord.cpp moc_videowriter.cpp moc_widgetmeasoffline.cpp moc_widgetmeasonline.cpp moc_depthdisplay.cpp moc_stereomatcher.cpp moc_sourcereader.cpp moc_rectifier.cpp moc_disparityconverter.cpp moc_postfilter.cpp moc_videoreader.cpp moc_widgetdisparity.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_info.cpp moc_closeconfirm.cpp moc_widgetmeasurement.cpp moc_widgetsettings.cpp moc_widgetcalibration.cpp moc_timerregulator.cpp moc_stereocamera.cpp moc_camera.cpp moc_appwidget.cpp moc_cornersfinder.cpp moc_picturetaker.cpp moc_calibrator.cpp moc_widgetrecord.cpp moc_videowriter.cpp moc_widgetmeasoffline.cpp moc_widgetmeasonline.cpp moc_depthdisplay.cpp moc_stereomatcher.cpp moc_sourcereader.cpp moc_rectifier.cpp moc_disparityconverter.cpp moc_postfilter.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_info.cpp moc_closeconfirm.cpp moc_widgetmeasurement.cpp moc_widgetsettings.cpp moc_widgetcalibration.cpp moc_timerregulator.cpp moc_stereocamera.cpp moc_camera.cpp moc_appwidget.cpp moc_cornersfinder.cpp moc_picturetaker.cpp moc_calibrator.cpp moc_widgetrecord.cpp moc_videowriter.cpp moc_widgetmeasoffline.cpp moc_widgetmeasonline.cpp moc_depthdisplay.cpp moc_stereomatcher.cpp moc_sourcereader.cpp moc_rectifier.cpp moc_disparityconverter.cpp moc_postfilter.cpp moc_videoreader.cpp moc_widgetdisparity.cpp
 moc_mainwindow.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QMainWindow \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qmainwindow.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -959,12 +968,16 @@ moc_mainwindow.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QMainWindow \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../StereoVision/info.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QDialog \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdialog.h \
 		../StereoVision/closeconfirm.h \
-		../StereoVision/widgetmeasurement.h \
 		../StereoVision/widgetmeasonline.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QTextStream \
 		../StereoVision/rectifier.h \
 		../StereoVision/stereobmcpu.h \
 		../StereoVision/stereomatcher.h \
@@ -978,18 +991,18 @@ moc_mainwindow.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QMainWindow \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qfiledialog.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qdir.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qfileinfo.h \
-		../StereoVision/sourcereader.h \
 		../StereoVision/imagereader.h \
+		../StereoVision/sourcereader.h \
+		../StereoVision/videoreader.h \
 		../StereoVision/postfilter.h \
 		../StereoVision/disparityconverter.h \
 		../StereoVision/widgetsettings.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/QPicture \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpicture.h \
 		../StereoVision/widgetcalibration.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDir \
 		../StereoVision/cornersfinder.h \
 		../StereoVision/calibrator.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
 		../StereoVision/widgetrecord.h \
 		../StereoVision/videowriter.h \
 		../StereoVision/picturetaker.h \
@@ -1344,6 +1357,10 @@ moc_widgetmeasurement.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../StereoVision/widgetmeasurement.h \
 		moc_predefs.h \
 		../../Qt/5.11.1/gcc_64/bin/moc
@@ -1484,6 +1501,10 @@ moc_widgetsettings.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../StereoVision/widgetsettings.h \
 		moc_predefs.h \
 		../../Qt/5.11.1/gcc_64/bin/moc
@@ -1592,6 +1613,12 @@ moc_widgetcalibration.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtouchdevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/QFileDialog \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qfiledialog.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdir.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qfileinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdialog.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDir \
 		../StereoVision/appwidget.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QLabel \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlabel.h \
@@ -1617,10 +1644,12 @@ moc_widgetcalibration.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
-		../StereoVision/cornersfinder.h \
-		../StereoVision/calibrator.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		../StereoVision/cornersfinder.h \
+		../StereoVision/calibrator.h \
 		../StereoVision/widgetcalibration.h \
 		moc_predefs.h \
 		../../Qt/5.11.1/gcc_64/bin/moc
@@ -1922,6 +1951,10 @@ moc_appwidget.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../StereoVision/appwidget.h \
 		moc_predefs.h \
 		../../Qt/5.11.1/gcc_64/bin/moc
@@ -2228,9 +2261,11 @@ moc_widgetrecord.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
-		../StereoVision/videowriter.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		../StereoVision/videowriter.h \
 		../StereoVision/picturetaker.h \
 		../StereoVision/widgetrecord.h \
 		moc_predefs.h \
@@ -2405,6 +2440,9 @@ moc_widgetmeasoffline.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qdir.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qfileinfo.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdialog.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QTextStream \
 		../StereoVision/appwidget.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QLabel \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlabel.h \
@@ -2430,12 +2468,18 @@ moc_widgetmeasoffline.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
-		../StereoVision/sourcereader.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../StereoVision/imagereader.h \
+		../StereoVision/sourcereader.h \
+		../StereoVision/videoreader.h \
 		../StereoVision/rectifier.h \
 		../StereoVision/stereomatcher.h \
 		../StereoVision/stereobmcpu.h \
+		../StereoVision/stereobmcuda.h \
 		../StereoVision/stereosgbmcpu.h \
+		../StereoVision/stereobpcuda.h \
+		../StereoVision/stereocsbpcuda.h \
 		../StereoVision/postfilter.h \
 		../StereoVision/disparityconverter.h \
 		../StereoVision/widgetmeasoffline.h \
@@ -2546,6 +2590,9 @@ moc_widgetmeasonline.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtouchdevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QTextStream \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
 		../StereoVision/appsettings.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QString \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QSettings \
@@ -2571,6 +2618,8 @@ moc_widgetmeasonline.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../StereoVision/rectifier.h \
 		../StereoVision/stereobmcpu.h \
 		../StereoVision/stereomatcher.h \
@@ -2695,6 +2744,10 @@ moc_depthdisplay.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QLabel \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../StereoVision/depthdisplay.h \
 		moc_predefs.h \
 		../../Qt/5.11.1/gcc_64/bin/moc
@@ -2975,13 +3028,181 @@ moc_postfilter.cpp: ../../Qt/5.11.1/gcc_64/include/QtCore/QObject \
 		../../Qt/5.11.1/gcc_64/bin/moc
 	/home/slawko/Qt/5.11.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/slawko/Qt/5.11.1/gcc_64/mkspecs/linux-g++ -I/home/slawko/StereoVision/StereoVision -I/home/slawko/Qt/5.11.1/gcc_64/include -I/home/slawko/Qt/5.11.1/gcc_64/include/QtWidgets -I/home/slawko/Qt/5.11.1/gcc_64/include/QtGui -I/home/slawko/Qt/5.11.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../StereoVision/postfilter.h -o moc_postfilter.cpp
 
+moc_videoreader.cpp: ../StereoVision/sourcereader.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QObject \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringview.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h \
+		../StereoVision/timerregulator.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtimer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbasictimer.h \
+		../StereoVision/videoreader.h \
+		moc_predefs.h \
+		../../Qt/5.11.1/gcc_64/bin/moc
+	/home/slawko/Qt/5.11.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/slawko/Qt/5.11.1/gcc_64/mkspecs/linux-g++ -I/home/slawko/StereoVision/StereoVision -I/home/slawko/Qt/5.11.1/gcc_64/include -I/home/slawko/Qt/5.11.1/gcc_64/include/QtWidgets -I/home/slawko/Qt/5.11.1/gcc_64/include/QtGui -I/home/slawko/Qt/5.11.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../StereoVision/videoreader.h -o moc_videoreader.cpp
+
+moc_widgetdisparity.cpp: ../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qwidget.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtguiglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtgui-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qwindowdefs.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringview.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmargins.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpaintdevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qrect.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsize.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpalette.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qcolor.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qrgb.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qrgba64.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qbrush.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qmatrix.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpolygon.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qregion.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatastream.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qline.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtransform.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpainterpath.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qimage.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpixelformat.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpixmap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qfont.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qfontmetrics.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qfontinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qcursor.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qkeysequence.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qevent.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qurl.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qurlquery.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qfile.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qfiledevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qvector2d.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtouchdevice.h \
+		../StereoVision/widgetdisparity.h \
+		moc_predefs.h \
+		../../Qt/5.11.1/gcc_64/bin/moc
+	/home/slawko/Qt/5.11.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/slawko/Qt/5.11.1/gcc_64/mkspecs/linux-g++ -I/home/slawko/StereoVision/StereoVision -I/home/slawko/Qt/5.11.1/gcc_64/include -I/home/slawko/Qt/5.11.1/gcc_64/include/QtWidgets -I/home/slawko/Qt/5.11.1/gcc_64/include/QtGui -I/home/slawko/Qt/5.11.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../StereoVision/widgetdisparity.h -o moc_widgetdisparity.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_info.h ui_closeconfirm.h ui_widgetmeasurement.h ui_widgetsettings.h ui_widgetcalibration.h ui_widgetrecord.h ui_widgetmeasoffline.h ui_widgetmeasonline.h
+compiler_uic_make_all: ui_mainwindow.h ui_info.h ui_closeconfirm.h ui_widgetmeasurement.h ui_widgetsettings.h ui_widgetcalibration.h ui_widgetrecord.h ui_widgetmeasoffline.h ui_widgetmeasonline.h ui_widgetdisparity.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_info.h ui_closeconfirm.h ui_widgetmeasurement.h ui_widgetsettings.h ui_widgetcalibration.h ui_widgetrecord.h ui_widgetmeasoffline.h ui_widgetmeasonline.h
+	-$(DEL_FILE) ui_mainwindow.h ui_info.h ui_closeconfirm.h ui_widgetmeasurement.h ui_widgetsettings.h ui_widgetcalibration.h ui_widgetrecord.h ui_widgetmeasoffline.h ui_widgetmeasonline.h ui_widgetdisparity.h
 ui_mainwindow.h: ../StereoVision/mainwindow.ui \
 		../../Qt/5.11.1/gcc_64/bin/uic
 	/home/slawko/Qt/5.11.1/gcc_64/bin/uic ../StereoVision/mainwindow.ui -o ui_mainwindow.h
@@ -3017,6 +3238,10 @@ ui_widgetmeasoffline.h: ../StereoVision/widgetmeasoffline.ui \
 ui_widgetmeasonline.h: ../StereoVision/widgetmeasonline.ui \
 		../../Qt/5.11.1/gcc_64/bin/uic
 	/home/slawko/Qt/5.11.1/gcc_64/bin/uic ../StereoVision/widgetmeasonline.ui -o ui_widgetmeasonline.h
+
+ui_widgetdisparity.h: ../StereoVision/widgetdisparity.ui \
+		../../Qt/5.11.1/gcc_64/bin/uic
+	/home/slawko/Qt/5.11.1/gcc_64/bin/uic ../StereoVision/widgetdisparity.ui -o ui_widgetdisparity.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -3180,12 +3405,16 @@ main.o: ../StereoVision/main.cpp ../StereoVision/mainwindow.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../StereoVision/info.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QDialog \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdialog.h \
 		../StereoVision/closeconfirm.h \
-		../StereoVision/widgetmeasurement.h \
 		../StereoVision/widgetmeasonline.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QTextStream \
 		../StereoVision/rectifier.h \
 		../StereoVision/stereobmcpu.h \
 		../StereoVision/stereomatcher.h \
@@ -3199,18 +3428,18 @@ main.o: ../StereoVision/main.cpp ../StereoVision/mainwindow.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qfiledialog.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qdir.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qfileinfo.h \
-		../StereoVision/sourcereader.h \
 		../StereoVision/imagereader.h \
+		../StereoVision/sourcereader.h \
+		../StereoVision/videoreader.h \
 		../StereoVision/postfilter.h \
 		../StereoVision/disparityconverter.h \
 		../StereoVision/widgetsettings.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/QPicture \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpicture.h \
 		../StereoVision/widgetcalibration.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDir \
 		../StereoVision/cornersfinder.h \
 		../StereoVision/calibrator.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
 		../StereoVision/widgetrecord.h \
 		../StereoVision/videowriter.h \
 		../StereoVision/picturetaker.h \
@@ -3374,12 +3603,16 @@ mainwindow.o: ../StereoVision/mainwindow.cpp ../StereoVision/mainwindow.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../StereoVision/info.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QDialog \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdialog.h \
 		../StereoVision/closeconfirm.h \
-		../StereoVision/widgetmeasurement.h \
 		../StereoVision/widgetmeasonline.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QTextStream \
 		../StereoVision/rectifier.h \
 		../StereoVision/stereobmcpu.h \
 		../StereoVision/stereomatcher.h \
@@ -3393,46 +3626,22 @@ mainwindow.o: ../StereoVision/mainwindow.cpp ../StereoVision/mainwindow.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qfiledialog.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qdir.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qfileinfo.h \
-		../StereoVision/sourcereader.h \
 		../StereoVision/imagereader.h \
+		../StereoVision/sourcereader.h \
+		../StereoVision/videoreader.h \
 		../StereoVision/postfilter.h \
 		../StereoVision/disparityconverter.h \
 		../StereoVision/widgetsettings.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/QPicture \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpicture.h \
 		../StereoVision/widgetcalibration.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDir \
 		../StereoVision/cornersfinder.h \
 		../StereoVision/calibrator.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
 		../StereoVision/widgetrecord.h \
 		../StereoVision/videowriter.h \
 		../StereoVision/picturetaker.h \
-		ui_mainwindow.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QVariant \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QAction \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qaction.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QApplication \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qeventloop.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QMenu \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qmenu.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QMenuBar \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qmenubar.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QPushButton \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QSpacerItem \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QStatusBar \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qstatusbar.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QToolBar \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qtoolbar.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QVBoxLayout
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../StereoVision/mainwindow.cpp
 
 info.o: ../StereoVision/info.cpp ../StereoVision/info.h \
@@ -3540,19 +3749,7 @@ info.o: ../StereoVision/info.cpp ../StereoVision/info.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtouchdevice.h \
-		ui_info.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QVariant \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QApplication \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qeventloop.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QPushButton \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qicon.h
+		ui_info.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o info.o ../StereoVision/info.cpp
 
 window_geometry.o: ../StereoVision/window_geometry.cpp ../StereoVision/window_geometry.h \
@@ -3773,20 +3970,7 @@ closeconfirm.o: ../StereoVision/closeconfirm.cpp ../StereoVision/closeconfirm.h 
 		../../Qt/5.11.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtouchdevice.h \
-		ui_closeconfirm.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QVariant \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QApplication \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qeventloop.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QDialogButtonBox \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdialogbuttonbox.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QLabel \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlabel.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qframe.h
+		ui_closeconfirm.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o closeconfirm.o ../StereoVision/closeconfirm.cpp
 
 widgetmeasurement.o: ../StereoVision/widgetmeasurement.cpp ../StereoVision/widgetmeasurement.h \
@@ -3918,15 +4102,11 @@ widgetmeasurement.o: ../StereoVision/widgetmeasurement.cpp ../StereoVision/widge
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
-		ui_widgetmeasurement.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QVariant \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QApplication \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qeventloop.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qinputmethod.h
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		ui_widgetmeasurement.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widgetmeasurement.o ../StereoVision/widgetmeasurement.cpp
 
 widgetsettings.o: ../StereoVision/widgetsettings.cpp ../StereoVision/widgetsettings.h \
@@ -4065,42 +4245,11 @@ widgetsettings.o: ../StereoVision/widgetsettings.cpp ../StereoVision/widgetsetti
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
-		ui_widgetsettings.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QVariant \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QApplication \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qeventloop.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QComboBox \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qcombobox.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qstyleoption.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qvalidator.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qregularexpression.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qicon.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qslider.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractslider.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qstyle.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qtabbar.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qtabwidget.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qrubberband.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qabstractitemmodel.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QGridLayout \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QPushButton \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QSpacerItem \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QSpinBox \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qspinbox.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QVBoxLayout
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		ui_widgetsettings.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widgetsettings.o ../StereoVision/widgetsettings.cpp
 
 widgetcalibration.o: ../StereoVision/widgetcalibration.cpp ../StereoVision/widgetcalibration.h \
@@ -4207,6 +4356,12 @@ widgetcalibration.o: ../StereoVision/widgetcalibration.cpp ../StereoVision/widge
 		../../Qt/5.11.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtouchdevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/QFileDialog \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qfiledialog.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdir.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qfileinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdialog.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDir \
 		../StereoVision/appwidget.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QLabel \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlabel.h \
@@ -4232,37 +4387,13 @@ widgetcalibration.o: ../StereoVision/widgetcalibration.cpp ../StereoVision/widge
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
-		../StereoVision/cornersfinder.h \
-		../StereoVision/calibrator.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
-		ui_widgetcalibration.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QVariant \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QApplication \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qeventloop.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QDoubleSpinBox \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qspinbox.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qvalidator.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qregularexpression.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QGridLayout \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QPushButton \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qicon.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QSpacerItem \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QSpinBox \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QVBoxLayout
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		../StereoVision/cornersfinder.h \
+		../StereoVision/calibrator.h \
+		ui_widgetcalibration.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widgetcalibration.o ../StereoVision/widgetcalibration.cpp
 
 timerregulator.o: ../StereoVision/timerregulator.cpp ../StereoVision/timerregulator.h \
@@ -4624,7 +4755,11 @@ appwidget.o: ../StereoVision/appwidget.cpp ../StereoVision/appwidget.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/QPainter \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o appwidget.o ../StereoVision/appwidget.cpp
 
 cornersfinder.o: ../StereoVision/cornersfinder.cpp ../StereoVision/cornersfinder.h \
@@ -4923,31 +5058,13 @@ widgetrecord.o: ../StereoVision/widgetrecord.cpp ../StereoVision/widgetrecord.h 
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
-		../StereoVision/videowriter.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		../StereoVision/videowriter.h \
 		../StereoVision/picturetaker.h \
-		ui_widgetrecord.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QVariant \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QApplication \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qeventloop.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QGridLayout \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QPushButton \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qicon.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QSpacerItem \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QVBoxLayout
+		ui_widgetrecord.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widgetrecord.o ../StereoVision/widgetrecord.cpp
 
 videowriter.o: ../StereoVision/videowriter.cpp ../StereoVision/videowriter.h \
@@ -5117,6 +5234,9 @@ widgetmeasoffline.o: ../StereoVision/widgetmeasoffline.cpp ../StereoVision/widge
 		../../Qt/5.11.1/gcc_64/include/QtCore/qdir.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/qfileinfo.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdialog.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QTextStream \
 		../StereoVision/appwidget.h \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/QLabel \
 		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlabel.h \
@@ -5142,40 +5262,21 @@ widgetmeasoffline.o: ../StereoVision/widgetmeasoffline.cpp ../StereoVision/widge
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
-		../StereoVision/sourcereader.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../StereoVision/imagereader.h \
+		../StereoVision/sourcereader.h \
+		../StereoVision/videoreader.h \
 		../StereoVision/rectifier.h \
 		../StereoVision/stereomatcher.h \
 		../StereoVision/stereobmcpu.h \
+		../StereoVision/stereobmcuda.h \
 		../StereoVision/stereosgbmcpu.h \
+		../StereoVision/stereobpcuda.h \
+		../StereoVision/stereocsbpcuda.h \
 		../StereoVision/postfilter.h \
 		../StereoVision/disparityconverter.h \
-		ui_widgetmeasoffline.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QVariant \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QApplication \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qeventloop.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QDoubleSpinBox \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qspinbox.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qvalidator.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qregularexpression.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QGridLayout \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QPushButton \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qicon.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QSpacerItem \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QVBoxLayout
+		ui_widgetmeasoffline.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widgetmeasoffline.o ../StereoVision/widgetmeasoffline.cpp
 
 widgetmeasonline.o: ../StereoVision/widgetmeasonline.cpp ../StereoVision/widgetmeasonline.h \
@@ -5282,6 +5383,9 @@ widgetmeasonline.o: ../StereoVision/widgetmeasonline.cpp ../StereoVision/widgetm
 		../../Qt/5.11.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtouchdevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QTextStream \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
 		../StereoVision/appsettings.h \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QString \
 		../../Qt/5.11.1/gcc_64/include/QtCore/QSettings \
@@ -5307,6 +5411,8 @@ widgetmeasonline.o: ../StereoVision/widgetmeasonline.cpp ../StereoVision/widgetm
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../StereoVision/rectifier.h \
 		../StereoVision/stereobmcpu.h \
 		../StereoVision/stereomatcher.h \
@@ -5314,26 +5420,7 @@ widgetmeasonline.o: ../StereoVision/widgetmeasonline.cpp ../StereoVision/widgetm
 		../StereoVision/stereobpcuda.h \
 		../StereoVision/stereocsbpcuda.h \
 		../StereoVision/stereobmcuda.h \
-		ui_widgetmeasonline.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/QVariant \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QApplication \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qeventloop.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QDoubleSpinBox \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qspinbox.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qvalidator.h \
-		../../Qt/5.11.1/gcc_64/include/QtCore/qregularexpression.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QGridLayout \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/5.11.1/gcc_64/include/QtWidgets/QVBoxLayout
+		ui_widgetmeasonline.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widgetmeasonline.o ../StereoVision/widgetmeasonline.cpp
 
 depthdisplay.o: ../StereoVision/depthdisplay.cpp ../StereoVision/depthdisplay.h \
@@ -5448,7 +5535,11 @@ depthdisplay.o: ../StereoVision/depthdisplay.cpp ../StereoVision/depthdisplay.h 
 		../../Qt/5.11.1/gcc_64/include/QtGui/QPainter \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.11.1/gcc_64/include/QtGui/qtextoption.h \
-		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QElapsedTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o depthdisplay.o ../StereoVision/depthdisplay.cpp
 
 stereomatcher.o: ../StereoVision/stereomatcher.cpp ../StereoVision/stereomatcher.h \
@@ -6040,6 +6131,171 @@ stereocsbpcuda.o: ../StereoVision/stereocsbpcuda.cpp ../StereoVision/stereocsbpc
 		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stereocsbpcuda.o ../StereoVision/stereocsbpcuda.cpp
 
+videoreader.o: ../StereoVision/videoreader.cpp ../StereoVision/videoreader.h \
+		../StereoVision/sourcereader.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QObject \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringview.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h \
+		../StereoVision/timerregulator.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/QTimer \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtimer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbasictimer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o videoreader.o ../StereoVision/videoreader.cpp
+
+widgetdisparity.o: ../StereoVision/widgetdisparity.cpp ../StereoVision/widgetdisparity.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/QWidget \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qwidget.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtguiglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtgui-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qwindowdefs.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringview.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmargins.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpaintdevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qrect.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsize.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpalette.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qcolor.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qrgb.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qrgba64.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qbrush.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qmatrix.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpolygon.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qregion.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdatastream.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qline.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtransform.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpainterpath.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qimage.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpixelformat.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qpixmap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qfont.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qfontmetrics.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qfontinfo.h \
+		../../Qt/5.11.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qcursor.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qkeysequence.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qevent.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qurl.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qurlquery.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qfile.h \
+		../../Qt/5.11.1/gcc_64/include/QtCore/qfiledevice.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qvector2d.h \
+		../../Qt/5.11.1/gcc_64/include/QtGui/qtouchdevice.h \
+		ui_widgetdisparity.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widgetdisparity.o ../StereoVision/widgetdisparity.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
@@ -6108,6 +6364,12 @@ moc_disparityconverter.o: moc_disparityconverter.cpp
 
 moc_postfilter.o: moc_postfilter.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_postfilter.o moc_postfilter.cpp
+
+moc_videoreader.o: moc_videoreader.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_videoreader.o moc_videoreader.cpp
+
+moc_widgetdisparity.o: moc_widgetdisparity.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_widgetdisparity.o moc_widgetdisparity.cpp
 
 ####### Install
 

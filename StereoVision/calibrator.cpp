@@ -101,7 +101,7 @@ void Calibrator::receiveStartCalibration()
 
 
     emit sendCalibrationStatus("Stereokalibracja w toku");
-    stereoErr = cv::stereoCalibrate(chessboardKnownPosition, leftCorners, rightCorners, leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, essMat, fundMat, 0 , cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 30, 1e-9));
+    stereoErr = cv::stereoCalibrate(chessboardKnownPosition, leftCorners, rightCorners, leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, essMat, fundMat, CV_CALIB_FIX_INTRINSIC , cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 30, 1e-9));
 
 
     emit sendCalibrationStatus("Wyznaczanie parametrów rektyfikacji w toku");

@@ -15,7 +15,6 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -33,7 +32,6 @@ public:
     QLabel *rightCamera;
     QSpinBox *leftCameraId;
     QSpinBox *rightCameraId;
-    QSpacerItem *verticalSpacer_2;
     QGridLayout *gridLayout_5;
     QLabel *labelCalibFileLabel;
     QPushButton *pushButtonSelectPicDir;
@@ -49,6 +47,9 @@ public:
     QLabel *labelSavePictDir;
     QLabel *labelSaveMovDirLabel;
     QPushButton *pushButtonSelectMovDir;
+    QPushButton *pushButtonSelectResultsDir;
+    QLabel *label;
+    QLabel *labelResultDir;
 
     void setupUi(QWidget *widgetSettings)
     {
@@ -125,10 +126,6 @@ public:
 
         verticalLayout->addLayout(gridLayout);
 
-        verticalSpacer_2 = new QSpacerItem(20, 21, QSizePolicy::Minimum, QSizePolicy::Minimum);
-
-        verticalLayout->addItem(verticalSpacer_2);
-
         gridLayout_5 = new QGridLayout();
         gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
         labelCalibFileLabel = new QLabel(widgetSettings);
@@ -148,7 +145,7 @@ public:
         comboBoxAlgorithm->setObjectName(QStringLiteral("comboBoxAlgorithm"));
         comboBoxAlgorithm->setEditable(false);
 
-        gridLayout_5->addWidget(comboBoxAlgorithm, 11, 0, 1, 1);
+        gridLayout_5->addWidget(comboBoxAlgorithm, 13, 0, 1, 1);
 
         pushButtonSelectCalibFile = new QPushButton(widgetSettings);
         pushButtonSelectCalibFile->setObjectName(QStringLiteral("pushButtonSelectCalibFile"));
@@ -204,7 +201,7 @@ public:
         labelAlgorithmLabel->setObjectName(QStringLiteral("labelAlgorithmLabel"));
         labelAlgorithmLabel->setMaximumSize(QSize(16777215, 25));
 
-        gridLayout_5->addWidget(labelAlgorithmLabel, 10, 0, 1, 1);
+        gridLayout_5->addWidget(labelAlgorithmLabel, 12, 0, 1, 1);
 
         labelSavePictDir = new QLabel(widgetSettings);
         labelSavePictDir->setObjectName(QStringLiteral("labelSavePictDir"));
@@ -226,6 +223,24 @@ public:
         pushButtonSelectMovDir->setMaximumSize(QSize(100, 25));
 
         gridLayout_5->addWidget(pushButtonSelectMovDir, 5, 1, 1, 1);
+
+        pushButtonSelectResultsDir = new QPushButton(widgetSettings);
+        pushButtonSelectResultsDir->setObjectName(QStringLiteral("pushButtonSelectResultsDir"));
+        pushButtonSelectResultsDir->setMaximumSize(QSize(100, 24));
+
+        gridLayout_5->addWidget(pushButtonSelectResultsDir, 11, 1, 1, 1);
+
+        label = new QLabel(widgetSettings);
+        label->setObjectName(QStringLiteral("label"));
+
+        gridLayout_5->addWidget(label, 10, 0, 1, 1);
+
+        labelResultDir = new QLabel(widgetSettings);
+        labelResultDir->setObjectName(QStringLiteral("labelResultDir"));
+        labelResultDir->setMaximumSize(QSize(16777215, 25));
+        labelResultDir->setFrameShape(QFrame::Box);
+
+        gridLayout_5->addWidget(labelResultDir, 11, 0, 1, 1);
 
 
         verticalLayout->addLayout(gridLayout_5);
@@ -257,6 +272,9 @@ public:
         labelSavePictDir->setText(QString());
         labelSaveMovDirLabel->setText(QApplication::translate("widgetSettings", "Filmy", nullptr));
         pushButtonSelectMovDir->setText(QApplication::translate("widgetSettings", "Wybierz...", nullptr));
+        pushButtonSelectResultsDir->setText(QApplication::translate("widgetSettings", "Wybierz", nullptr));
+        label->setText(QApplication::translate("widgetSettings", "Wyniki", nullptr));
+        labelResultDir->setText(QString());
     } // retranslateUi
 
 };

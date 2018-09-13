@@ -14,7 +14,10 @@
 #include <rectifier.h>
 #include <stereomatcher.h>
 #include <stereobmcpu.h>
+#include <stereobmcuda.h>
 #include <stereosgbmcpu.h>
+#include <stereobpcuda.h>
+#include <stereocsbpcuda.h>
 #include <postfilter.h>
 #include <disparityconverter.h>
 
@@ -38,6 +41,7 @@ public slots:
     void receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
     void receiveDistance(double distance);
     void receiveCoords(int x, int y);
+    void receiveFPS(double fps);
 
 private slots:
     void on_pushButtonLeftSource_clicked();
@@ -57,9 +61,11 @@ private:
     DepthDisplay *depthDisplay;
     QString leftSourcePath;
     QString rightSourcePath;
+    QString lastPath;
     QFile results;
     QTextStream output;
     bool writeToFile;
+    double FPS;
     SourceReader *sourceReader;
     Rectifier *rectifier;
     StereoMatcher *stereoMatcher;

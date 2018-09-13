@@ -17,6 +17,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -27,16 +28,27 @@ class Ui_widgetMeasOffline
 public:
     QHBoxLayout *horizontalLayout;
     QGridLayout *gridLayout;
+    QPushButton *pushButtonRightSource;
+    QPushButton *pushButtonWrite;
     QLabel *labelSourceRight;
     QLabel *labelSourceLeft;
-    QPushButton *pushButtonRightSource;
-    QVBoxLayout *verticalLayout_3;
-    QLabel *labelLeftDisplay;
-    QLabel *labelRightDisplay;
-    QDoubleSpinBox *doubleSpinBoxDistance;
-    QSpacerItem *verticalSpacer;
     QPushButton *pushButtonLeftSource;
     QPushButton *pushButtonStart;
+    QLabel *labelResultsPath;
+    QVBoxLayout *verticalLayout_3;
+    QLabel *label;
+    QLabel *labelLeftDisplay;
+    QLabel *label_2;
+    QLabel *labelRightDisplay;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *label_4;
+    QSpinBox *spinBoxX;
+    QSpinBox *spinBoxY;
+    QLabel *label_3;
+    QDoubleSpinBox *doubleSpinBoxDistance;
+    QLabel *label_6;
+    QDoubleSpinBox *doubleSpinBoxFPS;
+    QSpacerItem *verticalSpacer;
 
     void setupUi(QWidget *widgetMeasOffline)
     {
@@ -48,6 +60,22 @@ public:
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        pushButtonRightSource = new QPushButton(widgetMeasOffline);
+        pushButtonRightSource->setObjectName(QStringLiteral("pushButtonRightSource"));
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(24);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(pushButtonRightSource->sizePolicy().hasHeightForWidth());
+        pushButtonRightSource->setSizePolicy(sizePolicy);
+
+        gridLayout->addWidget(pushButtonRightSource, 3, 1, 1, 1);
+
+        pushButtonWrite = new QPushButton(widgetMeasOffline);
+        pushButtonWrite->setObjectName(QStringLiteral("pushButtonWrite"));
+        pushButtonWrite->setCheckable(true);
+
+        gridLayout->addWidget(pushButtonWrite, 4, 1, 1, 1);
+
         labelSourceRight = new QLabel(widgetMeasOffline);
         labelSourceRight->setObjectName(QStringLiteral("labelSourceRight"));
         labelSourceRight->setMinimumSize(QSize(0, 25));
@@ -58,29 +86,45 @@ public:
 
         labelSourceLeft = new QLabel(widgetMeasOffline);
         labelSourceLeft->setObjectName(QStringLiteral("labelSourceLeft"));
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy.setHorizontalStretch(76);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(labelSourceLeft->sizePolicy().hasHeightForWidth());
-        labelSourceLeft->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(76);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(labelSourceLeft->sizePolicy().hasHeightForWidth());
+        labelSourceLeft->setSizePolicy(sizePolicy1);
         labelSourceLeft->setMinimumSize(QSize(0, 25));
         labelSourceLeft->setMaximumSize(QSize(16777215, 25));
         labelSourceLeft->setFrameShape(QFrame::Box);
 
         gridLayout->addWidget(labelSourceLeft, 2, 0, 1, 1);
 
-        pushButtonRightSource = new QPushButton(widgetMeasOffline);
-        pushButtonRightSource->setObjectName(QStringLiteral("pushButtonRightSource"));
-        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(24);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(pushButtonRightSource->sizePolicy().hasHeightForWidth());
-        pushButtonRightSource->setSizePolicy(sizePolicy1);
+        pushButtonLeftSource = new QPushButton(widgetMeasOffline);
+        pushButtonLeftSource->setObjectName(QStringLiteral("pushButtonLeftSource"));
+        sizePolicy.setHeightForWidth(pushButtonLeftSource->sizePolicy().hasHeightForWidth());
+        pushButtonLeftSource->setSizePolicy(sizePolicy);
 
-        gridLayout->addWidget(pushButtonRightSource, 3, 1, 1, 1);
+        gridLayout->addWidget(pushButtonLeftSource, 2, 1, 1, 1);
+
+        pushButtonStart = new QPushButton(widgetMeasOffline);
+        pushButtonStart->setObjectName(QStringLiteral("pushButtonStart"));
+        sizePolicy.setHeightForWidth(pushButtonStart->sizePolicy().hasHeightForWidth());
+        pushButtonStart->setSizePolicy(sizePolicy);
+
+        gridLayout->addWidget(pushButtonStart, 5, 1, 1, 1);
+
+        labelResultsPath = new QLabel(widgetMeasOffline);
+        labelResultsPath->setObjectName(QStringLiteral("labelResultsPath"));
+        labelResultsPath->setFrameShape(QFrame::Box);
+
+        gridLayout->addWidget(labelResultsPath, 4, 0, 1, 1);
 
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        label = new QLabel(widgetMeasOffline);
+        label->setObjectName(QStringLiteral("label"));
+        label->setMaximumSize(QSize(200, 17));
+
+        verticalLayout_3->addWidget(label);
+
         labelLeftDisplay = new QLabel(widgetMeasOffline);
         labelLeftDisplay->setObjectName(QStringLiteral("labelLeftDisplay"));
         QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -89,11 +133,18 @@ public:
         sizePolicy2.setHeightForWidth(labelLeftDisplay->sizePolicy().hasHeightForWidth());
         labelLeftDisplay->setSizePolicy(sizePolicy2);
         labelLeftDisplay->setMinimumSize(QSize(200, 150));
+        labelLeftDisplay->setMaximumSize(QSize(200, 150));
         labelLeftDisplay->setSizeIncrement(QSize(4, 3));
         labelLeftDisplay->setBaseSize(QSize(200, 150));
         labelLeftDisplay->setFrameShape(QFrame::Box);
 
         verticalLayout_3->addWidget(labelLeftDisplay);
+
+        label_2 = new QLabel(widgetMeasOffline);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setMaximumSize(QSize(200, 17));
+
+        verticalLayout_3->addWidget(label_2);
 
         labelRightDisplay = new QLabel(widgetMeasOffline);
         labelRightDisplay->setObjectName(QStringLiteral("labelRightDisplay"));
@@ -103,17 +154,64 @@ public:
         sizePolicy3.setHeightForWidth(labelRightDisplay->sizePolicy().hasHeightForWidth());
         labelRightDisplay->setSizePolicy(sizePolicy3);
         labelRightDisplay->setMinimumSize(QSize(200, 150));
+        labelRightDisplay->setMaximumSize(QSize(200, 150));
         labelRightDisplay->setSizeIncrement(QSize(4, 3));
         labelRightDisplay->setBaseSize(QSize(200, 150));
         labelRightDisplay->setFrameShape(QFrame::Box);
 
         verticalLayout_3->addWidget(labelRightDisplay);
 
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        label_4 = new QLabel(widgetMeasOffline);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setMaximumSize(QSize(38, 17));
+
+        horizontalLayout_3->addWidget(label_4);
+
+        spinBoxX = new QSpinBox(widgetMeasOffline);
+        spinBoxX->setObjectName(QStringLiteral("spinBoxX"));
+        spinBoxX->setMaximumSize(QSize(74, 26));
+        spinBoxX->setMaximum(10000);
+
+        horizontalLayout_3->addWidget(spinBoxX);
+
+        spinBoxY = new QSpinBox(widgetMeasOffline);
+        spinBoxY->setObjectName(QStringLiteral("spinBoxY"));
+        spinBoxY->setMaximumSize(QSize(74, 26));
+        spinBoxY->setMaximum(10000);
+
+        horizontalLayout_3->addWidget(spinBoxY);
+
+
+        verticalLayout_3->addLayout(horizontalLayout_3);
+
+        label_3 = new QLabel(widgetMeasOffline);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setMaximumSize(QSize(200, 17));
+
+        verticalLayout_3->addWidget(label_3);
+
         doubleSpinBoxDistance = new QDoubleSpinBox(widgetMeasOffline);
         doubleSpinBoxDistance->setObjectName(QStringLiteral("doubleSpinBoxDistance"));
-        doubleSpinBoxDistance->setMaximum(1000);
+        doubleSpinBoxDistance->setMaximumSize(QSize(200, 26));
+        doubleSpinBoxDistance->setReadOnly(true);
+        doubleSpinBoxDistance->setMaximum(100000);
 
         verticalLayout_3->addWidget(doubleSpinBoxDistance);
+
+        label_6 = new QLabel(widgetMeasOffline);
+        label_6->setObjectName(QStringLiteral("label_6"));
+        label_6->setMaximumSize(QSize(200, 17));
+
+        verticalLayout_3->addWidget(label_6);
+
+        doubleSpinBoxFPS = new QDoubleSpinBox(widgetMeasOffline);
+        doubleSpinBoxFPS->setObjectName(QStringLiteral("doubleSpinBoxFPS"));
+        doubleSpinBoxFPS->setMaximumSize(QSize(200, 26));
+        doubleSpinBoxFPS->setReadOnly(true);
+
+        verticalLayout_3->addWidget(doubleSpinBoxFPS);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -121,20 +219,6 @@ public:
 
 
         gridLayout->addLayout(verticalLayout_3, 0, 1, 1, 1);
-
-        pushButtonLeftSource = new QPushButton(widgetMeasOffline);
-        pushButtonLeftSource->setObjectName(QStringLiteral("pushButtonLeftSource"));
-        sizePolicy1.setHeightForWidth(pushButtonLeftSource->sizePolicy().hasHeightForWidth());
-        pushButtonLeftSource->setSizePolicy(sizePolicy1);
-
-        gridLayout->addWidget(pushButtonLeftSource, 2, 1, 1, 1);
-
-        pushButtonStart = new QPushButton(widgetMeasOffline);
-        pushButtonStart->setObjectName(QStringLiteral("pushButtonStart"));
-        sizePolicy1.setHeightForWidth(pushButtonStart->sizePolicy().hasHeightForWidth());
-        pushButtonStart->setSizePolicy(sizePolicy1);
-
-        gridLayout->addWidget(pushButtonStart, 4, 1, 1, 1);
 
 
         horizontalLayout->addLayout(gridLayout);
@@ -148,13 +232,20 @@ public:
     void retranslateUi(QWidget *widgetMeasOffline)
     {
         widgetMeasOffline->setWindowTitle(QApplication::translate("widgetMeasOffline", "Form", nullptr));
+        pushButtonRightSource->setText(QApplication::translate("widgetMeasOffline", "Prawy Obraz", nullptr));
+        pushButtonWrite->setText(QApplication::translate("widgetMeasOffline", "Zapis do pliku", nullptr));
         labelSourceRight->setText(QString());
         labelSourceLeft->setText(QString());
-        pushButtonRightSource->setText(QApplication::translate("widgetMeasOffline", "Select right source", nullptr));
-        labelLeftDisplay->setText(QString());
-        labelRightDisplay->setText(QString());
-        pushButtonLeftSource->setText(QApplication::translate("widgetMeasOffline", "Select left source", nullptr));
+        pushButtonLeftSource->setText(QApplication::translate("widgetMeasOffline", "Lewy obraz", nullptr));
         pushButtonStart->setText(QApplication::translate("widgetMeasOffline", "Start", nullptr));
+        labelResultsPath->setText(QString());
+        label->setText(QApplication::translate("widgetMeasOffline", "Lewy obraz", nullptr));
+        labelLeftDisplay->setText(QString());
+        label_2->setText(QApplication::translate("widgetMeasOffline", "Prawy obraz", nullptr));
+        labelRightDisplay->setText(QString());
+        label_4->setText(QApplication::translate("widgetMeasOffline", "(x, y)", nullptr));
+        label_3->setText(QApplication::translate("widgetMeasOffline", "Dystans", nullptr));
+        label_6->setText(QApplication::translate("widgetMeasOffline", "FPS", nullptr));
     } // retranslateUi
 
 };

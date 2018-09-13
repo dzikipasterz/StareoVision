@@ -11,8 +11,8 @@ StereoBMcuda::StereoBMcuda()
     stereoBM->setUniquenessRatio(10);
     stereoBM->setSpeckleRange(32);
     stereoBM->setDisp12MaxDiff(1);
-    filter = cv::cuda::createDisparityBilateralFilter(64, 11, 5);
-    filter->setNumDisparities(64);
+    filter = cv::cuda::createDisparityBilateralFilter(160, 11, 5);
+    filter->setNumDisparities(160);
     filter->setEdgeThreshold(0.5);
     filter->setSigmaRange(2.0);
 }
@@ -26,6 +26,6 @@ void StereoBMcuda::process(cv::Mat leftFrameRectified, cv::Mat rightFrameRectifi
     stereoBM->compute(leftFrameGpu, rightFrameGpu, dispGpu);
     filter->apply(dispGpu,leftFrameGpu, dispGpuOut);
 
-    leftFrameGpu.download(dispOut);
+    dispGpuOut.download(dispOut);
     dispOut.convertTo(dispOut, CV_8UC1);
 }

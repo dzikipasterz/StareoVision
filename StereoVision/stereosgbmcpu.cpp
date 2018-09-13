@@ -1,7 +1,7 @@
 #include "stereosgbmcpu.h"
 
 StereoSGBMcpu::StereoSGBMcpu() :
-    numOfDisparities(80),
+    numOfDisparities(160),
     winSize(13)
 {
     leftMatcher = cv::StereoSGBM::create(1, numOfDisparities, winSize);
