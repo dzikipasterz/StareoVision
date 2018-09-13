@@ -41,8 +41,12 @@ private slots:
 
     void on_pushButtonSelectCalibDir_clicked();    
 
+    void on_comboBoxAlgorithm_currentIndexChanged(int index);
+
 private:
     Ui::widgetSettings *ui;
+    bool initDone;
+
     void displayCameraStatus(bool status, QLabel * labelStatus);
 };
 

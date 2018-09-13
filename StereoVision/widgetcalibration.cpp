@@ -144,7 +144,6 @@ void widgetCalibration::on_pushButtonChooseDirToLoad_clicked()
     if(!dir.isNull())
     {
         dir.append("/");
-        settings->setCalibFilesDir(dir);
         ui->labelPicsDir->setText(dir);
     }
 }

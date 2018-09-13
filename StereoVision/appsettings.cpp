@@ -127,6 +127,17 @@ cv::Size AppSettings::readPatternSize()
     return cv::Size(readChessboardCols()-1, readChessboardRows()-1);
 }
 
+void AppSettings::setAlgorithm(Algorithm alg)
+{
+    config->setValue("app_settings/algorithm", (int)alg);
+    config->sync();
+}
+
+Algorithm AppSettings::readAlgorithm()
+{
+    return (Algorithm)(config->value("app_settings/algorithm", 0).toInt());
+}
+
 cv::Mat AppSettings::readDispToDepthMap()
 {
     cv::FileStorage file(this->readCalibFilePath().toUtf8().constData(), cv::FileStorage::READ);
@@ -138,18 +149,3 @@ cv::Mat AppSettings::readDispToDepthMap()
     return Map;
 }
 
-/*
-void AppSettings::readConfigFile()
-{
-    config->sync();
-    this->setCalibFilePath(config->value("app_settings/calibration_file", "/home/").toString());
-    this->setCalibFilesDir(config->value("app_settings/calibration_dir","/home/").toString());
-    this->setMovFilesDir(config->value("app_settings/movies_dir","/home/").toString());
-    this->setPictsSavePath(config->value("app_settings/pictures_dir","/home/").toString());
-    this->setLeftCameraId(config->value("app_settings/left_camera_id", 0).toInt());
-    this->setRightCameraId(config->value("app_settings/right_camera_id", 1).toInt());
-    this->setChessboardRows(config->value("app_settings/chessboard_rows", 6).toInt());
-    this->setChessboardCols(config->value("app_settings/chessboard_cols", 8).toInt());
-    this->setChessboardSquareSize(config->value("app_settings/square_size", 36.33).toDouble());
-}
-*/

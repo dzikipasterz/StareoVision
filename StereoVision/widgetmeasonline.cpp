@@ -31,7 +31,29 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
 
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
-    stereoMatcher = new StereoSGBMcpu(); //#todo: zaleznie od wybranego algorytmu
+
+    switch(settings->readAlgorithm())
+    {
+        case Algorithm::BM_cpu:
+            stereoMatcher = new StereoBMcpu;
+        break;
+
+        case Algorithm::BM_cuda:
+            stereoMatcher = new StereoBMcuda();
+        break;
+
+        case Algorithm::SGBM_cpu:
+            stereoMatcher= new StereoSGBMcpu;
+        break;
+
+        case Algorithm::BP_cuda:
+            stereoMatcher = new StereoBPcuda();
+        break;
+
+        case Algorithm::CSBP_cuda:
+            stereoMatcher = new StereoCSBPcuda;
+        break;
+    }
 
     connect(AppWidget::camera,SIGNAL(sendFrames(cv::Mat, cv::Mat)),rectifier,SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));

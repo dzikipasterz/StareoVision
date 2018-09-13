@@ -2,7 +2,8 @@
 #include "ui_widgetsettings.h"
 
 widgetSettings::widgetSettings(AppSettings *sett) :
-    ui(new Ui::widgetSettings)
+    ui(new Ui::widgetSettings),
+    initDone(false)
 {
     //AppWidget
     settings = sett;
@@ -17,6 +18,16 @@ widgetSettings::widgetSettings(AppSettings *sett) :
     ui->labelSaveMovDir->setText(settings->readMovFilesDir());
     ui->labelCalibFilesDir->setText(settings->readCalibFilesDir());
     ui->labelCalibFile->setText(settings->readCalibFilePath());
+
+    QStringList algorithms;
+    algorithms.append("Block Matching (CPU)");
+    algorithms.append("Block Matching (GPU)");
+    algorithms.append("Semi-Global Block Matching (CPU)");
+    algorithms.append("Belief Propagation (GPU)");
+    algorithms.append("Constant Space Belief Propagation (GPU)");
+    ui->comboBoxAlgorithm->addItems(algorithms);
+
+    ui->comboBoxAlgorithm->setCurrentIndex((int)settings->readAlgorithm());
 
     AppWidget::initTimer();
     AppWidget::initCamera(settings->readLeftCameraId(), settings->readRightCameraId());
@@ -119,4 +130,12 @@ void widgetSettings::on_pushButtonSelectCalibDir_clicked()
         settings->setCalibFilesDir(dir);
         ui->labelCalibFilesDir->setText(dir);
     }
+}
+
+
+
+void widgetSettings::on_comboBoxAlgorithm_currentIndexChanged(int index)
+{
+    if(initDone) settings->setAlgorithm((Algorithm)index);
+    else initDone = true;
 }

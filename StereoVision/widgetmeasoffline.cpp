@@ -48,7 +48,29 @@ void widgetMeasOffline::setupMeasurement()
     sourceReader->setSourcePaths(ui->labelSourceLeft->text(), ui->labelSourceRight->text());
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
-    stereoMatcher = new StereoBPcuda(); //#todo: zaleznie od wybranego algorytmu
+
+    switch(settings->readAlgorithm())
+    {
+        case Algorithm::BM_cpu:
+            stereoMatcher = new StereoBMcpu;
+        break;
+
+        case Algorithm::BM_cuda:
+            stereoMatcher = new StereoBMcuda();
+        break;
+
+        case Algorithm::SGBM_cpu:
+            stereoMatcher= new StereoSGBMcpu;
+        break;
+
+        case Algorithm::BP_cuda:
+            stereoMatcher = new StereoBPcuda();
+        break;
+
+        case Algorithm::CSBP_cuda:
+            stereoMatcher = new StereoCSBPcuda;
+        break;
+    }
 
     connect(threadSourceReader, SIGNAL(finished()), sourceReader, SLOT(deleteLater()));
     connect(threadRectifier, SIGNAL(finished()), rectifier, SLOT(deleteLater()));

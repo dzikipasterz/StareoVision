@@ -5,7 +5,7 @@
 #include <QSettings>
 #include <opencv2/core/core.hpp>
 
-enum algorithm {BM_cpu, BM_cuda, SGBM_cpu, BP_cuda, CSBP_cuda};
+enum Algorithm {BM_cpu, BM_cuda, SGBM_cpu, BP_cuda, CSBP_cuda};
 
 class AppSettings
 {
@@ -33,15 +33,15 @@ public:
     int readChessboardCols();
     void setChessboardSquareSize(double size);
     double readChessboardSquareSize();
-    //void setAlgorithm(algorithm alg);
-    //algorithm readAlgorithm();
+    void setAlgorithm(Algorithm alg);
+    Algorithm readAlgorithm();
     cv::Size readPatternSize();
     cv::Mat readDispToDepthMap();
 
 
 private:
     QSettings *config;
-    algorithm selectedAlgorithm;
+    Algorithm selectedAlgorithm;
 };
 
 #endif // APPSETTINGS_H
