@@ -12,11 +12,15 @@ public:
     VideoReader();
     ~VideoReader() override;
 
+signals:
+    void sendEnd();
+
 public slots:
     void receiveTimeout();
 
 protected:
     void executeStart() override;
+    void executeStop() override;
     void executePause() override;
     void executeResume() override;
     void executeJobDone() override;

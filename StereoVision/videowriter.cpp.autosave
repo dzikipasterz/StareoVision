@@ -18,9 +18,9 @@ void VideoWriter::receiveStartRecording()
 {
     recordFlag = true;
 
-    QDateTime currentTime = QDateTime::currentDateTime();
-    QString L = ((currentTime.toString("yyyyMMdd_hhmmss")).append("_L.avi").prepend(savePath));
-    QString R = ((currentTime.toString("yyyyMMdd_hhmmss")).append("_R.avi").prepend(savePath));
+    //QDateTime currentTime = QDateTime::currentDateTime();
+    //QString L = ((currentTime.toString("yyyyMMdd_hhmmss")).append("_L.avi").prepend(savePath));
+   // QString R = ((currentTime.toString("yyyyMMdd_hhmmss")).append("_R.avi").prepend(savePath));
 
     leftCap = new cv::VideoWriter();
     rightCap = new cv::VideoWriter();

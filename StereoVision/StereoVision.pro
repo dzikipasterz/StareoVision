@@ -56,7 +56,8 @@ SOURCES += \
     stereobmcuda.cpp \
     stereocsbpcuda.cpp \
     videoreader.cpp \
-    widgetdisparity.cpp
+    widgetdisparity.cpp \
+    filewriter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -91,7 +92,8 @@ HEADERS += \
     stereobmcuda.h \
     stereocsbpcuda.h \
     videoreader.h \
-    widgetdisparity.h
+    widgetdisparity.h \
+    filewriter.h
 
 FORMS += \
         mainwindow.ui \

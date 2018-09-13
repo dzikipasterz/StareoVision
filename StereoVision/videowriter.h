@@ -6,12 +6,13 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/videoio.hpp>
+#include <filewriter.h>
 
-class VideoWriter : public QObject
+class VideoWriter : public FileWriter
 {
     Q_OBJECT
 public:
-    explicit VideoWriter(QString path);
+    explicit VideoWriter(QString filePath);
     ~VideoWriter();
 
 signals:
@@ -21,6 +22,8 @@ public slots:
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
     void receiveStartRecording();
     void receiveStopRecording();
+
+protected:
 
 private:
     QString savePath;

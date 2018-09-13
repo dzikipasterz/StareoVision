@@ -10,7 +10,8 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     stereoMatcher(nullptr),
     threadSourceReader(nullptr),
     threadRectifier(nullptr),
-    threadStereoMatcher(nullptr)
+    threadStereoMatcher(nullptr),
+    isVideo(false)
 {
     ui->setupUi(this);
     settings = sett;
@@ -25,6 +26,8 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     depthDisplay->setDispToDistMat(settings->readDispToDepthMap());
     ui->labelLeftDisplay->setScaledContents(true);
     ui->labelRightDisplay->setScaledContents(true);
+    ui->pushButtonStart->setText("Start");
+    ui->pushButtonStart->toggled(false);
 }
 
 
@@ -44,7 +47,20 @@ void widgetMeasOffline::setupMeasurement()
     threadRectifier = new QThread();
     threadStereoMatcher = new QThread();
 
-    sourceReader = new VideoReader(); //#todo: zaleznie od formatu
+    QString leftExt = leftSourcePath.split(".").at(1);
+    QString rightExt = rightSourcePath.split(".").at(1);
+
+    if((leftExt == rightExt) && (leftExt == "avi"))
+    {
+        sourceReader = new VideoReader();
+        isVideo = true;
+    }
+    else if((leftExt == rightExt) && (leftExt == "jpg"))
+    {
+        sourceReader = new ImageReader();
+        isVideo = false;
+    }
+
     sourceReader->setSourcePaths(ui->labelSourceLeft->text(), ui->labelSourceRight->text());
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
@@ -77,6 +93,7 @@ void widgetMeasOffline::setupMeasurement()
     connect(threadStereoMatcher, SIGNAL(finished()), stereoMatcher, SLOT(deleteLater()));
 
     connect(this, SIGNAL(sendStartMeas()), sourceReader, SLOT(receiveStart()));
+    connect(this, SIGNAL(sendStopMeas()), sourceReader, SLOT(receiveStop()));
     connect(sourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), rectifier, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
     connect(stereoMatcher, SIGNAL(sendDisparity(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparity(cv::Mat, cv::Mat, cv::Mat)));
@@ -184,11 +201,6 @@ void widgetMeasOffline::on_pushButtonRightSource_clicked()
     lastPath = rightSourcePath;
 }
 
-void widgetMeasOffline::on_pushButtonStart_clicked()
-{
-    setupMeasurement();
-}
-
 void widgetMeasOffline::on_spinBoxX_valueChanged(int x)
 {
     emit sendCoords(x, ui->spinBoxY->value());
@@ -207,4 +219,21 @@ void widgetMeasOffline::on_pushButtonWrite_toggled(bool write)
     }
     else closeFile();
 
+}
+
+void widgetMeasOffline::on_pushButtonStart_toggled(bool checked)
+{
+    if(checked)
+    {
+        setupMeasurement();
+
+        if(isVideo) ui->pushButtonStart->setText("Stop");
+        else ui->pushButtonStart->toggled(false);
+    }
+
+    else
+    {
+        emit sendStopMeas();
+        ui->pushButtonStart->setText("Start");
+    }
 }

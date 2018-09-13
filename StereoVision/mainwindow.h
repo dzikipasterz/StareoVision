@@ -19,6 +19,7 @@
 #include "widgetsettings.h"
 #include "widgetcalibration.h"
 #include "widgetrecord.h"
+#include "widgetdisparity.h"
 
 
 
@@ -39,6 +40,7 @@ public:
     void showSettingsWidget();
     void showCalibrationWidget();
     void showRecordWidget();
+    void showDisparityWidget();
 
 public slots:
     void closeApplication();
@@ -54,6 +56,8 @@ private slots:
     void on_pushButtonCalibration_clicked();
 
     void on_pushButtonRecord_clicked();
+
+    void on_pushButtonDisparity_clicked();
 
 private:
     Ui::MainWindow *ui;

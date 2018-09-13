@@ -84,6 +84,13 @@ void MainWindow::showRecordWidget()
     ui->centralWidget->layout()->addWidget(widgetPanel);
 }
 
+void MainWindow::showDisparityWidget()
+{
+    initPanelWidget();
+    widgetPanel = new WidgetDisparity(&settings);
+    ui->centralWidget->layout()->addWidget(widgetPanel);
+}
+
 void MainWindow::on_pushButtonInfo_clicked()
 {
    showAppInfo();
@@ -127,4 +134,9 @@ void MainWindow::on_pushButtonRecord_clicked()
 void MainWindow::on_pushButtonMeasOffline_clicked()
 {
     showMeasurementOfflineWidget();
+}
+
+void MainWindow::on_pushButtonDisparity_clicked()
+{
+    showDisparityWidget();
 }

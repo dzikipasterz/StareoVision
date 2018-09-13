@@ -32,6 +32,11 @@ void VideoReader::executePause()
     timer->receivePause();
 }
 
+void VideoReader::executeStop()
+{
+    timer->receivePause();
+}
+
 void VideoReader::executeResume()
 {
     timer->receiveResume();
@@ -60,6 +65,7 @@ void VideoReader::grabFrames()
     {
         end = true;
         timer->receivePause();
+        emit sendEnd();
     }
     else
     {

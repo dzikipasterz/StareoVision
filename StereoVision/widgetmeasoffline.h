@@ -35,6 +35,7 @@ public:
 
 signals:
     void sendStartMeas();
+    void sendStopMeas();
     void sendCoords(int x, int y);
 
 public slots:
@@ -48,13 +49,13 @@ private slots:
 
     void on_pushButtonRightSource_clicked();
 
-    void on_pushButtonStart_clicked();
-
     void on_spinBoxX_valueChanged(int x);
 
     void on_spinBoxY_valueChanged(int y);
 
     void on_pushButtonWrite_toggled(bool write);
+
+    void on_pushButtonStart_toggled(bool checked);
 
 private:
     Ui::widgetMeasOffline *ui;
@@ -72,6 +73,7 @@ private:
     QThread *threadSourceReader;
     QThread *threadRectifier;
     QThread *threadStereoMatcher;
+    bool isVideo;
 
     void setupMeasurement();
     void stopThreads();
