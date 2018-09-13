@@ -23,6 +23,8 @@ signals:
     void sendTakePicture();
     void sendStartRecording();
     void sendStopRecording();
+    void sendLeftVideoPath(QString path);
+    void sendRightVideoPath(QString path);
 
 public slots:
         void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
@@ -38,7 +40,7 @@ private:
     Ui::widgetRecord *ui;
     QThread *threadRecord;
     PictureTaker *pictureTaker;
-    VideoWriter *videoWriter;
+    VideoWriter *leftVideoWriter, *rightVideoWriter;
 };
 
 #endif // WIDGETRECORD_H

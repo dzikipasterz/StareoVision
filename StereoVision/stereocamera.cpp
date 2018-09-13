@@ -53,7 +53,10 @@ void stereoCamera::receiveGrabFrame()
     cv::Mat leftFrame = leftCamera->grabFrame();
     cv::Mat rightFrame = rightCamera->grabFrame();
     if(!(leftFrame.empty() || rightFrame.empty()))
-            emit sendFrames(leftFrame, rightFrame);
-    emit sendJobDone();
+    {
+        emit sendLeftFrame(leftFrame);
+        emit sendRightFrame(rightFrame);
+    }
+        emit sendJobDone();
 }
 

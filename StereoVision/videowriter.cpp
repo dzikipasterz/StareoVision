@@ -1,11 +1,9 @@
 #include "videowriter.h"
 
-VideoWriter::VideoWriter(QString filePath) :
-    leftCap(nullptr),
-    rightCap(nullptr),
+VideoWriter::VideoWriter() :
+    cap(nullptr),
     recordFlag(false)
 {
-    savePath = path;
 
 }
 
@@ -14,44 +12,35 @@ VideoWriter::~VideoWriter()
     releaseWriter();
 }
 
-void VideoWriter::receiveStartRecording()
+void VideoWriter::executeReceiveStartWriting()
 {
     recordFlag = true;
 
-    QDateTime currentTime = QDateTime::currentDateTime();
-    QString L = ((currentTime.toString("yyyyMMdd_hhmmss")).append("_L.avi").prepend(savePath));
-    QString R = ((currentTime.toString("yyyyMMdd_hhmmss")).append("_R.avi").prepend(savePath));
+    cap = new cv::VideoWriter();
+    cap->open(savePath.toUtf8().constData(), CV_FOURCC( 'D','I','V','X'), 24.0, frameSize, true);
 
-    leftCap = new cv::VideoWriter();
-    rightCap = new cv::VideoWriter();
-    leftCap->open(L.toUtf8().constData(), CV_FOURCC( 'D','I','V','X'), 24.0, frameSize, true);
-    rightCap->open(R.toUtf8().constData(), CV_FOURCC( 'D','I','V','X'), 24.0, frameSize, true);
-    emit sendMovFilesPaths(L, R);
+    if(cap->isOpened()) emit sendFilePath(savePath);
 }
 
-void VideoWriter::receiveStopRecording()
+void VideoWriter::executeReceiveStopWriting()
 {
     recordFlag = false;
     releaseWriter();
 }
 
-void VideoWriter::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
+void VideoWriter::executeReceiveFrame(cv::Mat frame)
 {
-    if(recordFlag && leftCap->isOpened() && rightCap->isOpened())
+    if(recordFlag && cap->isOpened())
     {
-        leftCap->write(leftFrame);
-        rightCap->write(rightFrame);
-
+        cap->write(frame);
     }
-    else frameSize = leftFrame.size();
+    else frameSize = frame.size();
 
-    leftFrame.release();
-    rightFrame.release();
+    frame.release();
 }
 
 
 void VideoWriter::releaseWriter()
 {
-    if(leftCap != nullptr) leftCap->release();
-    if(rightCap != nullptr) rightCap->release();
+    if(cap != nullptr) cap->release();
 }

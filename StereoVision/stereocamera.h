@@ -18,7 +18,8 @@ public:
 
 signals:
     void sendCameraStatus(bool leftCamStatus, bool rightCamStatus);
-    void sendFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+    void sendLeftFrame(cv::Mat frame);
+    void sendRightFrame(cv::Mat frame);
     void sendJobDone();
     void sendRetrySetup();
 

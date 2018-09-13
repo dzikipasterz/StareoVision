@@ -12,23 +12,17 @@ class VideoWriter : public FileWriter
 {
     Q_OBJECT
 public:
-    explicit VideoWriter(QString filePath);
-    ~VideoWriter();
-
-signals:
-    void sendMovFilesPaths(QString leftPath, QString rightPath);
-
-public slots:
-    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
-    void receiveStartRecording();
-    void receiveStopRecording();
+    explicit VideoWriter();
+    ~VideoWriter() override;
 
 protected:
+    void executeReceiveFrame(cv::Mat frame) override;
+    void executeReceiveStartWriting() override;
+    void executeReceiveStopWriting() override;
+
 
 private:
-    QString savePath;
-    cv::VideoWriter *leftCap;
-    cv::VideoWriter *rightCap;
+    cv::VideoWriter *cap;
     bool recordFlag;
     cv::Size frameSize;
 
