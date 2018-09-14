@@ -45,7 +45,7 @@ private:
     QThread *threadSourceReader;
     QThread *threadRectifier;
     QThread *threadStereoMatcher;
-    QThread *threadVideoWriter
+    QThread *threadVideoWriter;
     bool isVideo;
 
     void stopThreads();

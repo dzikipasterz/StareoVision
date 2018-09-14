@@ -23,13 +23,17 @@ signals:
     void sendTakePicture();
     void sendStartRecording();
     void sendStopRecording();
+    void sendSetLeftSavePath(QString);
+    void sendSetRightSavePath(QString);
     void sendLeftVideoPath(QString path);
     void sendRightVideoPath(QString path);
 
 public slots:
-        void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+        void receiveLeftFrame(cv::Mat leftFrame);
+        void receiveRightFrame(cv::Mat rightFrame);
         void receiveImagesPaths(QString leftPath, QString rightPath);
-        void receiveMoviesPaths(QString leftPath, QString rightPath);
+        void receiveLeftMoviePath(QString leftPath);
+        void receiveRightMoviePath(QString leftPath);
 
 private slots:
         void on_pushButtonTakePicture_clicked();
