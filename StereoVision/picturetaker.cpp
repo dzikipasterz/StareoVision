@@ -1,9 +1,9 @@
 #include "picturetaker.h"
 
-PictureTaker::PictureTaker(QString path) :
+PictureTaker::PictureTaker() :
     takePictureFlag(false)
 {
-    savePath = path;
+
 }
 
 void PictureTaker::receiveTakePicture()
@@ -11,17 +11,19 @@ void PictureTaker::receiveTakePicture()
     takePictureFlag=true;
 }
 
-void PictureTaker::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
+void PictureTaker::receiveFrame(cv::Mat frame)
 {
     if(takePictureFlag)
     {     
         takePictureFlag=false;
-        QDateTime currentTime = QDateTime::currentDateTime();
-        QString L = ((currentTime.toString("yyyyMMdd_hhmmss")).append("_L.jpg").prepend(savePath));
-        QString R = ((currentTime.toString("yyyyMMdd_hhmmss")).append("_R.jpg").prepend(savePath));
-        cv::imwrite(L.toUtf8().constData(), leftFrame);
-        cv::imwrite(R.toUtf8().constData(), rightFrame);
+        cv::imwrite(savePath.toUtf8().constData(), frame);
 
-        emit sendImagesPaths(L, R);
+        emit sendImagePath(savePath);
     }
 }
+
+void PictureTaker::receiveSetPath(QString path)
+{
+    savePath = path;
+}
+

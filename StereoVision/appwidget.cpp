@@ -60,10 +60,10 @@ void AppWidget::resumeTimer()
     emit sendResumeTimer();
 }
 
-void AppWidget::initCamera(const int leftCameraId, const int rightCameraId)
+void AppWidget::initCamera(const int leftCameraId, const int rightCameraId, cameraMode mode)
 {
     threadStereoCamera = new QThread();
-    camera = new stereoCamera();
+    camera = new stereoCamera(mode);
     camera->receiveSetup(leftCameraId, rightCameraId);
     connect(intervalRegulator, SIGNAL(sendTimeout()), camera, SLOT(receiveGrabFrame()));
     connect(threadStereoCamera, SIGNAL(finished()), camera, SLOT(deleteLater()));

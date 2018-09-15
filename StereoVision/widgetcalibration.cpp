@@ -8,10 +8,10 @@ widgetCalibration::widgetCalibration(AppSettings *sett) :
     calibrator(nullptr),
     cameraInitialized(false)
 {
-    //AppWidget
+    //store ref to settings
     settings = sett;
 
-    //widgetCalibration
+    //init GUI
     ui->setupUi(this);
     ui->leftCamera->setScaledContents(true);
     ui->rightCamera->setScaledContents(true);
@@ -26,6 +26,7 @@ widgetCalibration::widgetCalibration(AppSettings *sett) :
 
 widgetCalibration::~widgetCalibration()
 {
+    //safely stop threads if initialized
     if(cameraInitialized)
     {
         threadCalibrator->quit();
@@ -42,13 +43,20 @@ widgetCalibration::~widgetCalibration()
 
 void widgetCalibration::openCamera()
 {
+    //basic camera init
     AppWidget::initTimer();
     AppWidget::initCamera(settings->readLeftCameraId(), settings->readRightCameraId());
 
+    //------------------------------------------------------------------------------------------------------------------
+
+    //create threads
     threadCornersFinder = new QThread;
     threadCalibrator = new QThread;
-    cornersFinder = new CornersFinder();
 
+    //------------------------------------------------------------------------------------------------------------------
+
+    //create and setup workers (CornersFinder and Calibrator)
+    cornersFinder = new CornersFinder();
     cornersFinder->setPatternSize(settings->readPatternSize());
 
     calibrator = new Calibrator();
@@ -56,13 +64,23 @@ void widgetCalibration::openCamera()
     calibrator->setSquareSideSize(float(settings->readChessboardSquareSize()));
     calibrator->setSaveCalibrationDir(settings->readCalibFilesDir());
 
+    //------------------------------------------------------------------------------------------------------------------
+
+    //camera <------> cornersFinder & calibrator
     connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), cornersFinder, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(AppWidget::camera, SIGNAL(sendFrames(cv::Mat, cv::Mat)), calibrator, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(cornersFinder, SIGNAL(sendProcessedFrames(cv::Mat, cv::Mat)), this, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(cornersFinder, SIGNAL(sendJobDone()), AppWidget::intervalRegulator, SLOT(receiveJobDone()));
 
+    //------------------------------------------------------------------------------------------------------------------
+
+    //threads <-------> workers (cornersFinder & calibrator)
     connect(threadCalibrator, SIGNAL(finished()), calibrator, SLOT(deleteLater()));
     connect(threadCornersFinder, SIGNAL(finished()), cornersFinder, SLOT(deleteLater()));
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    //this <------> calibrator
     connect(this, SIGNAL(sendTakePicture()), calibrator, SLOT(receiveTakePicture()), Qt::DirectConnection);
     connect(this, SIGNAL(sendLoadPicture()), calibrator, SLOT(receiveTakePicture()));
     connect(this, SIGNAL(sendStartCalibration()), calibrator, SLOT(receiveStartCalibration()));
@@ -71,11 +89,14 @@ void widgetCalibration::openCamera()
     connect(calibrator, SIGNAL(sendCreatedFilePath(QString)), this, SLOT(receiveCalibrationFilePath(QString)));
     connect(calibrator, SIGNAL(sendCalibrationStatus(QString)), this, SLOT(receiveCalibrationStatus(QString)));
 
+    //------------------------------------------------------------------------------------------------------------------
+
+    //move workers to threads
     calibrator->moveToThread(threadCalibrator);
     cornersFinder->moveToThread(threadCornersFinder);
     threadCornersFinder->start();
     threadCalibrator->start();
-
+    //------------------------------------------------------------------------------------------------------------------
     AppWidget::startCamera();
     AppWidget::startTimer();
 }

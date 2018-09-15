@@ -14,6 +14,8 @@ namespace Ui {
 class widgetSettings;
 }
 
+
+
 class widgetSettings : public AppWidget
 {
     Q_OBJECT
@@ -41,11 +43,10 @@ private slots:
 
     void on_pushButtonSelectCalibDir_clicked();    
 
-    void on_comboBoxAlgorithm_currentIndexChanged(int index);
+    void on_comboBoxAlgorithm_activated(int index);
 
 private:
     Ui::widgetSettings *ui;
-    bool initDone;
 
     void displayCameraStatus(bool status, QLabel * labelStatus);
 };

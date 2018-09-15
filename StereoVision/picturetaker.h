@@ -12,14 +12,15 @@ class PictureTaker : public QObject
 {
     Q_OBJECT
 public:
-    explicit PictureTaker(QString path = "/home/");
+    explicit PictureTaker();
 
 signals:
-    void sendImagesPaths(QString leftPath, QString rightPath);
+    void sendImagePath(QString path);
 
 public slots:
     void receiveTakePicture();
-    void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+    void receiveFrame(cv::Mat frame);
+    void receiveSetPath(QString path);
 
 private:
     bool takePictureFlag;

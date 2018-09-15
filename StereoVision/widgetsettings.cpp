@@ -2,8 +2,7 @@
 #include "ui_widgetsettings.h"
 
 widgetSettings::widgetSettings(AppSettings *sett) :
-    ui(new Ui::widgetSettings),
-    initDone(false)
+    ui(new Ui::widgetSettings)
 {
     //AppWidget
     settings = sett;
@@ -133,9 +132,7 @@ void widgetSettings::on_pushButtonSelectCalibDir_clicked()
 }
 
 
-
-void widgetSettings::on_comboBoxAlgorithm_currentIndexChanged(int index)
+void widgetSettings::on_comboBoxAlgorithm_activated(int index)
 {
-    if(initDone) settings->setAlgorithm((Algorithm)index);
-    else initDone = true;
+    settings->setAlgorithm((Algorithm)index);
 }

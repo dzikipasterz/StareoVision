@@ -49,7 +49,6 @@ SOURCES += \
     imagereader.cpp \
     rectifier.cpp \
     disparityconverter.cpp \
-    postfilter.cpp \
     stereobpcuda.cpp \
     stereobmcpu.cpp \
     stereosgbmcpu.cpp \
@@ -85,7 +84,6 @@ HEADERS += \
     imagereader.h \
     rectifier.h \
     disparityconverter.h \
-    postfilter.h \
     stereobpcuda.h \
     stereobmcpu.h \
     stereosgbmcpu.h \

@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
             )
     );
 
-    w.showRecordWidget();
+    w.showSettingsWidget();
     w.show();
 
     return a.exec();

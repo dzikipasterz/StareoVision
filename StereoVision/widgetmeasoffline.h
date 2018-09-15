@@ -18,8 +18,9 @@
 #include <stereosgbmcpu.h>
 #include <stereobpcuda.h>
 #include <stereocsbpcuda.h>
-#include <postfilter.h>
 #include <disparityconverter.h>
+
+enum disparityMode {fromRaw, fromFile};
 
 namespace Ui {
 class widgetMeasOffline;
@@ -57,6 +58,8 @@ private slots:
 
     void on_pushButtonStart_toggled(bool checked);
 
+    void on_comboBox_activated(int index);
+
 private:
     Ui::widgetMeasOffline *ui;
     DepthDisplay *depthDisplay;
@@ -74,8 +77,11 @@ private:
     QThread *threadRectifier;
     QThread *threadStereoMatcher;
     bool isVideo;
+    disparityMode mode;
 
     void setupMeasurement();
+    void readDisparity();
+    void setupSourceReader();
     void stopThreads();
     void openFile();
     void closeFile();

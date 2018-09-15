@@ -9,15 +9,18 @@
 
 
 
+enum cameraMode {singleFrames, doubleFrames};
+
 class stereoCamera : public QObject
 {
     Q_OBJECT
 public:
-    explicit stereoCamera(QObject *parent = nullptr);
+    explicit stereoCamera(cameraMode mode);
     ~stereoCamera();
 
 signals:
     void sendCameraStatus(bool leftCamStatus, bool rightCamStatus);
+    void sendFrames(cv::Mat leftFrame, cv::Mat rightFrame);
     void sendLeftFrame(cv::Mat frame);
     void sendRightFrame(cv::Mat frame);
     void sendJobDone();
@@ -35,6 +38,7 @@ private:
     camera * leftCamera;
     camera * rightCamera;
     bool retryFlag;
+    cameraMode framesMode;
 
 };
 #endif // STEREOCAMERA_H

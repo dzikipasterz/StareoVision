@@ -7,6 +7,9 @@ widgetRecord::widgetRecord(AppSettings *sett) :
     ui->setupUi(this);
     settings = sett;
 
+    //----------------------------------------------------------------------------------------------------------------
+
+    //init GUI
     ui->labelLeftCamera->setScaledContents(true);
     ui->labelRightCamera->setScaledContents(true);
     ui->labelLeftPicPath->setText("");
@@ -16,27 +19,63 @@ widgetRecord::widgetRecord(AppSettings *sett) :
     ui->pushButtonMakeMovie->toggled(false);
     ui->pushButtonMakeMovie->setText("Nagrywaj");
 
+    //----------------------------------------------------------------------------------------------------------------
+
+    //init camera, writers and threads
     AppWidget::initTimer();
-    AppWidget::initCamera(settings->readLeftCameraId(), settings->readRightCameraId());
+    AppWidget::initCamera(settings->readLeftCameraId(), settings->readRightCameraId(), singleFrames);
     threadRecord = new QThread();
-    pictureTaker = new PictureTaker(settings->readPictSavePath());
+    leftPictureTaker = new PictureTaker();
+    rightPictureTaker = new PictureTaker();
     leftVideoWriter = new VideoWriter();
     rightVideoWriter = new VideoWriter();
 
+    //----------------------------------------------------------------------------------------------------------------
+
+    //camera <------> this
     connect(AppWidget::camera, SIGNAL(sendLeftFrame(cv::Mat)),this, SLOT(receiveLeftFrame(cv::Mat)));
     connect(AppWidget::camera, SIGNAL(sendRightFrame(cv::Mat)),this, SLOT(receiveRightFrame(cv::Mat)));
-    //connect(AppWidget::camera, SIGNAL(sendRightFrame(cv::Mat)), pictureTaker, SLOT(receiveRightFrame(cv::Mat)));
+
+    //----------------------------------------------------------------------------------------------------------------
+
+    //camera <------> PictureTaker
+    connect(AppWidget::camera, SIGNAL(sendLeftFrame(cv::Mat)), leftPictureTaker, SLOT(receiveFrame(cv::Mat)));
+    connect(AppWidget::camera, SIGNAL(sendRightFrame(cv::Mat)), rightPictureTaker, SLOT(receiveFrame(cv::Mat)));
+
+    //----------------------------------------------------------------------------------------------------------------
+
+    //camera <------> VideoWriter
     connect(AppWidget::camera, SIGNAL(sendLeftFrame(cv::Mat)), leftVideoWriter, SLOT(receiveFrame(cv::Mat)));
     connect(AppWidget::camera, SIGNAL(sendRightFrame(cv::Mat)), rightVideoWriter, SLOT(receiveFrame(cv::Mat)));
+
+    //----------------------------------------------------------------------------------------------------------------
+
+    //camera <------> IntervalRegulator
     connect(AppWidget::camera, SIGNAL(sendJobDone()), AppWidget::intervalRegulator, SLOT(receiveJobDone()));
-    connect(threadRecord, SIGNAL(finished()), pictureTaker, SLOT(deleteLater()));
+
+    //----------------------------------------------------------------------------------------------------------------
+
+    //threadRecord <------> PictureTaker, VideoWriter
+    connect(threadRecord, SIGNAL(finished()), leftPictureTaker, SLOT(deleteLater()));
+    connect(threadRecord, SIGNAL(finished()), rightPictureTaker, SLOT(deleteLater()));
     connect(threadRecord, SIGNAL(finished()), leftVideoWriter, SLOT(deleteLater()));
     connect(threadRecord, SIGNAL(finished()), rightVideoWriter, SLOT(deleteLater()));
-    connect(this, SIGNAL(sendTakePicture()), pictureTaker, SLOT(receiveTakePicture()));
-    connect(pictureTaker, SIGNAL(sendImagesPaths(QString, QString)), this, SLOT(receiveImagesPaths(QString, QString)));
 
-    connect(this, SIGNAL(sendSetLeftSavePath(QString)), leftVideoWriter, SLOT(receiveSetSavePath(QString)));
-    connect(this, SIGNAL(sendSetRightSavePath(QString)), rightVideoWriter, SLOT(receiveSetSavePath(QString)));
+    //----------------------------------------------------------------------------------------------------------------
+
+    //this <------> PictureTaker
+    connect(this, SIGNAL(sendTakePicture()), leftPictureTaker, SLOT(receiveTakePicture()));
+    connect(this, SIGNAL(sendTakePicture()), rightPictureTaker, SLOT(receiveTakePicture()));
+    connect(this, SIGNAL(sendSetLeftPicSavePath(QString)), leftPictureTaker, SLOT(receiveSetPath(QString)));
+    connect(this, SIGNAL(sendSetRightPicSavePath(QString)), rightPictureTaker, SLOT(receiveSetPath(QString)));
+    connect(leftPictureTaker, SIGNAL(sendImagePath(QString)), this, SLOT(receiveLeftImagePath(QString)));
+    connect(rightPictureTaker, SIGNAL(sendImagePath(QString)), this, SLOT(receiveRightImagePath(QString)));
+
+    //----------------------------------------------------------------------------------------------------------------
+
+    //this <------> VideoWriter
+    connect(this, SIGNAL(sendSetLeftMovSavePath(QString)), leftVideoWriter, SLOT(receiveSetSavePath(QString)));
+    connect(this, SIGNAL(sendSetRightMovSavePath(QString)), rightVideoWriter, SLOT(receiveSetSavePath(QString)));
     connect(this, SIGNAL(sendStartRecording()), leftVideoWriter, SLOT(receiveStartWriting()));
     connect(this, SIGNAL(sendStartRecording()), rightVideoWriter, SLOT(receiveStartWriting()));
     connect(this, SIGNAL(sendStopRecording()), leftVideoWriter, SLOT(receiveStopWriting()));
@@ -44,10 +83,17 @@ widgetRecord::widgetRecord(AppSettings *sett) :
     connect(leftVideoWriter, SIGNAL(sendFilePath(QString)), this, SLOT(receiveLeftMoviePath(QString)));
     connect(rightVideoWriter, SIGNAL(sendFilePath(QString)), this, SLOT(receiveRightMoviePath(QString)));
 
+    //----------------------------------------------------------------------------------------------------------------
+
+    //move workers to threads
     rightVideoWriter->moveToThread(threadRecord);
     leftVideoWriter->moveToThread(threadRecord);
-    pictureTaker->moveToThread(threadRecord);
+    leftPictureTaker->moveToThread(threadRecord);
+    rightPictureTaker->moveToThread(threadRecord);
     threadRecord->start();
+
+    //----------------------------------------------------------------------------------------------------------------
+
     AppWidget::startCamera();
     AppWidget::startTimer();
 
@@ -55,6 +101,7 @@ widgetRecord::widgetRecord(AppSettings *sett) :
 
 widgetRecord::~widgetRecord()
 {
+    //safely quit thread
     threadRecord->quit();
     while(!threadRecord->isFinished());
     delete threadRecord;
@@ -73,9 +120,13 @@ void widgetRecord::receiveRightFrame(cv::Mat rightFrame)
     displayFrame(rightFrame, ui->labelRightCamera);
 }
 
-void widgetRecord::receiveImagesPaths(QString leftPath, QString rightPath)
+void widgetRecord::receiveLeftImagePath(QString leftPath)
 {
     ui->labelLeftPicPath->setText(leftPath);
+}
+
+void widgetRecord::receiveRightImagePath(QString rightPath)
+{
     ui->labelRightPicPath->setText(rightPath);
 }
 
@@ -91,6 +142,17 @@ void widgetRecord::receiveRightMoviePath(QString rightPath)
 
 void widgetRecord::on_pushButtonTakePicture_clicked()
 {
+    //create file name with current timestamp
+    QDateTime time = QDateTime::currentDateTime();
+    QString timeString = time.toString("yyyymmdd_hhmmss_");
+    QString leftPath = settings->readPictSavePath();
+    leftPath = leftPath.append(timeString).append("L.jpg");
+    QString rightPath = settings->readPictSavePath();
+    rightPath = rightPath.append(timeString).append("R.jpg");
+
+    //set paths and take pictures
+    emit sendSetLeftPicSavePath(leftPath);
+    emit sendSetRightPicSavePath(rightPath);
     emit sendTakePicture();
 }
 
@@ -98,7 +160,10 @@ void widgetRecord::on_pushButtonMakeMovie_toggled(bool checked)
 {
     if(checked)
     {
+        //change boolean text when pressed to "zatrzymaj" ("stop") when recording enabled
         ui->pushButtonMakeMovie->setText("Zatrzymaj");
+
+        //create file name (path) with current timestamp
         QDateTime time = QDateTime::currentDateTime();
         QString timeString = time.toString("yyyymmdd_hhmmss_");
         QString leftPath = settings->readMovFilesDir();
@@ -106,13 +171,17 @@ void widgetRecord::on_pushButtonMakeMovie_toggled(bool checked)
         QString rightPath = settings->readMovFilesDir();
         rightPath = rightPath.append(timeString).append("R.avi");
 
-        emit sendSetLeftSavePath(leftPath);
-        emit sendSetRightSavePath(rightPath);
+        //set paths and start recording
+        emit sendSetLeftMovSavePath(leftPath);
+        emit sendSetRightMovSavePath(rightPath);
         emit sendStartRecording();
     }
     else
     {
+        //change boolean text to "nagrywaj" ("record") when recording disabled
         ui->pushButtonMakeMovie->setText("Nagrywaj");
+
+        //stop recording
         emit sendStopRecording();
     }
 }

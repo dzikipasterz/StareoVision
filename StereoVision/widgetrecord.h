@@ -23,15 +23,18 @@ signals:
     void sendTakePicture();
     void sendStartRecording();
     void sendStopRecording();
-    void sendSetLeftSavePath(QString);
-    void sendSetRightSavePath(QString);
+    void sendSetLeftMovSavePath(QString);
+    void sendSetRightMovSavePath(QString);
+    void sendSetLeftPicSavePath(QString);
+    void sendSetRightPicSavePath(QString);
     void sendLeftVideoPath(QString path);
     void sendRightVideoPath(QString path);
 
 public slots:
         void receiveLeftFrame(cv::Mat leftFrame);
         void receiveRightFrame(cv::Mat rightFrame);
-        void receiveImagesPaths(QString leftPath, QString rightPath);
+        void receiveLeftImagePath(QString leftPath);
+        void receiveRightImagePath(QString rightPath);
         void receiveLeftMoviePath(QString leftPath);
         void receiveRightMoviePath(QString leftPath);
 
@@ -43,7 +46,7 @@ private slots:
 private:
     Ui::widgetRecord *ui;
     QThread *threadRecord;
-    PictureTaker *pictureTaker;
+    PictureTaker *leftPictureTaker, *rightPictureTaker;
     VideoWriter *leftVideoWriter, *rightVideoWriter;
 };
 

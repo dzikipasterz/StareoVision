@@ -11,11 +11,21 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     threadSourceReader(nullptr),
     threadRectifier(nullptr),
     threadStereoMatcher(nullptr),
-    isVideo(false)
+    isVideo(false),
+    mode(fromRaw)
 {
     ui->setupUi(this);
+    //store app settings ref
     settings = sett;
 
+    //setup GUI
+    ui->labelLeftDisplay->setScaledContents(true);
+    ui->labelRightDisplay->setScaledContents(true);
+    ui->pushButtonStart->setText("Start");
+    ui->pushButtonStart->toggled(false);
+    ui->comboBoxMode
+
+    //setup depthDisplay widget
     connect(depthDisplay, SIGNAL(sendDistance(double)), this, SLOT(receiveDistance(double)));
     connect(depthDisplay, SIGNAL(sendCoords(int, int)), this, SLOT(receiveCoords(int,int)));
     connect(depthDisplay, SIGNAL(sendFPS(double)), this, SLOT(receiveFPS(double)));
@@ -24,15 +34,13 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     depthDisplay->setFrameShape(QFrame::Box);
     depthDisplay->setScaledContents(true);
     depthDisplay->setDispToDistMat(settings->readDispToDepthMap());
-    ui->labelLeftDisplay->setScaledContents(true);
-    ui->labelRightDisplay->setScaledContents(true);
-    ui->pushButtonStart->setText("Start");
-    ui->pushButtonStart->toggled(false);
+
 }
 
 
 widgetMeasOffline::~widgetMeasOffline()
 {
+    //safely stop running threads, delete GUI and close opened file references
     stopThreads();
     delete ui;
     delete depthDisplay;
@@ -41,30 +49,29 @@ widgetMeasOffline::~widgetMeasOffline()
 
 void widgetMeasOffline::setupMeasurement()
 {
+    //stop all curently running threads
     stopThreads();
 
+    //create threads for workers
     threadSourceReader = new QThread();
     threadRectifier = new QThread();
     threadStereoMatcher = new QThread();
 
-    QString leftExt = leftSourcePath.split(".").at(1);
-    QString rightExt = rightSourcePath.split(".").at(1);
+    //----------------------------------------------------------------------------------------------------------------
 
-    if((leftExt == rightExt) && (leftExt == "avi"))
-    {
-        sourceReader = new VideoReader();
-        isVideo = true;
-    }
-    else if((leftExt == rightExt) && (leftExt == "jpg"))
-    {
-        sourceReader = new ImageReader();
-        isVideo = false;
-    }
-
+    setupSourceReader();
+    //set sourceReader's files to read
     sourceReader->setSourcePaths(ui->labelSourceLeft->text(), ui->labelSourceRight->text());
+
+    //----------------------------------------------------------------------------------------------------------------
+
+    //setup rectifier
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
 
+    //----------------------------------------------------------------------------------------------------------------
+
+    //setup stereoMatcher according to selected algorithm
     switch(settings->readAlgorithm())
     {
         case Algorithm::BM_cpu:
@@ -88,17 +95,30 @@ void widgetMeasOffline::setupMeasurement()
         break;
     }
 
+    //----------------------------------------------------------------------------------------------------------------
+
+    //threads <---------> workers
     connect(threadSourceReader, SIGNAL(finished()), sourceReader, SLOT(deleteLater()));
     connect(threadRectifier, SIGNAL(finished()), rectifier, SLOT(deleteLater()));
     connect(threadStereoMatcher, SIGNAL(finished()), stereoMatcher, SLOT(deleteLater()));
 
+    //----------------------------------------------------------------------------------------------------------------
+
+    //this <-------> sourceReader
     connect(this, SIGNAL(sendStartMeas()), sourceReader, SLOT(receiveStart()));
     connect(this, SIGNAL(sendStopMeas()), sourceReader, SLOT(receiveStop()));
+
+    //image processing chain: sourceReader ---> rectifier ---> stereoMatcher ---> this
     connect(sourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), rectifier, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
     connect(stereoMatcher, SIGNAL(sendDisparity(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparity(cv::Mat, cv::Mat, cv::Mat)));
+
+    //feedback to sourceReader about finished job
     connect(stereoMatcher, SIGNAL(sendJobDone()), sourceReader, SLOT(receiveJobDone()));
 
+    //----------------------------------------------------------------------------------------------------------------
+
+    //move workers to threads and start
     sourceReader->moveToThread(threadSourceReader);
     rectifier->moveToThread(threadRectifier);
     stereoMatcher->moveToThread(threadStereoMatcher);
@@ -108,6 +128,40 @@ void widgetMeasOffline::setupMeasurement()
     threadSourceReader->start();
 
     emit sendStartMeas();
+}
+
+void widgetMeasOffline::readDisparity()
+{
+    //stop all curently running threads
+    stopThreads();
+
+    //setup source reader
+    threadSourceReader = new QThread();
+    setupSourceReader();
+
+    //connect signals and slots
+    connect(threadSourceReader, SIGNAL(finished()), sourceReader, SLOT(deleteLater()));
+    connect(threadSourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), this, SLOT(receiveDisparity(cv::Mat)));
+    connect(this, SIGNAL(sendStartMeas()), sourceReader, SLOT(receiveStart()));
+    connect(this, SIGNAL(sendStopMeas()), sourceReader, SLOT(receiveStop()));
+}
+
+void widgetMeasOffline::setupSourceReader()
+{
+    //check source files extensions and run correct source reader
+    QString leftExt = leftSourcePath.split(".").at(1);
+    QString rightExt = rightSourcePath.split(".").at(1);
+
+    if((leftExt == rightExt) && (leftExt == "avi"))
+    {
+        sourceReader = new VideoReader();
+        isVideo = true;
+    }
+    else if((leftExt == rightExt) && (leftExt == "jpg"))
+    {
+        sourceReader = new ImageReader();
+        isVideo = false;
+    }
 }
 
 void widgetMeasOffline::stopThreads()
@@ -136,9 +190,10 @@ void widgetMeasOffline::stopThreads()
 
 void widgetMeasOffline::openFile()
 {
-    closeFile();
+    closeFile(); //close curently opened references
     writeToFile = true;
 
+    //create new file with name including current timestamp
     QDateTime currentTime = QDateTime::currentDateTime();
     QString filename = settings->readResultsDir().append(currentTime.toString("yyyyMMdd_hhmmss").append("_distance.csv"));
     results.setFileName(filename);
@@ -160,13 +215,28 @@ void widgetMeasOffline::closeFile()
     }
 }
 
+
 void widgetMeasOffline::receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity)
 {
+    //display disparity map
     displayDisparity(disparity, depthDisplay);
-    displayFrame(leftFrameRaw, ui->labelLeftDisplay);
-    displayFrame(rightFrameRaw, ui->labelRightDisplay);
+
+    //if disparity has been calculated from raw images, show them. If it comes from a file with disparity already
+    //calculated - do not do anything
+
+    switch(mode)
+    {
+        case fromRaw:
+            displayFrame(leftFrameRaw, ui->labelLeftDisplay);
+            displayFrame(rightFrameRaw, ui->labelRightDisplay);
+            break;
+
+        case fromFile:
+            break;
+    }
 }
 
+//receive distance from currently chosen point on depthDisplay
 void widgetMeasOffline::receiveDistance(double distance)
 {
     ui->doubleSpinBoxDistance->setValue(distance);
@@ -176,17 +246,21 @@ void widgetMeasOffline::receiveDistance(double distance)
     }
 }
 
+//receive FPS from depthDisplay
 void widgetMeasOffline::receiveFPS(double fps)
 {
     FPS = fps;
     ui->doubleSpinBoxFPS->setValue(fps);
 }
+
+//receive coords (in pixels of not-scaled disparity map) of currently chosen point.
 void widgetMeasOffline::receiveCoords(int x, int y)
 {
     ui->spinBoxX->setValue(x);
     ui->spinBoxY->setValue(y);
 }
 
+//change source of left image/video
 void widgetMeasOffline::on_pushButtonLeftSource_clicked()
 {
     leftSourcePath = QFileDialog::getOpenFileName(nullptr, "Wybierz źródło lewego obrazu", lastPath);
@@ -194,6 +268,7 @@ void widgetMeasOffline::on_pushButtonLeftSource_clicked()
     lastPath = leftSourcePath;
 }
 
+//change source of right image/video
 void widgetMeasOffline::on_pushButtonRightSource_clicked()
 {
     rightSourcePath = QFileDialog::getOpenFileName(nullptr, "Wybierz źródło prawego obrazu", lastPath);
@@ -201,16 +276,19 @@ void widgetMeasOffline::on_pushButtonRightSource_clicked()
     lastPath = rightSourcePath;
 }
 
+//change x coordinate of point chosen in depthDisplay
 void widgetMeasOffline::on_spinBoxX_valueChanged(int x)
 {
     emit sendCoords(x, ui->spinBoxY->value());
 }
 
+//change y coordinate of point chosen in depthDisplay
 void widgetMeasOffline::on_spinBoxY_valueChanged(int y)
 {
     emit sendCoords(ui->spinBoxX->value(), y);
 }
 
+//start/stop writing distance and fps to a file
 void widgetMeasOffline::on_pushButtonWrite_toggled(bool write)
 {
     if(write)
@@ -221,12 +299,26 @@ void widgetMeasOffline::on_pushButtonWrite_toggled(bool write)
 
 }
 
+//start/stop a measurement
 void widgetMeasOffline::on_pushButtonStart_toggled(bool checked)
 {
+
     if(checked)
     {
-        setupMeasurement();
+        switch(mode)
+        {
+        //if input files are contain non-processed image
+        case fromRaw:
+            setupMeasurement();
+            break;
 
+        //if input file contains disparity map
+        case fromFile:
+            readDisparity();
+            break;
+        }
+
+        //change boolean text to "Stop" if a video has been launched. Otherwise (image) untoggle the button.
         if(isVideo) ui->pushButtonStart->setText("Stop");
         else ui->pushButtonStart->toggled(false);
     }
@@ -236,4 +328,9 @@ void widgetMeasOffline::on_pushButtonStart_toggled(bool checked)
         emit sendStopMeas();
         ui->pushButtonStart->setText("Start");
     }
+}
+
+void widgetMeasOffline::on_comboBox_activated(int index)
+{
+    mode = (disparityMode)index;
 }

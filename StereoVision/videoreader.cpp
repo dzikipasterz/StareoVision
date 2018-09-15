@@ -1,15 +1,27 @@
 #include "videoreader.h"
 
-VideoReader::VideoReader() :
+
+VideoReader::VideoReader(videoReaderMode videoMode) :
     end(false)
 {
-
+    mode = videoMode;
 }
 
 VideoReader::~VideoReader()
 {
-    delete leftCap;
-    delete rightCap;
+    switch (mode)
+    {
+    case stereo:
+        delete leftCap;
+        delete rightCap;
+        break;
+
+    case mono:
+        delete leftCap;
+        break;
+
+    }
+
     timer->receivePause();
     delete timer;
 }
@@ -21,8 +33,14 @@ void VideoReader::receiveTimeout()
 
 void VideoReader::executeStart()
 {
-    leftCap = new cv::VideoCapture(leftSourcePath.toUtf8().constData());
-    rightCap = new cv::VideoCapture(rightSourcePath.toUtf8().constData());
+    switch(mode)
+    {
+    case stereo:
+        rightCap = new cv::VideoCapture(rightSourcePath.toUtf8().constData());
+    case mono:
+        leftCap = new cv::VideoCapture(leftSourcePath.toUtf8().constData());
+    }
+
     startTimer();
 }
 
@@ -58,19 +76,41 @@ void VideoReader::startTimer()
 void VideoReader::grabFrames()
 {
     cv::Mat leftFrame, rightFrame, leftGray, rightGray;
-    (*leftCap) >> leftFrame;
-    (*rightCap) >> rightFrame;
 
-    if(leftFrame.empty() || rightFrame.empty())
+    switch (mode)
     {
-        end = true;
-        timer->receivePause();
-        emit sendEnd();
-    }
-    else
-    {
-        cv::cvtColor(leftFrame, leftGray, CV_BGR2GRAY);
-        cv::cvtColor(rightFrame, rightGray, CV_BGR2GRAY);
-        emit sendFrames(leftGray, rightGray);
+    case stereo:
+        (*leftCap) >> leftFrame;
+        (*rightCap) >> rightFrame;
+
+        if(leftFrame.empty() || rightFrame.empty())
+        {
+            end = true;
+            timer->receivePause();
+            emit sendEnd();
+        }
+        else
+        {
+            cv::cvtColor(leftFrame, leftGray, CV_BGR2GRAY);
+            cv::cvtColor(rightFrame, rightGray, CV_BGR2GRAY);
+            emit sendFrames(leftGray, rightGray);
+        }
+
+        break;
+    case mono:
+        (*leftCap) >> leftFrame;
+
+        if(leftFrame.empty())
+        {
+            end = true;
+            timer->receivePause();
+            emit sendEnd();
+        }
+        else
+        {
+            cv::cvtColor(leftFrame, leftGray, CV_BGR2GRAY);
+            emit sendFrames(leftGray, rightGray);
+        }
+        break;
     }
 }

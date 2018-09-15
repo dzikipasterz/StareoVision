@@ -1,11 +1,11 @@
 #include "stereocamera.h"
 
-stereoCamera::stereoCamera(QObject *parent) :
-    QObject(parent),
+stereoCamera::stereoCamera(cameraMode mode) :
     retryFlag(false)
 {
     leftCamera = new camera();
     rightCamera = new camera();
+    framesMode = mode;
     connect(this, SIGNAL(sendRetrySetup()), this, SLOT(receiveRetrySetup()), Qt::QueuedConnection);
 }
 
@@ -54,8 +54,17 @@ void stereoCamera::receiveGrabFrame()
     cv::Mat rightFrame = rightCamera->grabFrame();
     if(!(leftFrame.empty() || rightFrame.empty()))
     {
-        emit sendLeftFrame(leftFrame);
-        emit sendRightFrame(rightFrame);
+        switch(framesMode)
+        {
+            case singleFrames:
+                emit sendLeftFrame(leftFrame);
+                emit sendRightFrame(rightFrame);
+                break;
+
+            case doubleFrames:
+                emit sendFrames(leftFrame, rightFrame);
+                break;
+        }
     }
         emit sendJobDone();
 }

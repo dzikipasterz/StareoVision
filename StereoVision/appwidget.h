@@ -36,7 +36,7 @@ protected:
     void startTimer();
     void pauseTimer();
     void resumeTimer();
-    void initCamera(const int leftCameraId = 0, const int rightCameraId = 1);
+    void initCamera(const int leftCameraId = 0, const int rightCameraId = 1, cameraMode mode = cameraMode::doubleFrames);
     void startCamera();
 
 private:
