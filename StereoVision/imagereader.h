@@ -6,7 +6,7 @@
 class ImageReader : public SourceReader
 {
 public:
-    ImageReader();
+    ImageReader(SourceReaderMode mode=stereo);
 
 protected:
     void executeStart() override;

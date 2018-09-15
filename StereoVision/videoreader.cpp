@@ -1,7 +1,7 @@
 #include "videoreader.h"
 
 
-VideoReader::VideoReader(videoReaderMode videoMode) :
+VideoReader::VideoReader(SourceReaderMode videoMode) :
     end(false)
 {
     mode = videoMode;
@@ -109,7 +109,7 @@ void VideoReader::grabFrames()
         else
         {
             cv::cvtColor(leftFrame, leftGray, CV_BGR2GRAY);
-            emit sendFrames(leftGray, rightGray);
+            emit sendFrame(leftGray);
         }
         break;
     }

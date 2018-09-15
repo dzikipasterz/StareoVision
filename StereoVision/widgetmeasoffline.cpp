@@ -23,7 +23,8 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     ui->labelRightDisplay->setScaledContents(true);
     ui->pushButtonStart->setText("Start");
     ui->pushButtonStart->toggled(false);
-    ui->comboBoxMode
+    ui->comboBoxMode->addItem("Para obrazów stereoskopowych");
+    ui->comboBoxMode->addItem("Mapa dysparycji");
 
     //setup depthDisplay widget
     connect(depthDisplay, SIGNAL(sendDistance(double)), this, SLOT(receiveDistance(double)));
@@ -111,7 +112,7 @@ void widgetMeasOffline::setupMeasurement()
     //image processing chain: sourceReader ---> rectifier ---> stereoMatcher ---> this
     connect(sourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), rectifier, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
-    connect(stereoMatcher, SIGNAL(sendDisparity(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparity(cv::Mat, cv::Mat, cv::Mat)));
+    connect(stereoMatcher, SIGNAL(sendDisparity(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparityAndRaw(cv::Mat, cv::Mat, cv::Mat)));
 
     //feedback to sourceReader about finished job
     connect(stereoMatcher, SIGNAL(sendJobDone()), sourceReader, SLOT(receiveJobDone()));
@@ -141,7 +142,7 @@ void widgetMeasOffline::readDisparity()
 
     //connect signals and slots
     connect(threadSourceReader, SIGNAL(finished()), sourceReader, SLOT(deleteLater()));
-    connect(threadSourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), this, SLOT(receiveDisparity(cv::Mat)));
+    connect(threadSourceReader, SIGNAL(sendFrames(cv::Mat)), this, SLOT(receiveDisparity(cv::Mat))); //todo!
     connect(this, SIGNAL(sendStartMeas()), sourceReader, SLOT(receiveStart()));
     connect(this, SIGNAL(sendStopMeas()), sourceReader, SLOT(receiveStop()));
 }
@@ -154,12 +155,12 @@ void widgetMeasOffline::setupSourceReader()
 
     if((leftExt == rightExt) && (leftExt == "avi"))
     {
-        sourceReader = new VideoReader();
+        sourceReader = new VideoReader(SourceReaderMode(mode));
         isVideo = true;
     }
     else if((leftExt == rightExt) && (leftExt == "jpg"))
     {
-        sourceReader = new ImageReader();
+        sourceReader = new ImageReader(SourceReaderMode(mode));
         isVideo = false;
     }
 }
@@ -216,7 +217,7 @@ void widgetMeasOffline::closeFile()
 }
 
 
-void widgetMeasOffline::receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity)
+void widgetMeasOffline::receiveDisparityAndRaw(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity)
 {
     //display disparity map
     displayDisparity(disparity, depthDisplay);
@@ -234,6 +235,11 @@ void widgetMeasOffline::receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFram
         case fromFile:
             break;
     }
+}
+
+void widgetMeasOffline::receiveDisparity(cv::Mat disparity)
+{
+    displayDisparity(disparity, depthDisplay);
 }
 
 //receive distance from currently chosen point on depthDisplay

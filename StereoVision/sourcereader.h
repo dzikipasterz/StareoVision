@@ -7,16 +7,20 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/imgcodecs.hpp>
 
+
+enum SourceReaderMode {stereo, mono};
+
 class SourceReader : public QObject
 {
     Q_OBJECT
 public:
     explicit SourceReader(QObject *parent = nullptr);
 
-    void setSourcePaths(QString leftSource, QString rightSource);
+    void setSourcePaths(QString leftSource, QString rightSource="");
 
 signals:
     void sendFrames(cv::Mat leftFrame, cv::Mat rightFrame);
+    void sendFrame(cv::Mat frame);
 
 public slots:
     void receiveStart();
@@ -35,6 +39,7 @@ protected:
 protected:
     QString leftSourcePath;
     QString rightSourcePath;
+    SourceReaderMode mode;
 };
 
 #endif // SOURCEREADER_H

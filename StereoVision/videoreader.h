@@ -4,13 +4,12 @@
 #include <sourcereader.h>
 #include <timerregulator.h>
 
-enum videoReaderMode {stereo, mono};
 
 class VideoReader : public SourceReader
 {
     Q_OBJECT
 public:
-    VideoReader(videoReaderMode videoMode=stereo);
+    VideoReader(SourceReaderMode videoMode=stereo);
     ~VideoReader() override;
 
 signals:
@@ -30,7 +29,6 @@ private:
     timerRegulator *timer;
     cv::VideoCapture *leftCap, *rightCap;
     bool end;
-    videoReaderMode mode;
 
     void startTimer();
     void grabFrames();

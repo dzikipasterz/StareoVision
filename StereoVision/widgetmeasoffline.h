@@ -40,7 +40,8 @@ signals:
     void sendCoords(int x, int y);
 
 public slots:
-    void receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
+    void receiveDisparityAndRaw(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
+    void receiveDisparity(cv::Mat disparity);
     void receiveDistance(double distance);
     void receiveCoords(int x, int y);
     void receiveFPS(double fps);
@@ -58,7 +59,7 @@ private slots:
 
     void on_pushButtonStart_toggled(bool checked);
 
-    void on_comboBox_activated(int index);
+    void on_comboBoxMode_activated(int index);
 
 private:
     Ui::widgetMeasOffline *ui;
