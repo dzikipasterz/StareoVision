@@ -7,11 +7,17 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
     threadStereoMatcher(nullptr),
     writeToFile(false)
 {
-    ui->setupUi(this);
+
     settings = sett;
 
+    //setup GUI
+    ui->setupUi(this);
     ui->labelLeftDisplay->setScaledContents(true);
     ui->labelRightDisplay->setScaledContents(true);
+
+    //------------------------------------------------------------------------------------------------------------------------
+
+    //setup disparity display, connect slots and signals
     disparityDisplay = new DepthDisplay();
     disparityDisplay->setScaledContents(true);
     disparityDisplay->setDispToDistMat(settings->readDispToDepthMap());
@@ -23,14 +29,23 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
 
     ui->gridLayoutMain->addWidget(disparityDisplay,0,0);
 
+    //------------------------------------------------------------------------------------------------------------------------
+
+    //init basic elements of AppWidget - timer and camera.
     AppWidget::initTimer();
     AppWidget::initCamera(settings->readLeftCameraId(), settings->readRightCameraId());
 
-    threadRectifier = new QThread();
-    threadStereoMatcher = new QThread();
+    //------------------------------------------------------------------------------------------------------------------------
 
+    //setup rectifier
+    threadRectifier = new QThread();
     rectifier = new Rectifier();
     rectifier->setCalibrationFile(settings->readCalibFilePath());
+
+    //------------------------------------------------------------------------------------------------------------------------
+
+    //setup stereomatcher
+    threadStereoMatcher = new QThread();
 
     switch(settings->readAlgorithm())
     {
@@ -55,28 +70,41 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
         break;
     }
 
+    //------------------------------------------------------------------------------------------------------------------------
+
+    //connect signals and slots
+
+    //image process chain camera -> rectifier -> stereomatcher -> this
     connect(AppWidget::camera,SIGNAL(sendFrames(cv::Mat, cv::Mat)),rectifier,SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
     connect(stereoMatcher, SIGNAL(sendDisparity(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparity(cv::Mat, cv::Mat, cv::Mat)));
-    connect(stereoMatcher, SIGNAL(sendJobDone()), AppWidget::intervalRegulator, SLOT(receiveJobDone()));
 
+    //end signals of threads ---> workers
     connect(threadRectifier, SIGNAL(finished()), rectifier, SLOT(deleteLater()));
     connect(threadStereoMatcher, SIGNAL(finished()), stereoMatcher, SLOT(deleteLater()));
 
+    //feedback from stereomatcher to intervalRegulator about finished job (processed one pair of frames)
+    connect(stereoMatcher, SIGNAL(sendJobDone()), AppWidget::intervalRegulator, SLOT(receiveJobDone()));
+
+    //move workers to threads and start
     rectifier->moveToThread(threadRectifier);
     stereoMatcher->moveToThread(threadStereoMatcher);
     threadRectifier->start();
     threadStereoMatcher->start();
+
+    //start camera and timer
     AppWidget::startCamera();
     AppWidget::startTimer();
 }
 
 widgetMeasOnline::~widgetMeasOnline()
 {
+    //safely remove disparityDisplay from UI and then delete UI and display
     ui->gridLayoutMain->removeWidget(disparityDisplay);
     delete ui;
     delete disparityDisplay;
 
+    //stop threads if initialized
     if(threadRectifier != nullptr)
     {
         threadRectifier->quit();

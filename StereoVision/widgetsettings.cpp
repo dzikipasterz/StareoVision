@@ -4,10 +4,10 @@
 widgetSettings::widgetSettings(AppSettings *sett) :
     ui(new Ui::widgetSettings)
 {
-    //AppWidget
+    //store reference to application settings
     settings = sett;
 
-    //widgetSettings
+    //setup UI
     ui->setupUi(this);
     ui->leftCamera->setScaledContents(true);
     ui->rightCamera->setScaledContents(true);
@@ -18,6 +18,7 @@ widgetSettings::widgetSettings(AppSettings *sett) :
     ui->labelCalibFilesDir->setText(settings->readCalibFilesDir());
     ui->labelCalibFile->setText(settings->readCalibFilePath());
 
+    //fill comboBox with algorithms names
     QStringList algorithms;
     algorithms.append("Block Matching (CPU)");
     algorithms.append("Block Matching (GPU)");
@@ -25,17 +26,19 @@ widgetSettings::widgetSettings(AppSettings *sett) :
     algorithms.append("Belief Propagation (GPU)");
     algorithms.append("Constant Space Belief Propagation (GPU)");
     ui->comboBoxAlgorithm->addItems(algorithms);
+    ui->comboBoxAlgorithm->setCurrentIndex(int(settings->readAlgorithm()));
 
-    ui->comboBoxAlgorithm->setCurrentIndex((int)settings->readAlgorithm());
-
+    //init basic elements of AppWidget
     AppWidget::initTimer();
     AppWidget::initCamera(settings->readLeftCameraId(), settings->readRightCameraId());
 
+    //connect this <-------> camera, camera -----> intervalRegulator
     connect(this,SIGNAL(sendStereoCameraSetup(const int, const int)),AppWidget::camera,SLOT(receiveSetup(const int, const int)));
     connect(AppWidget::camera,SIGNAL(sendCameraStatus(bool, bool)),this,SLOT(receiveCameraStatus(bool, bool)));
     connect(AppWidget::camera,SIGNAL(sendFrames(cv::Mat, cv::Mat)),this,SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(AppWidget::camera, SIGNAL(sendJobDone()), AppWidget::intervalRegulator, SLOT(receiveJobDone()));
 
+    //start camera and timer
     AppWidget::startCamera();
     AppWidget::startTimer();
 }
@@ -134,5 +137,5 @@ void widgetSettings::on_pushButtonSelectCalibDir_clicked()
 
 void widgetSettings::on_comboBoxAlgorithm_activated(int index)
 {
-    settings->setAlgorithm((Algorithm)index);
+    settings->setAlgorithm(Algorithm(index));
 }

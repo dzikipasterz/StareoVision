@@ -28,7 +28,6 @@ SOURCES += \
     info.cpp \
     window_geometry.cpp \
     closeconfirm.cpp \
-    widgetmeasurement.cpp \
     widgetsettings.cpp \
     widgetcalibration.cpp \
     timerregulator.cpp \
@@ -63,7 +62,6 @@ HEADERS += \
     info.h \
     window_geometry.h \
     closeconfirm.h \
-    widgetmeasurement.h \
     widgetsettings.h \
     widgetcalibration.h \
     timerregulator.h \
