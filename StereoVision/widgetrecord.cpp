@@ -144,7 +144,7 @@ void widgetRecord::on_pushButtonTakePicture_clicked()
 {
     //create file name with current timestamp
     QDateTime time = QDateTime::currentDateTime();
-    QString timeString = time.toString("yyyymmdd_hhmmss_");
+    QString timeString = time.toString("yyyyMMdd_hhmmss_");
     QString leftPath = settings->readPictSavePath();
     leftPath = leftPath.append(timeString).append("L.jpg");
     QString rightPath = settings->readPictSavePath();
@@ -165,7 +165,7 @@ void widgetRecord::on_pushButtonMakeMovie_toggled(bool checked)
 
         //create file name (path) with current timestamp
         QDateTime time = QDateTime::currentDateTime();
-        QString timeString = time.toString("yyyymmdd_hhmmss_");
+        QString timeString = time.toString("yyyyMMdd_hhmmss_");
         QString leftPath = settings->readMovFilesDir();
         leftPath = leftPath.append(timeString).append("L.avi");
         QString rightPath = settings->readMovFilesDir();

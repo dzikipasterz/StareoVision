@@ -19,7 +19,13 @@ protected:
     void executeReceiveFrame(cv::Mat frame) override;
     void executeReceiveStartWriting() override;
     void executeReceiveStopWriting() override;
+    void executeReceiveFrameSize(cv::Size size) override;
 
+signals:
+    void sendOpenRetry();
+
+private slots:
+    void receiveOpenRetry();
 
 private:
     cv::VideoWriter *cap;

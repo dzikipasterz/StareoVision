@@ -1,4 +1,4 @@
-﻿#include "widgetdisparity.h"
+#include "widgetdisparity.h"
 #include "ui_widgetdisparity.h"
 
 WidgetDisparity::WidgetDisparity(AppSettings *sett) :
@@ -32,18 +32,16 @@ void WidgetDisparity::on_pushButtonSource_clicked()
     {
         dir.append("/");
         lastDir = dir;
-        sourcesDir = dir;
         ui->labelSourcesDir->setText(dir);
     }
-
 }
 
 //select a directory to save disparity images / videos
 void WidgetDisparity::on_pushButtonResults_clicked()
 {
     QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla wyników", lastDir,QFileDialog::ShowDirsOnly);
+    dir.append("/");
     lastDir = dir;
-    resultsDir = dir;
     ui->labelResultsDir->setText(dir);
 }
 
@@ -51,7 +49,7 @@ void WidgetDisparity::on_pushButtonResults_clicked()
 void WidgetDisparity::on_pushButtonStart_clicked()
 {
     status = "";
-    dir = ui->labelSourcesDir->text();
+    sourcesDir = ui->labelSourcesDir->text();
 
     QDir directory(ui->labelSourcesDir->text());
     QStringList filter;
@@ -61,16 +59,15 @@ void WidgetDisparity::on_pushButtonStart_clicked()
     directory.setSorting(QDir::Name);
     QStringList files = directory.entryList();
 
+    filesVector.clear();
+
     for(int i = 0; i < files.size(); i++)
     {
         filesVector.push_back(files.at(i));
     }
 
-    filesVector.clear();
     iter = filesVector.begin();
-
     grabNextFiles();
-
 }
 
 void WidgetDisparity::stopThreads()
@@ -107,16 +104,19 @@ void WidgetDisparity::stopThreads()
 
 void WidgetDisparity::grabNextFiles()
 {
+    sourcesDir = ui->labelSourcesDir->text();
+    resultsDir = ui->labelResultsDir->text();
+
+    leftSource = sourcesDir;
+    rightSource = sourcesDir;
+    leftSource = leftSource.append(*iter);
     iter++;
-    leftSource = dir.append(*iter);
+    rightSource = rightSource.append(*iter);
     iter++;
-    rightSource = dir.append(*iter);
 
     QDateTime currentTime = QDateTime::currentDateTime();
     status.append(currentTime.toString("[hh:mm:ss] ")).append("Analizowany plik ").append(leftSource).append("\n");
     status.append(currentTime.toString("[hh:mm:ss] ")).append("Analizowany plik ").append(rightSource).append("\n");
-    ui->textBrowserStatus->setText(status);
-    ui->textBrowserStatus->moveCursor(QTextCursor::End);
 
     stopThreads();
 
@@ -139,6 +139,15 @@ void WidgetDisparity::grabNextFiles()
         fileWriter = new ImageWriter();
         isVideo = false;
     }
+
+    sourceReader->setSourcePaths(leftSource, rightSource);
+
+    QString disparityFile = resultsDir;
+    disparityFile = disparityFile.append(currentTime.toString("yyyyMMdd_hhmmss_")).append("disparity.").append(leftExt);
+    fileWriter->receiveSetSavePath(disparityFile);
+    status.append((currentTime.toString("[hh:mm:ss] ")).append("Wynikowy plik ").append(disparityFile).append("\n"));
+    ui->textBrowserStatus->setText(status);
+    ui->textBrowserStatus->moveCursor(QTextCursor::End);
 
     //setup rectifier
     threadRectifier = new QThread();
@@ -182,7 +191,41 @@ void WidgetDisparity::grabNextFiles()
 
     //image processing chain: sourceReader ---> rectifier ---> stereoMatcher ---> fileWriter
     connect(sourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), rectifier, SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    connect(sourceReader, SIGNAL(sendFrameSize(cv::Size)), fileWriter, SLOT(receiveFrameSize(cv::Size)), Qt::DirectConnection);
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
     connect(stereoMatcher, SIGNAL(sendDisparity(cv::Mat)), fileWriter, SLOT(receiveFrame(cv::Mat)));
     connect(fileWriter, SIGNAL(sendJobDone()), sourceReader, SLOT(receiveJobDone()));
+
+    //start signal
+    connect(this, SIGNAL(sendStartProcessing()), fileWriter, SLOT(receiveStartWriting()));
+
+    //end signal
+    connect(sourceReader, SIGNAL(sendEnd()), this, SLOT(receiveEnd()));
+    connect(sourceReader, SIGNAL(sendEnd()), fileWriter, SLOT(receiveStopWriting()), Qt::DirectConnection);
+
+    //move workers to threads and start
+    sourceReader->moveToThread(threadSourceReader);
+    rectifier->moveToThread(threadRectifier);
+    stereoMatcher->moveToThread(threadStereoMatcher);
+    fileWriter->moveToThread(threadFileWriter);
+
+    threadFileWriter->start();
+    threadStereoMatcher->start();
+    threadRectifier->start();
+    threadSourceReader->start();
+
+
+    emit sendStartProcessing();
+}
+
+void WidgetDisparity::receiveEnd()
+{
+    if(iter != filesVector.end()) grabNextFiles();
+    else
+    {
+        QDateTime currentTime = QDateTime::currentDateTime();
+        status.append(currentTime.toString("[hh:mm:ss] ")).append("Zakończono przetwarzanie. \n");
+        ui->textBrowserStatus->setText(status);
+        stopThreads();
+    }
 }

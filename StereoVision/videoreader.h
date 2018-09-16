@@ -27,6 +27,7 @@ private:
     cv::VideoCapture *leftCap, *rightCap;
     int sentFramesCounter, jobsDoneCounter;
     bool end;
+    bool sizeSent;
 
     void startTimer();
     void grabFrames();

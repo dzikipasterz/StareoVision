@@ -27,6 +27,12 @@ void FileWriter::receiveSetSavePath(QString path)
     savePath = path;
 }
 
+void FileWriter::receiveFrameSize(cv::Size size)
+{
+    executeReceiveFrameSize(size);
+}
+
 void FileWriter::executeReceiveFrame(cv::Mat){};
 void FileWriter::executeReceiveStartWriting(){};
 void FileWriter::executeReceiveStopWriting(){};
+void FileWriter::executeReceiveFrameSize(cv::Size){};

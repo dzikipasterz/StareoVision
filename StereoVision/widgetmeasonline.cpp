@@ -77,7 +77,7 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
     //image process chain camera -> rectifier -> stereomatcher -> this
     connect(AppWidget::camera,SIGNAL(sendFrames(cv::Mat, cv::Mat)),rectifier,SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
-    connect(stereoMatcher, SIGNAL(sendDisparity(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparity(cv::Mat, cv::Mat, cv::Mat)));
+    connect(stereoMatcher, SIGNAL(sendDisparityAndRaw(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparity(cv::Mat, cv::Mat, cv::Mat)));
 
     //end signals of threads ---> workers
     connect(threadRectifier, SIGNAL(finished()), rectifier, SLOT(deleteLater()));

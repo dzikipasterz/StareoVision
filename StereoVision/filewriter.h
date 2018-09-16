@@ -21,12 +21,14 @@ public slots:
     void receiveStartWriting();
     void receiveStopWriting();
     void receiveSetSavePath(QString path);
+    void receiveFrameSize(cv::Size size);
 
 protected:
     QString savePath;
     void virtual executeReceiveFrame(cv::Mat frame)=0;
     void virtual executeReceiveStartWriting();
     void virtual executeReceiveStopWriting();
+    void virtual executeReceiveFrameSize(cv::Size);
 
 };
 

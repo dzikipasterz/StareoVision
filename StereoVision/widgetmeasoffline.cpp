@@ -76,7 +76,7 @@ void widgetMeasOffline::setupMeasurement()
     switch(settings->readAlgorithm())
     {
         case Algorithm::BM_cpu:
-            stereoMatcher = new StereoBMcpu;
+            stereoMatcher = new StereoBMcpu();
         break;
 
         case Algorithm::BM_cuda:
@@ -112,7 +112,7 @@ void widgetMeasOffline::setupMeasurement()
     //image processing chain: sourceReader ---> rectifier ---> stereoMatcher ---> this
     connect(sourceReader, SIGNAL(sendFrames(cv::Mat, cv::Mat)), rectifier, SLOT(receiveFrames(cv::Mat, cv::Mat)));
     connect(rectifier, SIGNAL(sendFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)), stereoMatcher, SLOT(receiveFrames(cv::Mat, cv::Mat, cv::Mat, cv::Mat)));
-    connect(stereoMatcher, SIGNAL(sendDisparity(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparityAndRaw(cv::Mat, cv::Mat, cv::Mat)));
+    connect(stereoMatcher, SIGNAL(sendDisparityAndRaw(cv::Mat, cv::Mat, cv::Mat)), this, SLOT(receiveDisparityAndRaw(cv::Mat, cv::Mat, cv::Mat)));
 
     //feedback to sourceReader about finished job
     connect(stereoMatcher, SIGNAL(sendJobDone()), sourceReader, SLOT(receiveJobDone()));

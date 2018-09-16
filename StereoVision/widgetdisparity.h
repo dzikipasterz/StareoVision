@@ -12,6 +12,11 @@
 #include <videowriter.h>
 #include <rectifier.h>
 #include <stereomatcher.h>
+#include <stereobmcpu.h>
+#include <stereosgbmcpu.h>
+#include <stereobpcuda.h>
+#include <stereocsbpcuda.h>
+#include <stereobmcuda.h>
 
 
 namespace Ui {
@@ -26,6 +31,12 @@ public:
     explicit WidgetDisparity(AppSettings *sett);
     ~WidgetDisparity();
 
+signals:
+    void sendStartProcessing();
+
+public slots:
+    void receiveEnd();
+
 private slots:
     void on_pushButtonSource_clicked();
 
@@ -36,7 +47,7 @@ private slots:
 private:
     Ui::WidgetDisparity *ui;
     QString sourcesDir, resultsDir, lastDir, status;
-    QString leftSource, rightSource, dir;
+    QString leftSource, rightSource;
     std::vector<QString> filesVector;
     std::vector<QString>::iterator iter;
     SourceReader *sourceReader;

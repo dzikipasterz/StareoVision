@@ -4,7 +4,7 @@ VideoWriter::VideoWriter() :
     cap(nullptr),
     recordFlag(false)
 {
-
+    connect(this, SIGNAL(sendOpenRetry()), this, SLOT(receiveOpenRetry()), Qt::QueuedConnection);
 }
 
 VideoWriter::~VideoWriter()
@@ -17,9 +17,12 @@ void VideoWriter::executeReceiveStartWriting()
     recordFlag = true;
 
     cap = new cv::VideoWriter();
-    cap->open(savePath.toUtf8().constData(), CV_FOURCC( 'D','I','V','X'), 24.0, frameSize, true);
 
-    if(cap->isOpened()) emit sendFilePath(savePath);
+    cap->open(savePath.toUtf8().constData(), CV_FOURCC( 'D','I','V','X'), 24.0, frameSize, true);
+    bool test = cap->isOpened();
+
+    if(test) emit sendFilePath(savePath);
+    else emit sendOpenRetry();
 }
 
 void VideoWriter::executeReceiveStopWriting()
@@ -32,6 +35,12 @@ void VideoWriter::executeReceiveFrame(cv::Mat frame)
 {
     if(recordFlag && cap->isOpened())
     {
+        if(frame.channels() == 1)
+        {
+            cv::Mat imgArr[] {frame, frame, frame};
+            cv::merge(imgArr, 3, frame);
+        }
+
         cap->write(frame);
     }
     else frameSize = frame.size();
@@ -39,8 +48,19 @@ void VideoWriter::executeReceiveFrame(cv::Mat frame)
     frame.release();
 }
 
+void VideoWriter::executeReceiveFrameSize(cv::Size size)
+{
+    frameSize = size;
+}
+
+
+void VideoWriter::receiveOpenRetry()
+{
+    executeReceiveStartWriting();
+}
 
 void VideoWriter::releaseWriter()
 {
-    if(cap != nullptr) cap->release();
+    if(cap != nullptr)
+        while(cap->isOpened())cap->release();
 }

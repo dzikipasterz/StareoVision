@@ -4,7 +4,8 @@
 VideoReader::VideoReader(SourceReaderMode videoMode) :
     sentFramesCounter(0),
     jobsDoneCounter(0),
-    end(false)
+    end(false),
+    sizeSent(false)
 {
     mode = videoMode;
 }
@@ -103,6 +104,11 @@ void VideoReader::grabFrames()
         {
             cv::cvtColor(leftFrame, leftGray, CV_BGR2GRAY);
             cv::cvtColor(rightFrame, rightGray, CV_BGR2GRAY);
+            if(!sizeSent)
+            {
+                emit sendFrameSize(cv::Size(leftGray.size()));
+                sizeSent = true;
+            }
             emit sendFrames(leftGray, rightGray);
             sentFramesCounter++;
         }
@@ -120,6 +126,11 @@ void VideoReader::grabFrames()
         else
         {
             cv::cvtColor(leftFrame, leftGray, CV_BGR2GRAY);
+            if(!sizeSent)
+            {
+                emit sendFrameSize(cv::Size(leftGray.size()));
+                sizeSent = true;
+            }
             emit sendFrame(leftGray);
             sentFramesCounter++;
         }
