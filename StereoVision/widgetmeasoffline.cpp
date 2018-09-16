@@ -62,7 +62,7 @@ void widgetMeasOffline::setupMeasurement()
 
     setupSourceReader();
     //set sourceReader's files to read
-    sourceReader->setSourcePaths(ui->labelSourceLeft->text(), ui->labelSourceRight->text());
+    //sourceReader->setSourcePaths(ui->labelSourceLeft->text(), ui->labelSourceRight->text());
 
     //----------------------------------------------------------------------------------------------------------------
 
@@ -142,26 +142,50 @@ void widgetMeasOffline::readDisparity()
 
     //connect signals and slots
     connect(threadSourceReader, SIGNAL(finished()), sourceReader, SLOT(deleteLater()));
-    connect(threadSourceReader, SIGNAL(sendFrame(cv::Mat)), this, SLOT(receiveDisparity(cv::Mat))); //todo!
+    connect(sourceReader, SIGNAL(sendFrame(cv::Mat)), this, SLOT(receiveDisparity(cv::Mat)));
     connect(this, SIGNAL(sendStartMeas()), sourceReader, SLOT(receiveStart()));
     connect(this, SIGNAL(sendStopMeas()), sourceReader, SLOT(receiveStop()));
+    connect(this, SIGNAL(sendJobDone()), sourceReader, SLOT(receiveJobDone()));
+
+    emit sendStartMeas();
 }
 
 void widgetMeasOffline::setupSourceReader()
 {
     //check source files extensions and run correct source reader
-    QString leftExt = leftSourcePath.split(".").at(1);
-    QString rightExt = rightSourcePath.split(".").at(1);
+    if(mode == fromRaw)
+    {
+        QString leftExt = leftSourcePath.split(".").at(1);
+        QString rightExt = rightSourcePath.split(".").at(1);
 
-    if((leftExt == rightExt) && (leftExt == "avi"))
-    {
-        sourceReader = new VideoReader(SourceReaderMode(mode));
-        isVideo = true;
+        if((leftExt == rightExt) && (leftExt == "avi"))
+        {
+            sourceReader = new VideoReader(SourceReaderMode(mode));
+            isVideo = true;
+        }
+        else if((leftExt == rightExt) && (leftExt == "jpg"))
+        {
+            sourceReader = new ImageReader(SourceReaderMode(mode));
+            isVideo = false;
+        }
+
+        sourceReader->setSourcePaths(leftSourcePath, rightSourcePath);
     }
-    else if((leftExt == rightExt) && (leftExt == "jpg"))
+
+    if(mode == fromFile)
     {
-        sourceReader = new ImageReader(SourceReaderMode(mode));
-        isVideo = false;
+        QString dispExt = disparityPath.split(".").at(1);
+        if(dispExt == "avi")
+        {
+            sourceReader = new VideoReader(SourceReaderMode(mode));
+            isVideo = true;
+        }
+        else if(dispExt == "jpg")
+        {
+            sourceReader = new ImageReader(SourceReaderMode(mode));
+            isVideo = false;
+        }
+        sourceReader->setSourcePaths(disparityPath);
     }
 }
 
@@ -240,6 +264,7 @@ void widgetMeasOffline::receiveDisparityAndRaw(cv::Mat leftFrameRaw, cv::Mat rig
 void widgetMeasOffline::receiveDisparity(cv::Mat disparity)
 {
     displayDisparity(disparity, depthDisplay);
+    emit sendJobDone();
 }
 
 //receive distance from currently chosen point on depthDisplay
@@ -281,6 +306,14 @@ void widgetMeasOffline::on_pushButtonRightSource_clicked()
     ui->labelSourceRight->setText(rightSourcePath);
     lastPath = rightSourcePath;
 }
+
+void widgetMeasOffline::on_pushButtonDisparity_clicked()
+{
+    disparityPath = QFileDialog::getOpenFileName(nullptr, "Wybierz mapę dysparycji", lastPath);
+    ui->labelDispSource->setText(disparityPath);
+    lastPath = disparityPath;
+}
+
 
 //change x coordinate of point chosen in depthDisplay
 void widgetMeasOffline::on_spinBoxX_valueChanged(int x)
@@ -340,3 +373,4 @@ void widgetMeasOffline::on_comboBoxMode_activated(int index)
 {
     mode = disparityMode(index);
 }
+

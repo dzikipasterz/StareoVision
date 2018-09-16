@@ -15,14 +15,14 @@ VideoReader::~VideoReader()
     switch (mode)
     {
     case stereo:
-        delete leftCap;
-        delete rightCap;
-        break;
+        //delete leftCap;
+        //delete rightCap;
+        rightCap->release();
+        //fall through
 
     case mono:
-        delete leftCap;
-        break;
-
+        //delete leftCap;
+        leftCap->release();
     }
 
     timer->receivePause();
@@ -81,7 +81,10 @@ void VideoReader::startTimer()
 
 void VideoReader::checkEnd()
 {
-    if((jobsDoneCounter == sentFramesCounter) && end) emit sendEnd();
+    if((jobsDoneCounter == sentFramesCounter) && end)
+    {
+        emit sendEnd();
+    }
 }
 
 void VideoReader::grabFrames()

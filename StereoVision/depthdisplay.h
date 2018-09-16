@@ -26,6 +26,7 @@ signals:
     void sendDistance(double distance);
     void sendCoords(int x, int y);
     void sendFPS(double fps);
+    void sendJobDone();
 
 public slots:
     void receiveCoords(int x, int y);

@@ -59,6 +59,8 @@ void DepthDisplay::setImage(QImage disparity)
     emit sendDistance(distance);
     QLabel::setPixmap(pixmapTemp);
     delete painter;
+
+    emit sendJobDone();
 }
 
 void DepthDisplay::setDispToDistMat(cv::Mat dispMap)

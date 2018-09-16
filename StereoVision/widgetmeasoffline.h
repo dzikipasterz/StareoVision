@@ -38,6 +38,7 @@ signals:
     void sendStartMeas();
     void sendStopMeas();
     void sendCoords(int x, int y);
+    void sendJobDone();
 
 public slots:
     void receiveDisparityAndRaw(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
@@ -61,11 +62,12 @@ private slots:
 
     void on_comboBoxMode_activated(int index);
 
+    void on_pushButtonDisparity_clicked();
+
 private:
     Ui::widgetMeasOffline *ui;
     DepthDisplay *depthDisplay;
-    QString leftSourcePath;
-    QString rightSourcePath;
+    QString leftSourcePath, rightSourcePath, disparityPath;
     QString lastPath;
     QFile results;
     QTextStream output;
