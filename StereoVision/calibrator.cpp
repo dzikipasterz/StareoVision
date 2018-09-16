@@ -83,6 +83,16 @@ void Calibrator::receiveTakePicture()
     capture=true;
 }
 
+void Calibrator::receiveSetPatternSize(cv::Size size)
+{
+    setPatternSize(size);
+}
+
+void Calibrator::receiveSetSquareSideSize(float size)
+{
+    setSquareSideSize(size);
+}
+
 void Calibrator::receiveStartCalibration()
 {
     emit sendCalibrationStatus("Kalibracja rozpoczęta");

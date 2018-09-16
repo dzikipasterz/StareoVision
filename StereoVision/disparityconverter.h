@@ -11,7 +11,7 @@ public:
     explicit DisparityConverter(QObject *parent = nullptr);
 
 signals:
-    void sendDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat distanceFrame);
+    void sendDisparityAndRaw(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat distanceFrame);
 
 public slots:
     void receiveDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparityFrame);

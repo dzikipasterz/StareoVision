@@ -12,6 +12,11 @@
 #include <videowriter.h>
 #include <rectifier.h>
 #include <stereomatcher.h>
+#include <stereobmcpu.h>
+#include <stereosgbmcpu.h>
+#include <stereobpcuda.h>
+#include <stereocsbpcuda.h>
+#include <stereobmcuda.h>
 
 
 namespace Ui {

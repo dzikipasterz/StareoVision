@@ -12,9 +12,6 @@ public:
     VideoReader(SourceReaderMode videoMode=stereo);
     ~VideoReader() override;
 
-signals:
-    void sendEnd();
-
 public slots:
     void receiveTimeout();
 
@@ -28,10 +25,12 @@ protected:
 private:
     timerRegulator *timer;
     cv::VideoCapture *leftCap, *rightCap;
+    int sentFramesCounter, jobsDoneCounter;
     bool end;
 
     void startTimer();
     void grabFrames();
+    void checkEnd();
 };
 
 #endif // VIDEOREADER_H

@@ -10,6 +10,7 @@ public:
 
 protected:
     void executeStart() override;
+    void executeJobDone() override;
 };
 
 #endif // IMAGEREADER_H

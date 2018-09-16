@@ -85,6 +85,8 @@ void widgetCalibration::openCamera()
     connect(this, SIGNAL(sendLoadPicture()), calibrator, SLOT(receiveTakePicture()));
     connect(this, SIGNAL(sendStartCalibration()), calibrator, SLOT(receiveStartCalibration()));
     connect(this, SIGNAL(sendLoadedFrames(cv::Mat, cv::Mat)), calibrator, SLOT(receiveFrames(cv::Mat, cv::Mat)));
+    connect(this, SIGNAL(sendSetPatternSize(cv::Size)), calibrator, SLOT(receiveSetPatternSize(cv::Size)));
+    connect(this, SIGNAL(sendSetSquareSideSize(float)), calibrator, SLOT(receiveSetSquareSideSize(float)));
     connect(calibrator, SIGNAL(sendCollectionStatus(int, bool)), this, SLOT(receiveCalibratorStatus(int, bool)));
     connect(calibrator, SIGNAL(sendCreatedFilePath(QString)), this, SLOT(receiveCalibrationFilePath(QString)));
     connect(calibrator, SIGNAL(sendCalibrationStatus(QString)), this, SLOT(receiveCalibrationStatus(QString)));
@@ -142,6 +144,7 @@ void widgetCalibration::on_pushButtonCalibrate_clicked()
 void widgetCalibration::on_spinBoxRows_valueChanged(int arg1)
 {
     settings->setChessboardRows(arg1);
+    emit sendSetPatternSize(settings->readPatternSize());
 }
 
 
@@ -149,13 +152,13 @@ void widgetCalibration::on_spinBoxRows_valueChanged(int arg1)
 void widgetCalibration::on_spinBoxCols_valueChanged(int arg1)
 {
     settings->setChessboardCols(arg1);
+    emit sendSetPatternSize(settings->readPatternSize());
 }
 
-
-
-void widgetCalibration::on_doubleSpinBoxSquareSize_valueChanged(double arg1)
+void widgetCalibration::on_doubleSpinBoxSquareSize_valueChanged(double size)
 {
-    settings->setChessboardSquareSize(arg1);
+    settings->setChessboardSquareSize(size);
+    emit sendSetSquareSideSize(float(size));
 }
 
 void widgetCalibration::on_pushButtonChooseDirToLoad_clicked()

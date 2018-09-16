@@ -129,13 +129,13 @@ cv::Size AppSettings::readPatternSize()
 
 void AppSettings::setAlgorithm(Algorithm alg)
 {
-    config->setValue("app_settings/algorithm", (int)alg);
+    config->setValue("app_settings/algorithm", int(alg));
     config->sync();
 }
 
 Algorithm AppSettings::readAlgorithm()
 {
-    return (Algorithm)(config->value("app_settings/algorithm", 0).toInt());
+    return Algorithm(config->value("app_settings/algorithm", 0).toInt());
 }
 
 cv::Mat AppSettings::readDispToDepthMap()

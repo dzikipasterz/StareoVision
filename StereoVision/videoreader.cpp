@@ -1,7 +1,9 @@
-#include "videoreader.h"
+﻿#include "videoreader.h"
 
 
 VideoReader::VideoReader(SourceReaderMode videoMode) :
+    sentFramesCounter(0),
+    jobsDoneCounter(0),
     end(false)
 {
     mode = videoMode;
@@ -37,6 +39,7 @@ void VideoReader::executeStart()
     {
     case stereo:
         rightCap = new cv::VideoCapture(rightSourcePath.toUtf8().constData());
+        //fall through
     case mono:
         leftCap = new cv::VideoCapture(leftSourcePath.toUtf8().constData());
     }
@@ -63,6 +66,8 @@ void VideoReader::executeResume()
 void VideoReader::executeJobDone()
 {
     timer->receiveJobDone();
+    jobsDoneCounter++;
+    checkEnd();
 }
 
 void VideoReader::startTimer()
@@ -71,6 +76,11 @@ void VideoReader::startTimer()
     connect(timer, SIGNAL(sendTimeout()), this, SLOT(receiveTimeout()));
     timer->setInterval(42);
     timer->receiveStart();
+}
+
+void VideoReader::checkEnd()
+{
+    if((jobsDoneCounter == sentFramesCounter) && end) emit sendEnd();
 }
 
 void VideoReader::grabFrames()
@@ -87,13 +97,14 @@ void VideoReader::grabFrames()
         {
             end = true;
             timer->receivePause();
-            emit sendEnd();
+            checkEnd();
         }
         else
         {
             cv::cvtColor(leftFrame, leftGray, CV_BGR2GRAY);
             cv::cvtColor(rightFrame, rightGray, CV_BGR2GRAY);
             emit sendFrames(leftGray, rightGray);
+            sentFramesCounter++;
         }
 
         break;
@@ -104,12 +115,13 @@ void VideoReader::grabFrames()
         {
             end = true;
             timer->receivePause();
-            emit sendEnd();
+            checkEnd();
         }
         else
         {
             cv::cvtColor(leftFrame, leftGray, CV_BGR2GRAY);
             emit sendFrame(leftGray);
+            sentFramesCounter++;
         }
         break;
     }

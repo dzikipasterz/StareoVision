@@ -1,3 +1,9 @@
+/*
+    This class implements calibration mechanism of the application. It receives frames, which are added
+    to calibration set when slot "receiveTakePicture" is activated.
+    Then, when slot "receiveStartCalibration" is activated, calibration set is used to generate model of
+    cameras.
+*/
 #ifndef CALIBRATOR_H
 #define CALIBRATOR_H
 
@@ -19,9 +25,11 @@ class Calibrator : public QObject
 public:
     explicit Calibrator(QObject *parent = nullptr);
 
+    //set properties of used pattern
     void setPatternSize(cv::Size size);
     void setSquareSideSize(float size);
     void setSaveCalibrationDir(QString dir);
+
 
 signals:
     void sendCalibrationStatus(QString status);
@@ -29,6 +37,8 @@ signals:
     void sendCollectionStatus(int setsNumber, bool lastSetStatus);
 
 public slots:
+    void receiveSetPatternSize(cv::Size size);
+    void receiveSetSquareSideSize(float size);
     void receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame);
     void receiveTakePicture();
     void receiveStartCalibration();

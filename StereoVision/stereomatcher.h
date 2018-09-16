@@ -16,7 +16,8 @@ public:
     explicit StereoMatcher(QObject *parent = nullptr);
 
 signals:
-    void sendDisparity(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
+    void sendDisparityAndRaw(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat disparity);
+    void sendDisparity(cv::Mat disparity);
     void sendJobDone();
 
 public slots:

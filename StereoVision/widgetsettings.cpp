@@ -48,7 +48,7 @@ widgetSettings::~widgetSettings()
     delete ui;
 }
 
-
+//display information with camera status - if connection is properly established or not. True - there is an error, false - no error
 void widgetSettings::displayCameraStatus(bool status, QLabel * labelStatus)
 {
     if(!status)
@@ -61,6 +61,7 @@ void widgetSettings::displayCameraStatus(bool status, QLabel * labelStatus)
     }
 }
 
+//receive frames and display them to ensure a user about corectness of a connection (if left camera is really left one, right is right)
 void widgetSettings::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
 {
     displayFrame(leftFrame, ui->leftCamera);
@@ -69,24 +70,28 @@ void widgetSettings::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
     rightFrame.release();
 }
 
+//receive status of both cameras consisting a stereocamera.
 void widgetSettings::receiveCameraStatus(bool leftCameraStatus, bool rightCameraStatus)
 {
     displayCameraStatus(leftCameraStatus, ui->labelLeftCameraStatus);
     displayCameraStatus(rightCameraStatus, ui->labelRightCameraStatus);
 }
 
+//change left camera
 void widgetSettings::on_leftCameraId_valueChanged(int id)
 {
     settings->setLeftCameraId(id);
     emit sendStereoCameraSetup(settings->readLeftCameraId(), settings->readRightCameraId());
 }
 
+//change right camera
 void widgetSettings::on_rightCameraId_valueChanged(int id)
 {
     settings->setRightCameraId(id);
     emit sendStereoCameraSetup(settings->readLeftCameraId(),settings->readRightCameraId());
 }
 
+//change default directory for pictures saving
 void widgetSettings::on_pushButtonSelectPicDir_clicked()
 {
     QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla zdjęć",settings->readPictSavePath(),QFileDialog::ShowDirsOnly);
@@ -99,6 +104,7 @@ void widgetSettings::on_pushButtonSelectPicDir_clicked()
     }
 }
 
+//change currently used calibration file
 void widgetSettings::on_pushButtonSelectCalibFile_clicked()
 {
     QString calibFile = QFileDialog::getOpenFileName(this,"Wybierz plik kalibracyjny",settings->readCalibFilePath(),tr("Plik kalibracyjny (*.xml)"));
@@ -110,6 +116,7 @@ void widgetSettings::on_pushButtonSelectCalibFile_clicked()
     }
 }
 
+//change default directory for saving video files
 void widgetSettings::on_pushButtonSelectMovDir_clicked()
 {
     QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla nagrywanych filmów",settings->readMovFilesDir(),QFileDialog::ShowDirsOnly);
@@ -122,6 +129,7 @@ void widgetSettings::on_pushButtonSelectMovDir_clicked()
     }
 }
 
+//change degault directory for saving calibration files
 void widgetSettings::on_pushButtonSelectCalibDir_clicked()
 {
     QString dir = QFileDialog::getExistingDirectory(this,"Wybierz folder dla plików kalibracyjnych",settings->readCalibFilesDir(),QFileDialog::ShowDirsOnly);
@@ -134,7 +142,7 @@ void widgetSettings::on_pushButtonSelectCalibDir_clicked()
     }
 }
 
-
+//change algorithm of stereo pixel matching
 void widgetSettings::on_comboBoxAlgorithm_activated(int index)
 {
     settings->setAlgorithm(Algorithm(index));

@@ -14,6 +14,7 @@ public:
 
 signals:
     void sendFilePath(QString path);
+    void sendJobDone();
 
 public slots:
     void receiveFrame(cv::Mat frame);

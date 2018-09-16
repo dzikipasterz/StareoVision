@@ -55,7 +55,8 @@ SOURCES += \
     stereocsbpcuda.cpp \
     videoreader.cpp \
     widgetdisparity.cpp \
-    filewriter.cpp
+    filewriter.cpp \
+    imagewriter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -89,7 +90,8 @@ HEADERS += \
     stereocsbpcuda.h \
     videoreader.h \
     widgetdisparity.h \
-    filewriter.h
+    filewriter.h \
+    imagewriter.h
 
 FORMS += \
         mainwindow.ui \

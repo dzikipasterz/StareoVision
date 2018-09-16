@@ -1,3 +1,6 @@
+/*
+    This class implements common functionalities of most of widget (views) of main window.
+*/
 #ifndef APPWIDGET_H
 #define APPWIDGET_H
 
@@ -27,9 +30,11 @@ signals:
     void sendResumeTimer();
 
 protected:
+
     AppSettings *settings;
     timerRegulator * intervalRegulator;
     stereoCamera * camera;
+
     void displayFrame(cv::Mat frame, QLabel * display);
     void displayDisparity(cv::Mat disparity, DepthDisplay * display);
     void initTimer(const int timerInterval = 42);

@@ -21,6 +21,7 @@ public:
 signals:
     void sendFrames(cv::Mat leftFrame, cv::Mat rightFrame);
     void sendFrame(cv::Mat frame);
+    void sendEnd();
 
 public slots:
     void receiveStart();

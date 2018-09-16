@@ -10,7 +10,8 @@ void StereoMatcher::process(cv::Mat, cv::Mat){}
 void StereoMatcher::receiveFrames(cv::Mat leftFrameRaw, cv::Mat rightFrameRaw, cv::Mat leftFrameRectified, cv::Mat rightFrameRectified)
 {
     process(leftFrameRectified, rightFrameRectified);
-    emit sendDisparity(leftFrameRaw, rightFrameRaw, dispOut);
+    emit sendDisparityAndRaw(leftFrameRaw, rightFrameRaw, dispOut);
+    emit sendDisparity(dispOut);
     emit sendJobDone();
 }
 

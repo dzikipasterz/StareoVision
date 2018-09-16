@@ -127,7 +127,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="pushButtonStart">
      <property name="text">
       <string>Rozpocznij</string>
      </property>

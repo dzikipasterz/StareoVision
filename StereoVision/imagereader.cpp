@@ -15,6 +15,7 @@ void ImageReader::executeStart()
     case stereo:
         rightFrame = cv::imread(rightSourcePath.toUtf8().constData());
         cv::cvtColor(rightFrame, rightGray, CV_BGR2GRAY);
+        //fall through
     case mono:
         leftFrame = cv::imread(leftSourcePath.toUtf8().constData());
         cv::cvtColor(leftFrame, leftGray, CV_BGR2GRAY);
@@ -29,6 +30,9 @@ void ImageReader::executeStart()
         emit sendFrame(leftGray);
         break;
     }
+}
 
-
+void ImageReader::executeJobDone()
+{
+    emit sendEnd();
 }

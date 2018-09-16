@@ -9,6 +9,7 @@ FileWriter::FileWriter(QObject *parent) : QObject(parent)
 void FileWriter::receiveFrame(cv::Mat frame)
 {
     executeReceiveFrame(frame);
+    emit sendJobDone();
 }
 
 void FileWriter::receiveStartWriting()

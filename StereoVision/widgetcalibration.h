@@ -21,6 +21,8 @@ public:
     ~widgetCalibration();
 
 signals:
+    void sendSetPatternSize(cv::Size size);
+    void sendSetSquareSideSize(float size);
     void sendTakePicture();
     void sendLoadPicture();
     void sendStartCalibration();
@@ -33,7 +35,6 @@ public slots:
     void receiveCalibrationFilePath(QString path);
 
 private slots:
-    //void on_pushButtonTurnCameraOn_toggled(bool checked);
 
     void on_pushButtonTakePicture_clicked();
 
