@@ -15,13 +15,10 @@ VideoReader::~VideoReader()
     switch (mode)
     {
     case stereo:
-        //delete leftCap;
-        //delete rightCap;
         rightCap->release();
         //fall through
 
     case mono:
-        //delete leftCap;
         leftCap->release();
     }
 

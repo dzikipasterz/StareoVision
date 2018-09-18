@@ -73,14 +73,15 @@ private:
     QTextStream output;
     bool writeToFile;
     double FPS;
+    bool isVideo;
+    disparityMode mode;
     SourceReader *sourceReader;
     Rectifier *rectifier;
     StereoMatcher *stereoMatcher;
     QThread *threadSourceReader;
     QThread *threadRectifier;
     QThread *threadStereoMatcher;
-    bool isVideo;
-    disparityMode mode;
+
 
     void setupMeasurement();
     void readDisparity();

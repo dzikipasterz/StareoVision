@@ -45,6 +45,8 @@ private slots:
 
     void on_comboBoxAlgorithm_activated(int index);
 
+    void on_pushButtonSelectResultsDir_clicked();
+
 private:
     Ui::widgetSettings *ui;
 

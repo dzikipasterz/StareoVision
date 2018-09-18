@@ -147,3 +147,8 @@ void widgetSettings::on_comboBoxAlgorithm_activated(int index)
 {
     settings->setAlgorithm(Algorithm(index));
 }
+
+void widgetSettings::on_pushButtonSelectResultsDir_clicked()
+{
+
+}
