@@ -9,6 +9,8 @@
 #include <opencv2/imgcodecs.hpp>
 #include "opencv2/ximgproc/disparity_filter.hpp"
 
+enum MatcherMode {pure, filter};
+
 class StereoMatcher : public QObject
 {
     Q_OBJECT
@@ -26,6 +28,7 @@ public slots:
 protected:
     cv::Mat dispOut;
     void virtual process(cv::Mat lRect, cv::Mat rRect) = 0;
+    MatcherMode matcherMode;
 
 };
 

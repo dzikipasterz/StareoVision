@@ -59,18 +59,18 @@ void timerRegulator::receiveJobDone()
 {
     triggerCounter--;
     if((triggerCounter == upperThreshold) && !paused)
-        emit timer->start(msecInterval);
+        timer->start(msecInterval);
 
 }
 
 void timerRegulator::receivePause()
 {
     paused = true;
-    emit timer->stop();
+    timer->stop();
 }
 
 void timerRegulator::receiveResume()
 {
     paused = false;
-    emit timer->start(msecInterval);
+    timer->start(msecInterval);
 }

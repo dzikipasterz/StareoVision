@@ -3,11 +3,12 @@
 
 #include <QObject>
 #include <stereomatcher.h>
+#include <opencv2/photo.hpp>
 
 class StereoSGBMcpu : public StereoMatcher
 {
 public:
-    StereoSGBMcpu();
+    StereoSGBMcpu(MatcherMode mode);
 
 protected:
     void process(cv::Mat leftFrameRectified, cv::Mat rightFrameRectified) override;

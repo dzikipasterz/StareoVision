@@ -34,13 +34,13 @@ void Calibrator::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
         bool status = false;
         cv::cvtColor(leftFrame, leftProcessed, cv::COLOR_RGB2GRAY);
         cv::cvtColor(rightFrame, rightProcessed, cv::COLOR_RGB2GRAY);
-        bool leftFound = findChessboardCorners(leftProcessed, patternSize, leftCenters, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_NORMALIZE_IMAGE);
-        bool rightFound = findChessboardCorners(rightProcessed, patternSize, rightCenters, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_NORMALIZE_IMAGE);
+        bool leftFound = findChessboardCorners(leftProcessed, patternSize, leftCenters, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_NORMALIZE_IMAGE | CV_CALIB_CB_FILTER_QUADS);
+        bool rightFound = findChessboardCorners(rightProcessed, patternSize, rightCenters, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_NORMALIZE_IMAGE| CV_CALIB_CB_FILTER_QUADS);
         if(leftFound && rightFound)
         {
-            //cv::cornerSubPix(leftProcessed, leftCenters, cv::Size(13,13), cv::Size(-1,-1), cvTermCriteria(CV_TERMCRIT_ITER, 30, 0.01) );
+            cv::cornerSubPix(leftProcessed, leftCenters, cv::Size(13,13), cv::Size(-1,-1), cvTermCriteria(CV_TERMCRIT_ITER | CV_TERMCRIT_EPS , 30, 0.01) );
             leftCorners.push_back(leftCenters);
-            //cv::cornerSubPix(rightProcessed, rightCenters, cv::Size(13,13), cv::Size(-1,-1), cvTermCriteria(CV_TERMCRIT_ITER, 30, 0.01) );
+            cv::cornerSubPix(rightProcessed, rightCenters, cv::Size(13,13), cv::Size(-1,-1), cvTermCriteria(CV_TERMCRIT_ITER | CV_TERMCRIT_EPS , 30, 0.01) );
             rightCorners.push_back(rightCenters);
             capturedSetsCounter++;
             status = false; //no error
@@ -100,23 +100,26 @@ void Calibrator::receiveStartCalibration()
     //int flag = CV_CALIB_FIX_K4 | CV_CALIB_FIX_K5;
     //int flag = CV_CALIB_FIX_PRINCIPAL_POINT | CV_CALIB_FIX_ASPECT_RATIO | CV_CALIB_ZERO_TANGENT_DIST | CV_CALIB_RATIONAL_MODEL | CV_CALIB_FIX_K3 | CV_CALIB_FIX_K4 | CV_CALIB_FIX_K5;
     //int flag = CV_CALIB_FIX_PRINCIPAL_POINT | CV_CALIB_RATIONAL_MODEL | CV_CALIB_FIX_K3;
-    int flag = CV_CALIB_FIX_PRINCIPAL_POINT;
+    //int flag = CV_CALIB_FIX_PRINCIPAL_POINT;
     //int flag = 0;
 
     emit sendCalibrationStatus("Kalibracja lewej kamery w toku");
-    leftErr = cv::calibrateCamera(chessboardKnownPosition, leftCorners, imgSize, leftCamMat, leftDistCoeff, leftRvecs, leftTvecs, flag, cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 1000, 1e-9));
+    //leftErr = cv::calibrateCamera(chessboardKnownPosition, leftCorners, imgSize, leftCamMat, leftDistCoeff, leftRvecs, leftTvecs, flag, cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 1000, 1e-9));
+    leftErr = cv::calibrateCamera(chessboardKnownPosition, leftCorners, imgSize, leftCamMat, leftDistCoeff, leftRvecs, leftTvecs);
+
 
     emit sendCalibrationStatus("Kalibracja prawej kamery w toku");
-    rightErr = cv::calibrateCamera(chessboardKnownPosition, rightCorners, imgSize, rightCamMat, rightDistCoeff, rightRvecs, rightTvecs, flag, cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 1000, 1e-9));
+    rightErr = cv::calibrateCamera(chessboardKnownPosition, rightCorners, imgSize, rightCamMat, rightDistCoeff, rightRvecs, rightTvecs);
 
 
     emit sendCalibrationStatus("Stereokalibracja w toku");
-    stereoErr = cv::stereoCalibrate(chessboardKnownPosition, leftCorners, rightCorners, leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, essMat, fundMat, CV_CALIB_FIX_INTRINSIC , cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 30, 1e-9));
+    stereoErr = cv::stereoCalibrate(chessboardKnownPosition, leftCorners, rightCorners, leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, essMat, fundMat, CV_CALIB_FIX_INTRINSIC , cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 100, 1e-5));
 
 
     emit sendCalibrationStatus("Wyznaczanie parametrów rektyfikacji w toku");
     cv::Rect roi1, roi2;
-    cv::stereoRectify(leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, leftRotMat, rightRotMat, leftProjMat, rightProjMat, dispToDepthMat, cv::CALIB_ZERO_DISPARITY, 0.0, imgSize, &roi1, &roi2);
+    //cv::stereoRectify(leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, leftRotMat, rightRotMat, leftProjMat, rightProjMat, dispToDepthMat, cv::CALIB_ZERO_DISPARITY, 0.0, imgSize, &roi1, &roi2);
+    cv::stereoRectify(leftCamMat, leftDistCoeff, rightCamMat, rightDistCoeff, imgSize, rotMat, transMat, leftRotMat, rightRotMat, leftProjMat, rightProjMat, dispToDepthMat, cv::CALIB_ZERO_DISPARITY);
 
     emit sendCalibrationStatus("Budowa mapy rektyfikacji dla lewej kamery w toku");
     cv::initUndistortRectifyMap(leftCamMat, leftDistCoeff, leftRotMat, leftProjMat, imgSize,  CV_16SC2, leftMap1, leftMap2);

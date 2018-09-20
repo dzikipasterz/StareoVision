@@ -7,7 +7,7 @@
 class StereoBMcuda : public StereoMatcher
 {
 public:
-    StereoBMcuda();
+    StereoBMcuda(MatcherMode mode);
 
 protected:
     void process(cv::Mat leftFrameRectified, cv::Mat rightFrameRectified) override;

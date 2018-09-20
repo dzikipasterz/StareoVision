@@ -6,7 +6,7 @@
 class StereoBMcpu : public StereoMatcher
 {
 public:
-    StereoBMcpu();
+    StereoBMcpu(MatcherMode mode);
 
 protected:
     void process(cv::Mat lRect, cv::Mat rRect) override;

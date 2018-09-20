@@ -49,27 +49,46 @@ widgetMeasOnline::widgetMeasOnline(AppSettings *sett) :
 
     switch(settings->readAlgorithm())
     {
-        case Algorithm::BM_cpu:
-            stereoMatcher = new StereoBMcpu();
+        case Algorithm::BM_cpu_pure:
+            stereoMatcher = new StereoBMcpu(MatcherMode::pure);
         break;
 
-        case Algorithm::BM_cuda:
-            stereoMatcher = new StereoBMcuda();
+        case Algorithm::BM_cpu_filter:
+            stereoMatcher = new StereoBMcpu(MatcherMode::filter);
         break;
 
-        case Algorithm::SGBM_cpu:
-            stereoMatcher= new StereoSGBMcpu;
+        case Algorithm::BM_cuda_pure:
+            stereoMatcher = new StereoBMcuda(MatcherMode::pure);
         break;
 
-        case Algorithm::BP_cuda:
-            stereoMatcher = new StereoBPcuda();
+        case Algorithm::BM_cuda_filter:
+        stereoMatcher = new StereoBMcuda(MatcherMode::filter);
         break;
 
-        case Algorithm::CSBP_cuda:
-            stereoMatcher = new StereoCSBPcuda;
+        case Algorithm::SGBM_cpu_pure:
+            stereoMatcher= new StereoSGBMcpu(MatcherMode::pure);
+        break;
+
+        case Algorithm::SGBM_cpu_filter:
+            stereoMatcher= new StereoSGBMcpu(MatcherMode::filter);
+        break;
+
+        case Algorithm::BP_cuda_pure:
+            stereoMatcher = new StereoBPcuda(MatcherMode::pure);
+        break;
+
+        case Algorithm::BP_cuda_filter:
+            stereoMatcher = new StereoBPcuda(MatcherMode::filter);
+        break;
+
+        case Algorithm::CSBP_cuda_pure:
+            stereoMatcher = new StereoCSBPcuda(MatcherMode::pure);
+        break;
+
+        case Algorithm::CSBP_cuda_filter:
+            stereoMatcher = new StereoCSBPcuda(MatcherMode::filter);
         break;
     }
-
     //------------------------------------------------------------------------------------------------------------------------
 
     //connect signals and slots

@@ -11,7 +11,16 @@
 #include <QSettings>
 #include <opencv2/core/core.hpp>
 
-enum Algorithm {BM_cpu, BM_cuda, SGBM_cpu, BP_cuda, CSBP_cuda};
+enum Algorithm {BM_cpu_pure,
+                BM_cpu_filter,
+                BM_cuda_pure,
+                BM_cuda_filter,
+                SGBM_cpu_pure,
+                SGBM_cpu_filter,
+                BP_cuda_pure,
+                BP_cuda_filter,
+                CSBP_cuda_pure,
+                CSBP_cuda_filter};
 
 class AppSettings
 {

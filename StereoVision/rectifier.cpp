@@ -35,8 +35,10 @@ void Rectifier::receiveFrames(cv::Mat leftFrame, cv::Mat rightFrame)
         cv::cvtColor(rightFrame, rightFrame, CV_BGR2GRAY);
     }
 
-    cv::equalizeHist(leftFrame, leftFrame);
-    cv::equalizeHist(rightFrame, rightFrame);
+    //cv::fastNlMeansDenoising(leftFrame, leftFrame);
+    //cv::fastNlMeansDenoising(rightFrame, rightFrame);
+    //cv::equalizeHist(leftFrame, leftFrame);
+    //cv::equalizeHist(rightFrame, rightFrame);
     cv::Mat leftDst = leftFrame.clone();
     cv::Mat rightDst = rightFrame.clone();
 

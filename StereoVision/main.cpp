@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
             )
     );
 
-    w.showSettingsWidget();
+    w.showMeasurementOnlineWidget();
     w.setWindowTitle("Stereowizyjny estymator odległości");
     w.show();
 

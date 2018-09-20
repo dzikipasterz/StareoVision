@@ -28,7 +28,7 @@ VideoReader::~VideoReader()
 
 void VideoReader::receiveTimeout()
 {
-    grabFrames();
+    if(!end) grabFrames();
 }
 
 void VideoReader::executeStart()
@@ -71,7 +71,7 @@ void VideoReader::executeJobDone()
 void VideoReader::startTimer()
 {
     timer = new timerRegulator();
-    connect(timer, SIGNAL(sendTimeout()), this, SLOT(receiveTimeout()));
+    connect(timer, SIGNAL(sendTimeout()), this, SLOT(receiveTimeout()), Qt::QueuedConnection);
     timer->setInterval(42);
     timer->receiveStart();
 }
@@ -81,6 +81,16 @@ void VideoReader::checkEnd()
     if((jobsDoneCounter == sentFramesCounter) && end)
     {
         emit sendEnd();
+        timer->receivePause();
+
+        switch(mode)
+        {
+        case stereo:
+            rightCap->release();
+            //fall through
+        case mono:
+            leftCap->release();
+        }
     }
 }
 

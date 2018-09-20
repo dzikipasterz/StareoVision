@@ -6,13 +6,14 @@ widgetMeasOffline::widgetMeasOffline(AppSettings *sett) :
     depthDisplay(new DepthDisplay()),
     lastPath("/home"),
     writeToFile(false),
+    isVideo(false),
+    mode(fromRaw),
     rectifier(nullptr),
     stereoMatcher(nullptr),
     threadSourceReader(nullptr),
     threadRectifier(nullptr),
-    threadStereoMatcher(nullptr),
-    isVideo(false),
-    mode(fromRaw)
+    threadStereoMatcher(nullptr)
+
 {
     ui->setupUi(this);
     //store app settings ref
@@ -75,24 +76,44 @@ void widgetMeasOffline::setupMeasurement()
     //setup stereoMatcher according to selected algorithm
     switch(settings->readAlgorithm())
     {
-        case Algorithm::BM_cpu:
-            stereoMatcher = new StereoBMcpu();
+        case Algorithm::BM_cpu_pure:
+            stereoMatcher = new StereoBMcpu(MatcherMode::pure);
         break;
 
-        case Algorithm::BM_cuda:
-            stereoMatcher = new StereoBMcuda();
+        case Algorithm::BM_cpu_filter:
+            stereoMatcher = new StereoBMcpu(MatcherMode::filter);
         break;
 
-        case Algorithm::SGBM_cpu:
-            stereoMatcher= new StereoSGBMcpu;
+        case Algorithm::BM_cuda_pure:
+            stereoMatcher = new StereoBMcuda(MatcherMode::pure);
         break;
 
-        case Algorithm::BP_cuda:
-            stereoMatcher = new StereoBPcuda();
+        case Algorithm::BM_cuda_filter:
+        stereoMatcher = new StereoBMcuda(MatcherMode::filter);
         break;
 
-        case Algorithm::CSBP_cuda:
-            stereoMatcher = new StereoCSBPcuda;
+        case Algorithm::SGBM_cpu_pure:
+            stereoMatcher= new StereoSGBMcpu(MatcherMode::pure);
+        break;
+
+        case Algorithm::SGBM_cpu_filter:
+            stereoMatcher= new StereoSGBMcpu(MatcherMode::filter);
+        break;
+
+        case Algorithm::BP_cuda_pure:
+            stereoMatcher = new StereoBPcuda(MatcherMode::pure);
+        break;
+
+        case Algorithm::BP_cuda_filter:
+            stereoMatcher = new StereoBPcuda(MatcherMode::filter);
+        break;
+
+        case Algorithm::CSBP_cuda_pure:
+            stereoMatcher = new StereoCSBPcuda(MatcherMode::pure);
+        break;
+
+        case Algorithm::CSBP_cuda_filter:
+            stereoMatcher = new StereoCSBPcuda(MatcherMode::filter);
         break;
     }
 
@@ -147,6 +168,8 @@ void widgetMeasOffline::readDisparity()
     connect(this, SIGNAL(sendStopMeas()), sourceReader, SLOT(receiveStop()));
     connect(this, SIGNAL(sendJobDone()), sourceReader, SLOT(receiveJobDone()));
 
+    sourceReader->moveToThread(threadSourceReader);
+    threadSourceReader->start();
     emit sendStartMeas();
 }
 
@@ -193,7 +216,7 @@ void widgetMeasOffline::stopThreads()
 {
     if(threadSourceReader != nullptr)
     {
-        threadSourceReader->quit();
+        threadSourceReader->exit();
         while(!threadSourceReader->isFinished());
         threadSourceReader = nullptr;
     }

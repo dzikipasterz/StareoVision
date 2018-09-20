@@ -21,10 +21,15 @@ widgetSettings::widgetSettings(AppSettings *sett) :
     //fill comboBox with algorithms names
     QStringList algorithms;
     algorithms.append("Block Matching (CPU)");
+    algorithms.append("Block Matching (CPU) z filtrem");
     algorithms.append("Block Matching (GPU)");
+    algorithms.append("Block Matching (GPU) z filtrem");
     algorithms.append("Semi-Global Block Matching (CPU)");
+    algorithms.append("Semi-Global Block Matching (CPU) z filtrem");
     algorithms.append("Belief Propagation (GPU)");
+    algorithms.append("Belief Propagation (GPU) z filtrem");
     algorithms.append("Constant Space Belief Propagation (GPU)");
+    algorithms.append("Constant Space Belief Propagation (GPU) z filtrem");
     ui->comboBoxAlgorithm->addItems(algorithms);
     ui->comboBoxAlgorithm->setCurrentIndex(int(settings->readAlgorithm()));
 
